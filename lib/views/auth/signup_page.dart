@@ -137,7 +137,7 @@ class _SignupPageState extends State<SignupPage> {
                             context.goNamed('mainPage');
                           } else if (state.isFailure) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Signup Failed: ${state.errorMessage}")),
+                              const SnackBar(content: Text("Signup Failed!")),
                             );
                           }
                         },

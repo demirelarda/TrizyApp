@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:trizy_app/views/main/main_page.dart';
 import 'package:trizy_app/views/splash/splash_page.dart';
 
 import '../views/auth/login_page.dart';
@@ -9,7 +10,7 @@ import '../views/onboarding/onboarding_page.dart';
 class AppRouter {
   final GoRouter router;
   AppRouter() : router = GoRouter(
-    initialLocation: '/signup',
+    initialLocation: '/login',
     routes: [
       GoRoute(
         name: 'splash',
@@ -30,6 +31,11 @@ class AppRouter {
           name: 'signup',
           path: '/signup',
           builder: (context, state) => const SignupPage()
+      ),
+      GoRoute(
+          name: 'mainPage',
+          path: '/mainPage',
+          builder: (context, state) => const MainPage()
       ),
     ],
   );

@@ -13,6 +13,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   }
 
   Future<void> _onSignInSubmitted(SignInSubmitted event, Emitter<SignInState> emit) async {
+    emit(SignInState.initial());
     emit(state.copyWith(isLoggingIn: true));
 
     try {
@@ -23,7 +24,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
       final response = await authRepository.signIn(request);
 
-      emit(state.copyWith(isLoggingIn: false, isSuccess: true, user: response));
+      emit(state.copyWith(isLoggingIn: false, isSuccess: true, user: response, errorMessage: null, isFailure: false));
     } catch (error) {
       emit(state.copyWith(isLoggingIn: false, isFailure: true, errorMessage: error.toString()));
     }

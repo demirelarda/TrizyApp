@@ -13,6 +13,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   }
 
   Future<void> _onSignupSubmitted(SignupSubmitted event, Emitter<SignupState> emit) async {
+    emit(SignupState.initial());
     emit(state.copyWith(isSubmitting: true));
 
     try {
@@ -25,7 +26,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
       final response = await authRepository.signUp(request);
 
-      emit(state.copyWith(isSubmitting: false, isSuccess: true, user: response));
+      emit(state.copyWith(isSubmitting: false, isSuccess: true, user: response, errorMessage: null, isFailure: false));
     } catch (error) {
       emit(state.copyWith(isSubmitting: false, isFailure: true, errorMessage: error.toString()));
     }
