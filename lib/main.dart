@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trizy_app/di/locator.dart';
 import 'package:trizy_app/routing/app_router.dart';
+import 'package:trizy_app/theme/colors.dart';
 
 void main() {
   setupLocator();
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Trizy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        //colorScheme: ColorScheme.fromSeed(seedColor: primaryDarkColor),
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryLightColor),
         useMaterial3: true,
       ),
       routerDelegate: appRouter.router.routerDelegate,
