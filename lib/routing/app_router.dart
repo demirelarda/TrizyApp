@@ -9,7 +9,7 @@ import '../views/onboarding/onboarding_page.dart';
 class AppRouter {
   final GoRouter router;
   AppRouter() : router = GoRouter(
-    initialLocation: '/',
+    initialLocation: '/signup',
     routes: [
       GoRoute(
         name: 'splash',
