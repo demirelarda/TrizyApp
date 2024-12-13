@@ -8,4 +8,7 @@ class ApiEndpoints {
   static const String register = 'api/register';
   static const String login = 'api/login';
 
+  // DEALS
+  static const String getDeals = 'api/deals/get-deals';
+
 }
