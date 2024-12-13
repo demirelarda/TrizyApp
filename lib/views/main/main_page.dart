@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trizy_app/views/main/pages/account_page.dart';
 import 'package:trizy_app/views/main/pages/cart_page.dart';
-import 'package:trizy_app/views/main/pages/home_page.dart';
+import 'package:trizy_app/views/main/pages/home/home_page.dart';
 import 'package:trizy_app/views/main/pages/trial_page.dart';
 import '../../theme/colors.dart';
 
