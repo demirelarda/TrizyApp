@@ -1,10 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:trizy_app/di/locator.dart';
 import 'package:trizy_app/routing/app_router.dart';
 import 'package:trizy_app/theme/colors.dart';
 
 void main() {
   setupLocator();
+
+  if (Platform.isAndroid) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+      ),
+    );
+  }
+
   runApp(const MyApp());
 }
 

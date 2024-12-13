@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:trizy_app/components/buttons/custom_button.dart';
-import 'package:trizy_app/theme/colors.dart';
+import 'package:trizy_app/views/main/pages/account_page.dart';
+import 'package:trizy_app/views/main/pages/cart_page.dart';
+import 'package:trizy_app/views/main/pages/home_page.dart';
+import 'package:trizy_app/views/main/pages/trial_page.dart';
+import '../../theme/colors.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -11,26 +13,49 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = [
+    const HomePage(),
+    const TrialPage(),
+    const CartPage(),
+    const AccountPage(),
+  ];
+
+  void _onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const Spacer(),
-          Center(
-            child: Column(
-              children: [
-                const Text("Main Page"),
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child:CustomButton(text: "Sign Out", textColor: white, color: primaryLightColor, onClick: (){
-                    context.goNamed("login");
-                  })
-                ),
-              ],
-            )
+      body: _pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: _onTabTapped,
+        selectedItemColor: primaryLightColor,
+        unselectedItemColor: gray,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
           ),
-          const Spacer()
+          BottomNavigationBarItem(
+            icon: Icon(Icons.timer),
+            label: "Trial",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: "Cart",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Account",
+          ),
         ],
       ),
     );
