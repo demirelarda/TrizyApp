@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:trizy_app/views/main/main_page.dart';
+import 'package:trizy_app/views/search/search_page.dart';
 import 'package:trizy_app/views/splash/splash_page.dart';
 
 import '../views/auth/login_page.dart';
@@ -36,6 +37,11 @@ class AppRouter {
           name: 'mainPage',
           path: '/mainPage',
           builder: (context, state) => const MainPage()
+      ),
+      GoRoute(
+          name: 'search',
+          path: '/search',
+          builder: (context, state) => const SearchPage()
       ),
     ],
   );

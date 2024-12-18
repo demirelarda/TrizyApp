@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../components/horizontal_scroll_widget.dart';
 import '../../../../components/textfields/non_editable_field.dart';
 import '../../../../theme/colors.dart';
@@ -12,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedTabId = 1; // Default tab is "Top Deals"
+  int selectedTabId = 1;
 
   final List<Map<String, dynamic>> categories = [
     {'id': 1, 'name': 'Top Deals'},
@@ -28,13 +29,13 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Top bar (non-dynamic)
+          //Top bar
           Container(
             color: primaryLightColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Search bar
+                //Search bar
                 Padding(
                   padding: EdgeInsets.only(
                     top: MediaQuery.of(context).padding.top + 8.0,
@@ -46,17 +47,17 @@ class _HomePageState extends State<HomePage> {
                     placeholder: "Search anything...",
                     icon: Icons.search,
                     onTap: () {
-                      // Handle search action
+                      context.pushNamed('search');
                     },
                   ),
                 ),
-                // Horizontal category selector
+                // Horizontal item selector
                 HorizontalScrollWidget(
                   items: categories,
                   backgroundColor: primaryLightColorDarker,
                   onItemTap: (int id) {
                     setState(() {
-                      selectedTabId = id; // Update the selected tab
+                      selectedTabId = id;
                     });
                   },
                 ),
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          // Dynamic content based on selected tab
+          //Dynamic content based on selected tab
           Expanded(
             child: DynamicTabView(
               selectedTabId: selectedTabId,
