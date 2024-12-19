@@ -15,4 +15,8 @@ class ApiEndpoints {
   static const String getRootCategories = 'api/categories/get-root-categories';
   static const String getChildCategories = 'api/categories/get-child-categories/{rootCategoryId}';
 
+  // PRODUCTS
+  static const String getProductsByCategory = 'api/products/category/{categoryId}';
+  static const String searchProducts = 'api/products/search/{query}';
+
 }

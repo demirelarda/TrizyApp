@@ -3,8 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:trizy_app/repositories/categories_repository.dart';
 import 'package:trizy_app/repositories/deals_repository.dart';
+import 'package:trizy_app/repositories/products_repository.dart';
 import 'package:trizy_app/services/categories_api_service.dart';
 import 'package:trizy_app/services/deals_api_service.dart';
+import 'package:trizy_app/services/products_api_service.dart';
 import '../repositories/auth_repository.dart';
 import '../services/auth_api_service.dart';
 import '../utils/api_endpoints.dart';
@@ -26,6 +28,7 @@ void setupLocator() {
   getIt.registerLazySingleton<DealsRepository>(() => DealsRepository(getIt<DealsApiService>()));
   getIt.registerLazySingleton<CategoriesApiService>(() => CategoriesApiService());
   getIt.registerLazySingleton<CategoriesRepository>(() => CategoriesRepository(getIt<CategoriesApiService>()));
-
+  getIt.registerLazySingleton<ProductsApiService>(() => ProductsApiService());
+  getIt.registerLazySingleton<ProductsRepository>(() => ProductsRepository(getIt<ProductsApiService>()));
 
 }
