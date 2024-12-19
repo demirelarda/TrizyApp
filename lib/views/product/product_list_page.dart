@@ -65,12 +65,12 @@ class _ProductListPageState extends State<ProductListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => productsBloc,
+    return BlocProvider.value(
+      value: productsBloc,
       child: Scaffold(
         appBar: AppBarWithBackButton(
           title: widget.categoryName ?? (widget.query != null ? '"${widget.query}"' : ''),
-          onBackClicked: () => context.pop()
+          onBackClicked: () => context.pop(),
         ),
         body: BlocBuilder<ProductsBloc, ProductsState>(
           builder: (context, state) {
@@ -94,7 +94,11 @@ class _ProductListPageState extends State<ProductListPage> {
 
               return ListView.builder(
                 controller: _scrollController,
-                itemCount: products.length + 1,
+                itemCount: products.length +
+                    (state.productsResponse!.pagination.currentPage <
+                        state.productsResponse!.pagination.totalPages
+                        ? 1
+                        : 0),
                 itemBuilder: (context, index) {
                   if (index < products.length) {
                     final product = products[index];
@@ -109,22 +113,13 @@ class _ProductListPageState extends State<ProductListPage> {
                       isLiked: false,
                     );
                   } else {
-                    if (state.productsResponse!.pagination.currentPage ==
-                        state.productsResponse!.pagination.totalPages) {
-                      return const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Center(
-                          //child: Text("No more products."),
-                        ),
-                      );
-                    } else {
-                      return const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
+                    // loading indicator at the bottom
+                    return const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
                   }
                 },
               );
