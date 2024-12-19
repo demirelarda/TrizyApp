@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:trizy_app/repositories/categories_repository.dart';
 import 'package:trizy_app/repositories/deals_repository.dart';
+import 'package:trizy_app/services/categories_api_service.dart';
 import 'package:trizy_app/services/deals_api_service.dart';
 import '../repositories/auth_repository.dart';
 import '../services/auth_api_service.dart';
@@ -22,6 +24,8 @@ void setupLocator() {
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepository(getIt<AuthApiService>()));
   getIt.registerLazySingleton<DealsApiService>(() => DealsApiService());
   getIt.registerLazySingleton<DealsRepository>(() => DealsRepository(getIt<DealsApiService>()));
+  getIt.registerLazySingleton<CategoriesApiService>(() => CategoriesApiService());
+  getIt.registerLazySingleton<CategoriesRepository>(() => CategoriesRepository(getIt<CategoriesApiService>()));
 
 
 }

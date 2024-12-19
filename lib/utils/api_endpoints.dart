@@ -11,4 +11,8 @@ class ApiEndpoints {
   // DEALS
   static const String getDeals = 'api/deals/get-deals';
 
+  // CATEGORIES
+  static const String getRootCategories = 'api/categories/get-root-categories';
+  static const String getChildCategories = 'api/categories/get-child-categories/{rootCategoryId}';
+
 }
