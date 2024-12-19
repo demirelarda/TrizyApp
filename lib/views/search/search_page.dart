@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trizy_app/bloc/categories/categories_bloc.dart';
 import 'package:trizy_app/bloc/categories/categories_event.dart';
 import 'package:trizy_app/bloc/categories/categories_state.dart';
@@ -43,7 +44,12 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void onSearchCompleted(String value) {
-    print("Search Submitted: $value");
+    context.pushNamed(
+      'productListPageWithQuery',
+      queryParameters: {
+        'query': value,
+      },
+    );
   }
 
   @override
@@ -56,7 +62,7 @@ class _SearchPageState extends State<SearchPage> {
           TopBarWithSearchField(
             controller: searchController,
             onBackClicked: () {
-              Navigator.of(context).pop();
+              context.pop();
             },
             onSearchCompleted: onSearchCompleted,
             focusNode: searchFocusNode,
@@ -99,8 +105,13 @@ class _SearchPageState extends State<SearchPage> {
                           child: CategoryCard(
                             category: category,
                             onCategoryClicked: () {
-                              print("Clicked on: ${category.name}");
-
+                              context.pushNamed(
+                                'productListPageWithCategory',
+                                pathParameters: {
+                                  'categoryId': category.id,
+                                  'categoryName': category.name,
+                                },
+                              );
                             },
                           ),
                         );

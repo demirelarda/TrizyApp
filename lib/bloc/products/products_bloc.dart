@@ -27,6 +27,10 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         // search products
         response = await productsRepository.searchProducts(query: event.query!, page: event.page);
       }
+      else if (event.query != null && event.categoryId != null){
+        // search products with a category filter
+        response = await productsRepository.searchProducts(query: event.query!, categoryId: event.categoryId, page: event.page);
+      }
 
       emit(state.copyWith(isLoading: false, isSuccess: true, productsResponse: response, errorMessage: null, isFailure: false));
 

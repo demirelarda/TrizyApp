@@ -75,6 +75,7 @@ class NetworkingManager {
     final defaultHeaders = await _buildHeaders(headers, addAuthToken);
 
     try {
+      print("making request to $url");
       final response = await http.get(
         url,
         headers: defaultHeaders,
