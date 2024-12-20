@@ -7,6 +7,7 @@ import 'package:trizy_app/bloc/products/products_state.dart';
 import 'package:trizy_app/components/app_bar_with_back_button.dart';
 import 'package:trizy_app/components/product_card.dart';
 import 'package:trizy_app/components/sub_category_card.dart';
+import 'package:trizy_app/theme/colors.dart';
 
 class ProductListPage extends StatefulWidget {
   final String? categoryId;
@@ -69,6 +70,7 @@ class _ProductListPageState extends State<ProductListPage> {
     return BlocProvider.value(
       value: productsBloc,
       child: Scaffold(
+        backgroundColor: white,
         appBar: AppBarWithBackButton(
           title: widget.categoryName ?? (widget.query != null ? '"${widget.query}"' : ''),
           onBackClicked: () => context.pop(),
@@ -140,6 +142,14 @@ class _ProductListPageState extends State<ProductListPage> {
                           final product = products[index];
                           return ProductCard(
                             product: product,
+                            onProductClicked: (id){
+                              context.pushNamed(
+                                'productDetailsPage',
+                                pathParameters: {
+                                  'productId': id
+                                },
+                              );
+                            },
                             onAddToCart: () {
                               print("Added to cart: ${product.title}");
                             },

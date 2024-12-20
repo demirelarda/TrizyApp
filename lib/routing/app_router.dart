@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:trizy_app/views/main/main_page.dart';
+import 'package:trizy_app/views/product/product_details_page.dart';
 import 'package:trizy_app/views/search/search_page.dart';
 import 'package:trizy_app/views/splash/splash_page.dart';
 import '../views/auth/login_page.dart';
@@ -59,6 +60,14 @@ class AppRouter {
         builder: (context, state) {
           final query = state.uri.queryParameters['query'];
           return ProductListPage(categoryId: null, categoryName: null, query: query);
+        },
+      ),
+      GoRoute(
+        name: 'productDetailsPage',
+        path: '/productDetailsPage/:productId',
+        builder: (context, state) {
+          final productId = state.pathParameters['productId'];
+          return ProductDetailsPage(productId: productId!);
         },
       ),
     ],
