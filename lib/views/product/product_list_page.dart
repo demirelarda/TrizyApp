@@ -6,6 +6,7 @@ import 'package:trizy_app/bloc/products/products_event.dart';
 import 'package:trizy_app/bloc/products/products_state.dart';
 import 'package:trizy_app/components/app_bar_with_back_button.dart';
 import 'package:trizy_app/components/product_card.dart';
+import 'package:trizy_app/components/sub_category_card.dart';
 
 class ProductListPage extends StatefulWidget {
   final String? categoryId;
@@ -84,6 +85,7 @@ class _ProductListPageState extends State<ProductListPage> {
                 ),
               );
             } else if (state.isSuccess && state.productsResponse != null) {
+              final subCategories = state.productsResponse!.subCategories;
               final products = state.productsResponse!.products;
 
               if (products.isEmpty && currentPage == 1) {
@@ -92,36 +94,73 @@ class _ProductListPageState extends State<ProductListPage> {
                 );
               }
 
-              return ListView.builder(
-                controller: _scrollController,
-                itemCount: products.length +
-                    (state.productsResponse!.pagination.currentPage <
-                        state.productsResponse!.pagination.totalPages
-                        ? 1
-                        : 0),
-                itemBuilder: (context, index) {
-                  if (index < products.length) {
-                    final product = products[index];
-                    return ProductCard(
-                      product: product,
-                      onAddToCart: () {
-                        print("Added to cart: ${product.title}");
-                      },
-                      onLikeTap: () {
-                        print("Liked product: ${product.title}");
-                      },
-                      isLiked: false,
-                    );
-                  } else {
-                    // loading indicator at the bottom
-                    return const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Center(
-                        child: CircularProgressIndicator(),
+              return Column(
+                children: [
+                  // Subcategories Section
+                  if (subCategories.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: SizedBox(
+                        height: 40,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: subCategories.length,
+                          itemBuilder: (context, index) {
+                            final category = subCategories[index];
+                            return SubCategoryCard(
+                              subCategoryId: category.id,
+                              subCategoryName: category.name,
+                              onSubCategoryClicked: () {
+                                context.pushNamed(
+                                  'productListPageWithCategory',
+                                  pathParameters: {
+                                    'categoryId': category.id,
+                                    'categoryName': category.name,
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
-                    );
-                  }
-                },
+                    ),
+
+
+                  // Product List Section
+                  Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: products.length +
+                          (state.productsResponse!.pagination.currentPage <
+                              state.productsResponse!.pagination.totalPages
+                              ? 1
+                              : 0),
+                      itemBuilder: (context, index) {
+                        if (index < products.length) {
+                          final product = products[index];
+                          return ProductCard(
+                            product: product,
+                            onAddToCart: () {
+                              print("Added to cart: ${product.title}");
+                            },
+                            onLikeTap: () {
+                              print("Liked product: ${product.title}");
+                            },
+                            isLiked: false,
+                          );
+                        } else {
+                          // circular loading at the bottom
+                          return const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
               );
             }
 
