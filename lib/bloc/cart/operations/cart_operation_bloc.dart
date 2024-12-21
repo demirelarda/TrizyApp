@@ -13,40 +13,99 @@ class CartOperationBloc extends Bloc<CartOperationEvent, CartOperationState> {
     on<DecrementQuantityEvent>(_onDecrementQuantityEvent);
   }
 
-  Future<void> _onAddItemEvent(AddItemEvent event, Emitter<CartOperationState> emit) async {
+  Future<void> _onAddItemEvent(AddItemEvent event,
+      Emitter<CartOperationState> emit,) async {
     emit(CartOperationState.initial());
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(
+      isLoading: true,
+      currentProductId: event.request.productId,
+      currentOperation: CartOperation.increment,
+    ));
+
     try {
-      final response = await cartRepository.addItemToCart(request: event.request);
-      emit(state.copyWith(isLoading: false, isSuccess: true, cartOperationResponse: response, errorMessage: null, isFailure: false));
+      final response = await cartRepository.addItemToCart(
+          request: event.request);
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+        cartOperationResponse: response,
+        errorMessage: '',
+        isFailure: false,
+        currentProductId: null,
+        currentOperation: CartOperation.none,
+      ));
     } catch (error) {
-      emit(state.copyWith(isLoading: false, isFailure: true, errorMessage: error.toString()));
+      emit(state.copyWith(
+        isLoading: false,
+        isFailure: true,
+        errorMessage: error.toString(),
+        currentProductId: null,
+        currentOperation: CartOperation.none,
+      ));
     }
   }
 
-
-  Future<void> _onDeleteItemEvent(DeleteItemEvent event, Emitter<CartOperationState> emit) async {
+  Future<void> _onDeleteItemEvent(DeleteItemEvent event,
+      Emitter<CartOperationState> emit,) async {
     emit(CartOperationState.initial());
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(
+      isLoading: true,
+      currentProductId: event.productId,
+      currentOperation: CartOperation.remove,
+    ));
+
     try {
-      final response = await cartRepository.deleteItemFromCart(productId: event.productId);
-      emit(state.copyWith(isLoading: false, isSuccess: true, cartOperationResponse: response, errorMessage: null, isFailure: false));
+      final response =
+      await cartRepository.deleteItemFromCart(productId: event.productId);
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+        cartOperationResponse: response,
+        errorMessage: '',
+        isFailure: false,
+        currentProductId: null,
+        currentOperation: CartOperation.none,
+      ));
     } catch (error) {
-      emit(state.copyWith(isLoading: false, isFailure: true, errorMessage: error.toString()));
+      emit(state.copyWith(
+        isLoading: false,
+        isFailure: true,
+        errorMessage: error.toString(),
+        currentProductId: null,
+        currentOperation: CartOperation.none,
+      ));
     }
   }
 
-
-  Future<void> _onDecrementQuantityEvent(DecrementQuantityEvent event, Emitter<CartOperationState> emit) async {
+  Future<void> _onDecrementQuantityEvent(DecrementQuantityEvent event,
+      Emitter<CartOperationState> emit,) async {
     emit(CartOperationState.initial());
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(
+      isLoading: true,
+      currentProductId: event.productId,
+      currentOperation: CartOperation.decrement,
+    ));
+
     try {
-      final response = await cartRepository.decrementItemQuantity(productId: event.productId);
-      emit(state.copyWith(isLoading: false, isSuccess: true, cartOperationResponse: response, errorMessage: null, isFailure: false));
+      final response =
+      await cartRepository.decrementItemQuantity(productId: event.productId);
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+        cartOperationResponse: response,
+        errorMessage: '',
+        isFailure: false,
+        currentProductId: null,
+        currentOperation: CartOperation.none,
+      ));
     } catch (error) {
-      emit(state.copyWith(isLoading: false, isFailure: true, errorMessage: error.toString()));
+      emit(state.copyWith(
+        isLoading: false,
+        isFailure: true,
+        errorMessage: error.toString(),
+        currentProductId: null,
+        currentOperation: CartOperation.none,
+      ));
     }
   }
-
-
 }

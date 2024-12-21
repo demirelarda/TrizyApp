@@ -22,4 +22,14 @@ class GetCartResponse {
       'cart': cart.toJson(),
     };
   }
+
+  GetCartResponse copyWith({
+    bool? success,
+    Cart? cart,
+  }) {
+    return GetCartResponse(
+      success: success ?? this.success,
+      cart: cart ?? this.cart,
+    );
+  }
 }

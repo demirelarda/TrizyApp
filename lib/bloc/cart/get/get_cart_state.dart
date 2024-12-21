@@ -30,7 +30,7 @@ class GetCartState extends Equatable {
     bool? isLoading,
     bool? isSuccess,
     bool? isFailure,
-    GetCartResponse? deals,
+    GetCartResponse? cartResponse,
     String? errorMessage,
   }) {
     return GetCartState(

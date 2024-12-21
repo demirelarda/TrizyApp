@@ -1,28 +1,35 @@
-import 'package:equatable/equatable.dart';
-import 'package:trizy_app/models/cart/response/cart_operation_response.dart';
+import '../../../models/cart/response/cart_operation_response.dart';
 
-class CartOperationState extends Equatable {
+enum CartOperation { none, increment, decrement, remove }
+
+class CartOperationState {
   final bool isLoading;
   final bool isSuccess;
   final bool isFailure;
+  final String errorMessage;
   final CartOperationResponse? cartOperationResponse;
-  final String? errorMessage;
+  final String? currentProductId;
+  final CartOperation currentOperation;
 
-  const CartOperationState({
+  CartOperationState({
     required this.isLoading,
     required this.isSuccess,
     required this.isFailure,
-    this.cartOperationResponse,
-    this.errorMessage,
+    required this.errorMessage,
+    required this.cartOperationResponse,
+    required this.currentProductId,
+    required this.currentOperation,
   });
 
   factory CartOperationState.initial() {
-    return const CartOperationState(
+    return CartOperationState(
       isLoading: false,
       isSuccess: false,
       isFailure: false,
+      errorMessage: '',
       cartOperationResponse: null,
-      errorMessage: null,
+      currentProductId: null,
+      currentOperation: CartOperation.none,
     );
   }
 
@@ -30,18 +37,19 @@ class CartOperationState extends Equatable {
     bool? isLoading,
     bool? isSuccess,
     bool? isFailure,
-    CartOperationResponse? cartOperationResponse,
     String? errorMessage,
+    CartOperationResponse? cartOperationResponse,
+    String? currentProductId,
+    CartOperation? currentOperation,
   }) {
     return CartOperationState(
       isLoading: isLoading ?? this.isLoading,
       isSuccess: isSuccess ?? this.isSuccess,
       isFailure: isFailure ?? this.isFailure,
-      cartOperationResponse: cartOperationResponse ?? this.cartOperationResponse,
       errorMessage: errorMessage ?? this.errorMessage,
+      cartOperationResponse: cartOperationResponse ?? this.cartOperationResponse,
+      currentProductId: currentProductId,
+      currentOperation: currentOperation ?? this.currentOperation,
     );
   }
-
-  @override
-  List<Object?> get props => [isLoading, isSuccess, isFailure, cartOperationResponse, errorMessage];
 }

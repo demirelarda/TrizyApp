@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:trizy_app/views/main/main_page.dart';
+import 'package:trizy_app/views/main/pages/cart_page.dart';
 import 'package:trizy_app/views/product/product_details_page.dart';
 import 'package:trizy_app/views/search/search_page.dart';
 import 'package:trizy_app/views/splash/splash_page.dart';
@@ -68,6 +69,13 @@ class AppRouter {
         builder: (context, state) {
           final productId = state.pathParameters['productId'];
           return ProductDetailsPage(productId: productId!);
+        },
+      ),
+      GoRoute( //TODO: MAKE CART PAGE COMPATIBLE WITHOUT BOTTOM BAR OR DIRECTLY GO TO MAIN PAGE AND SELECT CART PAGE FROM BOTTOM BAR.
+        name: 'cart',
+        path: '/cart',
+        builder: (context, state) {
+          return const CartPage();
         },
       ),
     ],

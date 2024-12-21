@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:trizy_app/routing/app_router.dart';
 import '../models/product/product_model.dart';
 import '../theme/colors.dart';
 import 'buttons/heart_button.dart';
@@ -12,6 +14,8 @@ class ProductCard extends StatelessWidget {
   final VoidCallback onLikeTap;
   final ValueChanged<String> onProductClicked;
   final bool isLiked;
+  final bool isLoading;
+  final bool productInCart;
 
   const ProductCard({
     super.key,
@@ -20,6 +24,8 @@ class ProductCard extends StatelessWidget {
     required this.onLikeTap,
     required this.onProductClicked,
     this.isLiked = false,
+    this.isLoading = false,
+    this.productInCart = false
   });
 
   @override
@@ -117,12 +123,21 @@ class ProductCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ProductCardButton(
-                        text: "Add to cart",
-                        backgroundColor:
-                        product.stockCount > 0 ? primaryLightColor : Colors.grey,
+                        text: productInCart ? "Go to cart" : "Add to cart",
+                        backgroundColor: product.stockCount > 0
+                            ? primaryLightColor
+                            : Colors.grey,
                         textColor: Colors.white,
                         isActive: product.stockCount > 0,
-                        onPressed: product.stockCount > 0 ? onAddToCart : null,
+                        isLoading: isLoading,
+                        onPressed: product.stockCount > 0
+                            ? productInCart
+                            ? () {
+                          // If product is already in the cart navigate to cart page
+                          context.pushNamed("cart");
+                        }
+                            : onAddToCart
+                            : null,
                       ),
                       HeartButton(
                         isLiked: isLiked,
