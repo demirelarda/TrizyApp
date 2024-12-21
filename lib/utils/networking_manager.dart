@@ -40,6 +40,30 @@ class NetworkingManager {
     );
   }
 
+  Future<Map<String, dynamic>> delete({
+    required String endpoint,
+    Map<String, String>? headers,
+    Map<String, String>? urlParams,
+    Map<String, String>? queryParams,
+    bool addAuthToken = false,
+  }) async {
+    return await _handleRequestWithRetry(
+          () async => await _deleteRequest(endpoint, headers, urlParams, queryParams, addAuthToken),
+    );
+  }
+
+  Future<Map<String, dynamic>> patch({
+    required String endpoint,
+    required Map<String, dynamic> body,
+    Map<String, String>? headers,
+    Map<String, String>? urlParams,
+    bool addAuthToken = false,
+  }) async {
+    return await _handleRequestWithRetry(
+          () async => await _patchRequest(endpoint, body, headers, urlParams, addAuthToken),
+    );
+  }
+
   Future<Map<String, dynamic>> _postRequest(
       String endpoint,
       Map<String, dynamic> body,
@@ -75,10 +99,56 @@ class NetworkingManager {
     final defaultHeaders = await _buildHeaders(headers, addAuthToken);
 
     try {
-      print("making request to $url");
       final response = await http.get(
         url,
         headers: defaultHeaders,
+      );
+      return _processResponse(response);
+    } on SocketException {
+      throw Exception("No internet connection");
+    } catch (e) {
+      throw Exception("Unexpected error: $e");
+    }
+  }
+
+  Future<Map<String, dynamic>> _deleteRequest(
+      String endpoint,
+      Map<String, String>? headers,
+      Map<String, String>? urlParams,
+      Map<String, String>? queryParams,
+      bool addAuthToken,
+      ) async {
+    final url = _constructUrl(endpoint, urlParams, queryParams);
+    final defaultHeaders = await _buildHeaders(headers, addAuthToken);
+
+    try {
+      final response = await http.delete(
+        url,
+        headers: defaultHeaders,
+      );
+      return _processResponse(response);
+    } on SocketException {
+      throw Exception("No internet connection");
+    } catch (e) {
+      throw Exception("Unexpected error: $e");
+    }
+  }
+
+  Future<Map<String, dynamic>> _patchRequest(
+      String endpoint,
+      Map<String, dynamic> body,
+      Map<String, String>? headers,
+      Map<String, String>? urlParams,
+      bool addAuthToken,
+      ) async {
+    final url = _constructUrl(endpoint, urlParams);
+    final defaultHeaders = await _buildHeaders(headers, addAuthToken);
+
+    try {
+      final response = await http.patch(
+        url,
+        headers: defaultHeaders,
+        body: jsonEncode(body),
       );
       return _processResponse(response);
     } on SocketException {
