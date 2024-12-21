@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:trizy_app/utils/auth_check.dart';
 import 'package:trizy_app/views/main/pages/account_page.dart';
 import 'package:trizy_app/views/main/pages/cart_page.dart';
 import 'package:trizy_app/views/main/pages/home/home_page.dart';
@@ -22,7 +24,13 @@ class _MainPageState extends State<MainPage> {
     const AccountPage(),
   ];
 
-  void _onTabTapped(int index) {
+  void _onTabTapped(int index) async {
+    bool isUserAuthenticated = await isAuthenticated();
+    if (!mounted) return;
+    if (!isUserAuthenticated && (index == 1 || index == 2 || index == 3)) {
+      context.goNamed("signup");
+      return;
+    }
     setState(() {
       _currentIndex = index;
     });

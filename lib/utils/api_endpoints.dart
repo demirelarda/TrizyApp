@@ -20,4 +20,11 @@ class ApiEndpoints {
   static const String searchProducts = 'api/products/search/';
   static const String getSingleProduct = 'api/products/{productId}';
 
+  // CART
+  static const String getUserCart = 'api/carts/get-cart';
+  static const String addItemToCart = 'api/carts/add-item';
+  static const String deleteItemFromCart = 'api/carts/{productId}';
+  static const String decrementQuantity = 'api/carts/decrement-quantity';
+
+
 }
