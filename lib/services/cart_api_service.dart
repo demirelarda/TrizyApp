@@ -1,8 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:trizy_app/models/cart/request/add_item_to_cart_request.dart';
-import 'package:trizy_app/models/cart/response/add_item_to_cart_response.dart';
-import 'package:trizy_app/models/cart/response/decrement_quantity_response.dart';
-import 'package:trizy_app/models/cart/response/delete_item_from_cart_response.dart';
+import 'package:trizy_app/models/cart/response/cart_operation_response.dart';
 import 'package:trizy_app/models/cart/response/get_cart_response.dart';
 import '../utils/api_endpoints.dart';
 import '../utils/networking_manager.dart';
@@ -25,14 +23,14 @@ class CartApiService{
   }
 
 
-  Future<AddItemToCartResponse> addItemToCart({required AddItemToCartRequest request}) async {
+  Future<CartOperationResponse> addItemToCart({required AddItemToCartRequest request}) async {
     try {
       final response = await _networkingManager.post(
           endpoint: ApiEndpoints.addItemToCart,
           addAuthToken: true,
           body: request.toJson()
       );
-      return AddItemToCartResponse.fromJson(response);
+      return CartOperationResponse.fromJson(response, CartOperationType.addItem);
     }
     catch (e) {
       print("error : ${e}");
@@ -41,7 +39,7 @@ class CartApiService{
   }
 
 
-  Future<DeleteItemFromCartResponse> deleteItemFromCart({required productId}) async {
+  Future<CartOperationResponse> deleteItemFromCart({required productId}) async {
     try {
       final response = await _networkingManager.delete(
           endpoint: ApiEndpoints.deleteItemFromCart,
@@ -49,7 +47,7 @@ class CartApiService{
           urlParams: {"productId":productId}
 
       );
-      return DeleteItemFromCartResponse.fromJson(response);
+      return CartOperationResponse.fromJson(response, CartOperationType.deleteItem);
     }
     catch (e) {
       print("error : ${e}");
@@ -58,14 +56,14 @@ class CartApiService{
   }
 
 
-  Future<DecrementQuantityResponse> decrementItemQuantity({required productId}) async {
+  Future<CartOperationResponse> decrementItemQuantity({required productId}) async {
     try {
       final response = await _networkingManager.patch(
           endpoint: ApiEndpoints.decrementQuantity,
           addAuthToken: true,
           body: {"productId":productId}
       );
-      return DecrementQuantityResponse.fromJson(response);
+      return CartOperationResponse.fromJson(response, CartOperationType.decrementQuantity);
     }
     catch (e) {
       print("error : ${e}");
