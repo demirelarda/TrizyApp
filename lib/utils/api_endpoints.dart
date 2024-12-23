@@ -28,4 +28,10 @@ class ApiEndpoints {
   static const String addItemOnFeed = 'api/carts/add-item-on-feed';
 
 
+  // ADDRESS
+  static const String createAddress = "api/address/create-user-address";
+  static const String updateAddress = "api/address/update-address/{addressId}";
+  static const String deleteAddress = "api/address/delete-address/{addressId}";
+  static const String getUserAddresses = "api/address/get-all-addresses";
+
 }

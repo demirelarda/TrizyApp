@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -10,18 +11,19 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Column(
         children: [
-          Spacer(),
+          const Spacer(),
           Center(
-              child: Column(
-                children: [
-                  Text("Account Page"),
-                ],
-              )
+            child: TextButton(
+                onPressed: (){
+                  context.pushNamed("myAddresses");
+                },
+                child: const Text("Addresses")
+            ),
           ),
-          Spacer()
+          const Spacer()
         ],
       ),
     );
