@@ -52,6 +52,7 @@ dependencies:
   photo_view: ^0.15.0
   dots_indicator: ^3.0.0
   flutter_rating_bar: ^4.0.1
+  flutter_stripe: ^11.3.0
 
 dev_dependencies:
   flutter_test:
