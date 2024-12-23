@@ -40,7 +40,7 @@ class CartApiService{
   }
 
 
-  Future<CartOperationResponse> deleteItemFromCart({required productId}) async {
+  Future<CartOperationResponse> deleteItemFromCart({required String productId}) async {
     try {
       final response = await _networkingManager.delete(
           endpoint: ApiEndpoints.deleteItemFromCart,
@@ -57,7 +57,7 @@ class CartApiService{
   }
 
 
-  Future<CartOperationResponse> decrementItemQuantity({required productId}) async {
+  Future<CartOperationResponse> decrementItemQuantity({required String productId}) async {
     try {
       final response = await _networkingManager.patch(
           endpoint: ApiEndpoints.decrementQuantity,
@@ -73,7 +73,7 @@ class CartApiService{
   }
 
 
-  Future<AddItemToCartOnFeedResponse> addItemOnFeed({required productId}) async {
+  Future<AddItemToCartOnFeedResponse> addItemOnFeed({required String productId}) async {
     try {
       final response = await _networkingManager.post(
           endpoint: ApiEndpoints.addItemOnFeed,

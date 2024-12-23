@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trizy_app/bloc/cart/get/get_cart_bloc.dart';
 import 'package:trizy_app/bloc/cart/get/get_cart_event.dart';
 import 'package:trizy_app/bloc/cart/get/get_cart_state.dart';
 import 'package:trizy_app/components/cart_top_bar.dart';
+import 'package:trizy_app/components/product_card.dart';
 import 'package:trizy_app/models/cart/response/get_cart_response.dart';
 import '../../../bloc/cart/operations/cart_operation_bloc.dart';
 import '../../../bloc/cart/operations/cart_operation_event.dart';
@@ -150,7 +152,7 @@ class CartPageContent extends StatelessWidget {
                       subTotalPrice: subtotal,
                       deliveryFee: deliveryFee,
                       onCheckOutClicked: () {
-                        debugPrint('Checkout button clicked!');
+                        context.pushNamed("checkoutPage");
                       },
                     ),
                   ),
