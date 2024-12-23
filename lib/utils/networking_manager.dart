@@ -64,6 +64,18 @@ class NetworkingManager {
     );
   }
 
+  Future<Map<String, dynamic>> put({
+    required String endpoint,
+    required Map<String, dynamic> body,
+    Map<String, String>? headers,
+    Map<String, String>? urlParams,
+    bool addAuthToken = false,
+  }) async {
+    return await _handleRequestWithRetry(
+          () async => await _putRequest(endpoint, body, headers, urlParams, addAuthToken),
+    );
+  }
+
   Future<Map<String, dynamic>> _postRequest(
       String endpoint,
       Map<String, dynamic> body,
@@ -102,6 +114,30 @@ class NetworkingManager {
       final response = await http.get(
         url,
         headers: defaultHeaders,
+      );
+      return _processResponse(response);
+    } on SocketException {
+      throw Exception("No internet connection");
+    } catch (e) {
+      throw Exception("Unexpected error: $e");
+    }
+  }
+
+  Future<Map<String, dynamic>> _putRequest(
+      String endpoint,
+      Map<String, dynamic> body,
+      Map<String, String>? headers,
+      Map<String, String>? urlParams,
+      bool addAuthToken,
+      ) async {
+    final url = _constructUrl(endpoint, urlParams);
+    final defaultHeaders = await _buildHeaders(headers, addAuthToken);
+
+    try {
+      final response = await http.put(
+        url,
+        headers: defaultHeaders,
+        body: jsonEncode(body),
       );
       return _processResponse(response);
     } on SocketException {
