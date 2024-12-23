@@ -1,4 +1,5 @@
 import 'package:trizy_app/models/address/create_address_response.dart';
+import 'package:trizy_app/models/address/default_address_response.dart';
 import 'package:trizy_app/models/address/delete_address_response.dart';
 import 'package:trizy_app/models/address/get_address_response.dart';
 import 'package:trizy_app/models/address/update_address_response.dart';
@@ -47,6 +48,16 @@ class AddressRepository{
       return response;
     } catch (e) {
       throw Exception('Failed to update address: $e');
+    }
+  }
+
+
+  Future<DefaultAddressResponse> getDefaultAddress() async {
+    try {
+      final DefaultAddressResponse response = await addressApiService.getDefaultAddress();
+      return response;
+    } catch (e) {
+      throw Exception('Failed to get address: $e');
     }
   }
 

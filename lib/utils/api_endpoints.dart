@@ -33,5 +33,6 @@ class ApiEndpoints {
   static const String updateAddress = "api/address/update-address/{addressId}";
   static const String deleteAddress = "api/address/delete-address/{addressId}";
   static const String getUserAddresses = "api/address/get-all-addresses";
+  static const String getDefaultAddress = "api/address/get-default-address";
 
 }

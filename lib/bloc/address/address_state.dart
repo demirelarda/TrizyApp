@@ -5,7 +5,8 @@ enum AddressOperationType {
   create,
   update,
   delete,
-  fetchAll
+  fetchAll,
+  fetchDefault
 }
 
 class AddressState extends Equatable {

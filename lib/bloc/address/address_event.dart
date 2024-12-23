@@ -54,3 +54,13 @@ class DeleteAddressEvent extends AddressEvent {
   List<Object?> get props => [addressId];
 
 }
+
+
+class GetDefaultAddressEvent extends AddressEvent {
+
+  const GetDefaultAddressEvent();
+
+  @override
+  List<Object?> get props => [];
+
+}

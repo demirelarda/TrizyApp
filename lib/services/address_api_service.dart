@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:trizy_app/models/address/create_address_request.dart';
 import 'package:trizy_app/models/address/create_address_response.dart';
+import 'package:trizy_app/models/address/default_address_response.dart';
 import 'package:trizy_app/models/address/delete_address_response.dart';
 import 'package:trizy_app/models/address/get_address_response.dart';
 import 'package:trizy_app/models/address/update_address_response.dart';
@@ -71,7 +72,21 @@ class AddressApiService{
     }
     catch (e) {
       print("error : ${e}");
-      throw Exception('Failed to delete address: $e');
+      throw Exception('Failed to update address: $e');
+    }
+  }
+
+  Future<DefaultAddressResponse> getDefaultAddress() async {
+    try {
+      final response = await _networkingManager.get(
+          endpoint: ApiEndpoints.getDefaultAddress,
+          addAuthToken: true
+      );
+      return DefaultAddressResponse.fromJson(response);
+    }
+    catch (e) {
+      print("error : ${e}");
+      throw Exception('Failed to get default address: $e');
     }
   }
 
