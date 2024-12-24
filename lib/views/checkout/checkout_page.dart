@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trizy_app/bloc/address/address_bloc.dart';
 import 'package:trizy_app/bloc/address/address_event.dart';
 import 'package:trizy_app/bloc/cart/get/get_cart_bloc.dart';
 import 'package:trizy_app/bloc/cart/get/get_cart_event.dart';
 import 'package:trizy_app/bloc/cart/get/get_cart_state.dart';
+import 'package:trizy_app/bloc/payment/payment_bloc.dart';
+import 'package:trizy_app/bloc/payment/payment_event.dart';
+import 'package:trizy_app/bloc/payment/payment_state.dart';
 import 'package:trizy_app/components/app_bar_with_back_button.dart';
 import 'package:trizy_app/theme/colors.dart';
 import '../../components/checkout/checkout_address_section.dart';
 import '../../components/checkout/checkout_delivery_date_section.dart';
 import '../../components/checkout/checkout_order_summary_section.dart';
 import '../../components/buttons/custom_button.dart';
-import '../../models/address/address.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -24,12 +27,14 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
   late AddressBloc _addressBloc;
   late GetCartBloc _cartBloc;
+  late PaymentBloc _paymentBloc;
 
   @override
   void initState() {
     super.initState();
     _addressBloc = AddressBloc();
     _cartBloc = GetCartBloc();
+    _paymentBloc = PaymentBloc();
     _fetchDefaultAddress();
     _fetchCart();
   }
@@ -38,6 +43,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void dispose() {
     _addressBloc.close();
     _cartBloc.close();
+    _paymentBloc.close();
     super.dispose();
   }
 
@@ -49,7 +55,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     _cartBloc.add(UserCartRequested());
   }
 
-  Future<void> _navigateToAddressForm({Address? address}) async {
+  Future<void> _navigateToAddressForm({address}) async {
     final result = await context.pushNamed(
       'addressForm',
       extra: address,
@@ -60,12 +66,48 @@ class _CheckoutPageState extends State<CheckoutPage> {
     }
   }
 
+  Future<void> _showPaymentSheet({required String clientSecret, required String paymentIntentId}) async {
+    try {
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: clientSecret,
+          style: ThemeMode.system,
+          merchantDisplayName: 'Trizy',
+        ),
+      );
+
+      await Stripe.instance.presentPaymentSheet();
+
+      if (mounted) {
+        context.goNamed(
+          'paymentSuccessful',
+          pathParameters: {
+            'paymentIntentId': paymentIntentId,
+          },
+        );
+      }
+    } on StripeException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Payment failed: ${e.error.localizedMessage}')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('An error occurred while processing payment.')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => _addressBloc),
         BlocProvider(create: (context) => _cartBloc),
+        BlocProvider(create: (context) => _paymentBloc),
       ],
       child: Scaffold(
         backgroundColor: white,
@@ -116,17 +158,29 @@ class _CheckoutPageState extends State<CheckoutPage> {
           },
         ),
         bottomNavigationBar: SafeArea(
-          child: Container(
-            color: Colors.white,
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 30),
-            child: CustomButton(
-              text: "Pay Now",
-              textColor: white,
-              color: primaryLightColor,
-              onClick: () {
-
-              },
-            ),
+          child: BlocConsumer<PaymentBloc, PaymentState>(
+            listener: (context, state) {
+              if (state.isSuccess && state.createPaymentIntentResponse != null) {
+                final clientSecret = state.createPaymentIntentResponse!.paymentIntent.clientSecret;
+                final paymentIntentId = state.createPaymentIntentResponse!.paymentIntent.id;
+                _showPaymentSheet(clientSecret: clientSecret, paymentIntentId: paymentIntentId);
+              }
+            },
+            builder: (context, state) {
+              return Container(
+                color: Colors.white,
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 30),
+                child: CustomButton(
+                  text: state.isLoading ? "Processing..." : "Pay Now",
+                  textColor: white,
+                  color: primaryLightColor,
+                  isLoading: state.isLoading,
+                  onClick: () {
+                    context.read<PaymentBloc>().add(PaymentIntentRequested());
+                  },
+                ),
+              );
+            },
           ),
         ),
       ),

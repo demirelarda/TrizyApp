@@ -1,8 +1,36 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class ApiEndpoints {
 
+
+  static String baseDevAndroidUrl = prodUrl;
+  static String baseDeviOSUrl = prodUrl;
+  static String baseDevWebUrl = prodUrl;
+
+  /*
   static const String baseDevAndroidUrl = 'http://10.0.2.2:5001';
   static const String baseDeviOSUrl = 'http://localhost:5001';
   static const String baseDevWebUrl = 'http://localhost:5001';
+
+   */
+
+  static String get prodUrl {
+    if (dotenv.env['BASE_BACKEND_URL'] != null && dotenv.env['BASE_BACKEND_URL']!.isNotEmpty) {
+      return dotenv.env['BASE_BACKEND_URL']!;
+    }
+
+    if (kIsWeb) {
+      return 'http://localhost:5001';
+    } else if (Platform.isAndroid) {
+      return 'http://10.0.2.2:5001';
+    } else if (Platform.isIOS) {
+      return 'http://localhost:5001';
+    } else {
+      return '';
+    }
+  }
 
   // AUTH
   static const String register = 'api/register';
@@ -34,5 +62,10 @@ class ApiEndpoints {
   static const String deleteAddress = "api/address/delete-address/{addressId}";
   static const String getUserAddresses = "api/address/get-all-addresses";
   static const String getDefaultAddress = "api/address/get-default-address";
+
+
+  // PAYMENT
+  static const String createPaymentIntent = "api/payments/create-payment-intent";
+  static const String checkOrderStatus = "api/payments/check-order-status";
 
 }

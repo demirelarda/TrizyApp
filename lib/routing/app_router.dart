@@ -3,6 +3,7 @@ import 'package:trizy_app/views/address/my_addresses_page.dart';
 import 'package:trizy_app/views/checkout/checkout_page.dart';
 import 'package:trizy_app/views/main/main_page.dart';
 import 'package:trizy_app/views/main/pages/cart_page.dart';
+import 'package:trizy_app/views/checkout/payment_successful_page.dart';
 import 'package:trizy_app/views/product/product_details_page.dart';
 import 'package:trizy_app/views/search/search_page.dart';
 import 'package:trizy_app/views/splash/splash_page.dart';
@@ -103,6 +104,16 @@ class AppRouter {
         builder: (context, state) {
           final address = state.extra as Address?;
           return AddressFormPage(address: address);
+        },
+      ),
+
+
+      GoRoute(
+        name: 'paymentSuccessful',
+        path: '/paymentSuccessful/:paymentIntentId',
+        builder: (context, state) {
+          final paymentIntentId = state.pathParameters['paymentIntentId']!;
+          return PaymentSuccessfulPage(paymentIntentId: paymentIntentId);
         },
       ),
 
