@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 import 'package:trizy_app/bloc/orders/check/check_order_status_bloc.dart';
 import 'package:trizy_app/bloc/orders/check/check_order_status_event.dart';
 import 'package:trizy_app/bloc/orders/check/check_order_status_state.dart';
 import 'package:trizy_app/theme/colors.dart';
+import 'package:trizy_app/components/buttons/outlined_text_button.dart';
+import 'package:trizy_app/theme/text_styles.dart';
 
 class PaymentSuccessfulPage extends StatefulWidget {
   final String paymentIntentId;
@@ -35,12 +39,13 @@ class _PaymentSuccessfulPageState extends State<PaymentSuccessfulPage> {
     return BlocProvider(
       create: (context) => _orderStatusBloc,
       child: Scaffold(
+        backgroundColor: white,
         appBar: AppBar(
           title: const Text(
             "Payment Status",
             style: TextStyle(color: Colors.black),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: white,
           elevation: 1,
           centerTitle: true,
         ),
@@ -51,15 +56,8 @@ class _PaymentSuccessfulPageState extends State<PaymentSuccessfulPage> {
             }
 
             if (state.isSuccess && state.checkOrderStatusResponse != null) {
-              return const Center(
-                child: Text(
-                  "Order Created Successfully",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: primaryLightColor,
-                  ),
-                ),
+              return _SuccessWidget(
+                orderId: state.checkOrderStatusResponse!.order!.id,
               );
             }
 
@@ -80,6 +78,63 @@ class _PaymentSuccessfulPageState extends State<PaymentSuccessfulPage> {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _SuccessWidget extends StatelessWidget {
+  final String orderId;
+
+  const _SuccessWidget({required this.orderId});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Lottie.asset(
+              'assets/animations/confirmTick.json',
+              width: 150,
+              height: 150,
+              repeat: false,
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              "Order Created Successfully!",
+              style: AppTextStyles.headline20,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 40),
+
+            Column(
+              children: [
+                OutlinedTextButton(
+                  text: "Go to order details",
+                  onClick: () {
+                    context.goNamed(
+                      'orderDetails',
+                      pathParameters: {
+                        'orderId': orderId,
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+
+                OutlinedTextButton(
+                  text: "Go to home page",
+                  onClick: () {
+                    context.go('/mainPage');
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

@@ -28,6 +28,13 @@ class AppTextStyles {
     color: primaryDarkColor,
   );
 
+
+  static const TextStyle headline20 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: primaryDarkColor,
+  );
+
   static const TextStyle headlineSmall = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
