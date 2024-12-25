@@ -114,12 +114,12 @@ class _SuccessWidget extends StatelessWidget {
             Column(
               children: [
                 OutlinedTextButton(
-                  text: "Go to order details",
+                  text: "Go to your orders",
                   onClick: () {
                     context.goNamed(
-                      'orderDetails',
+                      'myOrders',
                       pathParameters: {
-                        'orderId': orderId,
+                        'fromAccount': "0",
                       },
                     );
                   },

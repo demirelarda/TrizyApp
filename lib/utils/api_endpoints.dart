@@ -68,4 +68,8 @@ class ApiEndpoints {
   static const String createPaymentIntent = "api/payments/create-payment-intent";
   static const String checkOrderStatus = "api/payments/check-order-status";
 
+  // ORDERS
+  static const String getUserOrders = "api/orders/get-user-orders";
+
+
 }

@@ -4,6 +4,7 @@ import 'package:trizy_app/views/checkout/checkout_page.dart';
 import 'package:trizy_app/views/main/main_page.dart';
 import 'package:trizy_app/views/main/pages/cart_page.dart';
 import 'package:trizy_app/views/checkout/payment_successful_page.dart';
+import 'package:trizy_app/views/orders/my_orders_page.dart';
 import 'package:trizy_app/views/product/product_details_page.dart';
 import 'package:trizy_app/views/search/search_page.dart';
 import 'package:trizy_app/views/splash/splash_page.dart';
@@ -114,6 +115,19 @@ class AppRouter {
         builder: (context, state) {
           final paymentIntentId = state.pathParameters['paymentIntentId']!;
           return PaymentSuccessfulPage(paymentIntentId: paymentIntentId);
+        },
+      ),
+
+      GoRoute(
+        name: 'myOrders',
+        path: '/myOrders/:fromAccount',
+        builder: (context, state) {
+          final fromAccount = state.pathParameters['fromAccount']!;
+          var fromAccountBool = false;
+          if(fromAccount == "1"){
+            fromAccountBool = true;
+          }
+          return MyOrdersPage(fromAccount: fromAccountBool);
         },
       ),
 
