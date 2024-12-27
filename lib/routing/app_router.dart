@@ -8,6 +8,7 @@ import 'package:trizy_app/views/orders/my_orders_page.dart';
 import 'package:trizy_app/views/product/product_details_page.dart';
 import 'package:trizy_app/views/search/search_page.dart';
 import 'package:trizy_app/views/splash/splash_page.dart';
+import 'package:trizy_app/views/subscription/subscription_promotion_page.dart';
 import 'package:trizy_app/views/subscription/subscription_successful_page.dart';
 import 'package:trizy_app/views/subscription/subscription_view.dart';
 import '../models/address/address.dart';
@@ -134,9 +135,29 @@ class AppRouter {
       ),
 
 
+      /*
       GoRoute(
         name: 'mySubscription',
         path: '/mySubscription',
+        builder: (context, state) {
+          return const SubscriptionPromotionPage();
+        },
+      ),
+       */
+
+
+      GoRoute(
+        name: 'subscriptionPromotionPage',
+        path: '/subscriptionPromotionPage',
+        builder: (context, state) {
+          return const SubscriptionPromotionPage();
+        },
+      ),
+
+
+      GoRoute(
+        name: 'subscriptionView',
+        path: '/subscriptionView',
         builder: (context, state) {
           return const SubscriptionView();
         },

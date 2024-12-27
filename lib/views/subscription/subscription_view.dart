@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -12,7 +11,7 @@ import 'package:trizy_app/models/subscription/request/create_subscription_reques
 import '../../components/buttons/custom_button.dart';
 import '../../models/user/user_pref_model.dart';
 import '../../theme/colors.dart';
-
+import 'dart:convert';
 
 class SubscriptionView extends StatefulWidget {
   const SubscriptionView({super.key});
@@ -51,8 +50,11 @@ class _SubscriptionViewState extends State<SubscriptionView> {
     return BlocProvider(
       create: (_) => SubscriptionBloc(),
       child: Scaffold(
+        backgroundColor: white,
         appBar: AppBarWithBackButton(
-          onBackClicked: () => Navigator.of(context).pop(),
+          onBackClicked: () {
+            context.pop();
+          },
           title: "Subscribe",
         ),
         body: SafeArea(
@@ -98,6 +100,46 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
+                    const SizedBox(height: 16),
+                    Center(
+                      child: Image.asset(
+                        'assets/images/trizyprologo.png',
+                        height: 120,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    const Text(
+                      "Unlock the best experience with Trizy Pro!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      "By subscribing to Trizy Pro, you'll get faster deliveries, access to early product trials, and priority for high-demand items.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      "We use Stripe, a trusted and secure payment platform, to process your subscription. Your payment information is handled securely.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
                     CardField(
                       onCardChanged: (details) {
                         setState(() {
@@ -106,6 +148,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                       },
                     ),
                     const SizedBox(height: 16),
+
                     CustomButton(
                       text: 'Subscribe',
                       textColor: Colors.white,
@@ -144,6 +187,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                       },
                     ),
                     const SizedBox(height: 16),
+
                     if (state.isLoading && state.operationType != SubscriptionOperationType.create)
                       const CircularProgressIndicator(),
                     const SizedBox(height: 8),

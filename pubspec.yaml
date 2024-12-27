@@ -82,6 +82,8 @@ flutter:
     - .env
     - assets/animations/confirmTick.json
     - assets/animations/emptyCart.json
+    - assets/images/trizyprologo.png
+    - assets/images/trizyprobackgroundv2.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
