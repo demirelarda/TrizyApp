@@ -10,6 +10,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load();
   setupLocator();
 
@@ -22,8 +24,8 @@ void main() async{
       ),
     );
   }
-  WidgetsFlutterBinding.ensureInitialized();
   setupStripeKey();
+  await Stripe.instance.applySettings();
   runApp(const MyApp());
 }
 
@@ -33,8 +35,9 @@ void setupStripeKey() {
   if (publishableKey == null || publishableKey.isEmpty) {
     throw Exception("Stripe Publishable Key is not found in the .env file.");
   }
-
   Stripe.publishableKey = publishableKey;
+  Stripe.merchantIdentifier = 'trizy-merchant';
+  Stripe.urlScheme = 'trizy';
 }
 
 class MyApp extends StatelessWidget {
