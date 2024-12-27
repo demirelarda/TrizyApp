@@ -8,6 +8,8 @@ import 'package:trizy_app/views/orders/my_orders_page.dart';
 import 'package:trizy_app/views/product/product_details_page.dart';
 import 'package:trizy_app/views/search/search_page.dart';
 import 'package:trizy_app/views/splash/splash_page.dart';
+import 'package:trizy_app/views/subscription/subscription_successful_page.dart';
+import 'package:trizy_app/views/subscription/subscription_view.dart';
 import '../models/address/address.dart';
 import '../views/address/address_form_page.dart';
 import '../views/auth/login_page.dart';
@@ -130,6 +132,25 @@ class AppRouter {
           return MyOrdersPage(fromAccount: fromAccountBool);
         },
       ),
+
+
+      GoRoute(
+        name: 'mySubscription',
+        path: '/mySubscription',
+        builder: (context, state) {
+          return const SubscriptionView();
+        },
+      ),
+
+      GoRoute(
+        name: 'subscriptionSuccessful',
+        path: '/subscriptionSuccessful',
+        builder: (context, state) {
+          return const SubscriptionSuccessfulPage();
+        },
+      ),
+
+
 
     ],
   );

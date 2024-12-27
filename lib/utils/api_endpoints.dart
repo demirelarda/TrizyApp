@@ -71,5 +71,10 @@ class ApiEndpoints {
   // ORDERS
   static const String getUserOrders = "api/orders/get-user-orders";
 
+  // SUBSCRIPTIONS
+  static const String createSubscription = "api/subscriptions/create";
+  static const String getSubscriptionStatus = "api/subscriptions/status";
+  static const String cancelSubscription = "api/subscriptions/cancel/{subscriptionId}";
+
 
 }

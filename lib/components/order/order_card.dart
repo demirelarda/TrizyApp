@@ -22,7 +22,7 @@ class OrderCard extends StatelessWidget {
     final productTitles = order.items.map((item) => item.title).join(', ');
 
     final deliveryAddress = order.deliveryAddress;
-    final cityPlusPostal = '${deliveryAddress.city}, 12345';
+    final cityPlusPostal = '${deliveryAddress.city}, 12345'; // TODO: GET REAL POSTAL CODE, INCLUDE IT IN THE DELIVERY ADDRESS RESPONSE
 
     return Card(
       color: Colors.white,

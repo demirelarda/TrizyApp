@@ -8,6 +8,7 @@ import 'package:trizy_app/repositories/deals_repository.dart';
 import 'package:trizy_app/repositories/orders_repository.dart';
 import 'package:trizy_app/repositories/payment_repository.dart';
 import 'package:trizy_app/repositories/products_repository.dart';
+import 'package:trizy_app/repositories/subscription_repository.dart';
 import 'package:trizy_app/services/address_api_service.dart';
 import 'package:trizy_app/services/cart_api_service.dart';
 import 'package:trizy_app/services/categories_api_service.dart';
@@ -15,6 +16,7 @@ import 'package:trizy_app/services/deals_api_service.dart';
 import 'package:trizy_app/services/orders_api_service.dart';
 import 'package:trizy_app/services/payment_api_service.dart';
 import 'package:trizy_app/services/products_api_service.dart';
+import 'package:trizy_app/services/subscription_api_service.dart';
 import '../repositories/auth_repository.dart';
 import '../services/auth_api_service.dart';
 import '../utils/api_endpoints.dart';
@@ -46,6 +48,8 @@ void setupLocator() {
   getIt.registerLazySingleton<PaymentRepository>(() => PaymentRepository(getIt<PaymentApiService>()));
   getIt.registerLazySingleton<OrdersApiService>(() => OrdersApiService());
   getIt.registerLazySingleton<OrdersRepository>(() => OrdersRepository(getIt<OrdersApiService>()));
+  getIt.registerLazySingleton<SubscriptionApiService>(() => SubscriptionApiService());
+  getIt.registerLazySingleton<SubscriptionRepository>(() => SubscriptionRepository(getIt<SubscriptionApiService>()));
 
 
 }
