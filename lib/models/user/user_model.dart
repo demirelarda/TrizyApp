@@ -4,6 +4,7 @@ class User {
   final String firstName;
   final String lastName;
   final bool emailVerified;
+  final bool isSubscriber;
 
   User({
     required this.id,
@@ -11,6 +12,7 @@ class User {
     required this.firstName,
     required this.lastName,
     this.emailVerified = false,
+    this.isSubscriber = false,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class User {
       firstName: json['userFirstName'],
       lastName: json['userLastName'],
       emailVerified: json['emailVerified'] ?? false,
+      isSubscriber: json['isSubscriber'] ?? false,
     );
   }
 }

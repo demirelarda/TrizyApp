@@ -59,6 +59,7 @@ class AuthRepository {
         email: response.email,
         firstName: response.userFirstName,
         lastName: response.userLastName,
+        isSubscriber: response.isSubscriber
       ));
 
       return user;

@@ -3,12 +3,14 @@ class UserPreferencesModel {
   final String email;
   final String firstName;
   final String lastName;
+  final bool isSubscriber;
 
   UserPreferencesModel({
     required this.id,
     required this.email,
     required this.firstName,
     required this.lastName,
+    this.isSubscriber = false,
   });
 
   Map<String, dynamic> toJson() {
@@ -17,6 +19,7 @@ class UserPreferencesModel {
       'email': email,
       'firstName': firstName,
       'lastName': lastName,
+      'isSubscriber': isSubscriber,
     };
   }
 
@@ -26,6 +29,7 @@ class UserPreferencesModel {
       email: json['email'],
       firstName: json['firstName'],
       lastName: json['lastName'],
+      isSubscriber: json['isSubscriber'] ?? false,
     );
   }
 }

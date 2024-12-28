@@ -73,19 +73,9 @@ class _SubscriptionViewState extends State<SubscriptionView> {
         body: SafeArea(
           child: BlocConsumer<SubscriptionBloc, SubscriptionState>(
             listener: (context, state) async {
-              debugPrint('BlocConsumer Listener:');
-              debugPrint('  isSuccess: ${state.isSuccess}');
-              debugPrint('  isFailure: ${state.isFailure}');
-              debugPrint('  operationType: ${state.operationType}');
-              debugPrint('  subscriptionStatus: ${state.subscriptionStatus}');
-              debugPrint('  errorMessage: ${state.errorMessage}');
-              debugPrint('  message: ${state.message}');
-              debugPrint('  clientSecret: ${state.clientSecret}');
-              debugPrint('  subscription: ${state.subscription}');
               if (state.isSuccess &&
                   state.operationType == SubscriptionOperationType.create) {
                 if (state.clientSecret != null && state.clientSecret!.isNotEmpty) {
-                  debugPrint('Confirming PaymentIntent with Stripe...');
                   try {
                     await Stripe.instance.confirmPayment(
                       paymentIntentClientSecret: state.clientSecret!,
@@ -98,12 +88,10 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                         ),
                       ),
                     );
-                    debugPrint('PaymentIntent confirmed successfully.');
 
                     _pollSubscriptionStatus(context);
 
                   } catch (e) {
-                    debugPrint('Error confirming PaymentIntent: $e');
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Payment confirmation failed: $e')),
                     );
@@ -118,14 +106,12 @@ class _SubscriptionViewState extends State<SubscriptionView> {
               }
 
               if (state.isFailure && state.errorMessage != null) {
-                debugPrint('Failure state detected: ${state.errorMessage}');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Error: ${state.errorMessage}')),
                 );
               }
 
               if (state.subscriptionStatus == 'active') {
-                debugPrint('Subscription is active! Navigating to success screen...');
                 context.goNamed('subscriptionSuccessful');
               }
             },
@@ -199,7 +185,6 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                         }
 
                         try {
-                          debugPrint('Creating PaymentMethod with Stripe...');
                           final billingDetails = BillingDetails(
                             email: userEmail ?? 'testuser@gmail.com',
                             name: userName ?? 'Test User',
@@ -212,9 +197,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                             ),
                           );
                           paymentMethodId = paymentMethod.id;
-                          debugPrint('Created PaymentMethod: $paymentMethodId');
                         } catch (e) {
-                          debugPrint('Error creating PaymentMethod: $e');
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error creating PaymentMethod: $e')),
                           );
@@ -223,7 +206,6 @@ class _SubscriptionViewState extends State<SubscriptionView> {
 
                         if (paymentMethodId != null) {
                           final req = CreateSubscriptionRequest(paymentMethodId: paymentMethodId!);
-                          debugPrint('Dispatching CreateSubscriptionEvent...');
                           context
                               .read<SubscriptionBloc>()
                               .add(CreateSubscriptionEvent(request: req));
