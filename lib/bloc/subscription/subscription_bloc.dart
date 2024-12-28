@@ -25,9 +25,9 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
         isFailure: false,
         errorMessage: null,
         message: null,
-        subscription: null,
-        clientSecret: null,
         subscriptionStatus: null,
+        clientSecret: null,
+        subscription: null,
       ),
     );
 
@@ -67,43 +67,47 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
       GetSubscriptionStatusEvent event,
       Emitter<SubscriptionState> emit,
       ) async {
-    emit(state.copyWith(
-      isLoading: true,
-      operationType: SubscriptionOperationType.getStatus,
-      isSuccess: false,
-      isFailure: false,
-      errorMessage: null,
-      message: null,
-      subscription: null,
-      clientSecret: null,
-      subscriptionStatus: null,
-    ));
+    emit(
+      state.copyWith(
+        isLoading: true,
+        operationType: SubscriptionOperationType.getStatus,
+        isSuccess: false,
+        isFailure: false,
+        errorMessage: null,
+        message: null,
+      ),
+    );
 
     try {
       final response = await subscriptionRepository.getSubscriptionStatus();
-      emit(state.copyWith(
-        isLoading: false,
-        isSuccess: true,
-        subscription: response.subscription,
-        errorMessage: null,
-        isFailure: false,
-        operationType: null,
-        message: null,
-        subscriptionStatus: response.subscription.status,
-        clientSecret: null,
-      ));
+
+      emit(
+        state.copyWith(
+          isLoading: false,
+          isSuccess: true,
+          isFailure: false,
+          errorMessage: null,
+          operationType: null,
+          message: null,
+          subscription: response.subscription,
+          subscriptionStatus: response.subscription.status,
+          clientSecret: null,
+        ),
+      );
     } catch (error) {
-      emit(state.copyWith(
-        isSuccess: false,
-        isLoading: false,
-        isFailure: true,
-        errorMessage: error.toString(),
-        operationType: null,
-        message: null,
-        subscriptionStatus: null,
-        subscription: null,
-        clientSecret: null,
-      ));
+      emit(
+        state.copyWith(
+          isSuccess: false,
+          isLoading: false,
+          isFailure: true,
+          errorMessage: error.toString(),
+          operationType: null,
+          message: null,
+          subscriptionStatus: null,
+          subscription: null,
+          clientSecret: null,
+        ),
+      );
     }
   }
 
@@ -111,43 +115,52 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
       CancelSubscriptionEvent event,
       Emitter<SubscriptionState> emit,
       ) async {
-    emit(state.copyWith(
-      isLoading: true,
-      operationType: SubscriptionOperationType.cancel,
-      isSuccess: false,
-      isFailure: false,
-      errorMessage: null,
-      message: null,
-      subscription: null,
-      clientSecret: null,
-      subscriptionStatus: null,
-    ));
-
-    try {
-      final response = await subscriptionRepository.cancelSubscription(subscriptionId: event.subscriptionId);
-      emit(state.copyWith(
-        isLoading: false,
-        isSuccess: true,
-        subscription: response.subscription,
-        errorMessage: null,
-        isFailure: false,
-        operationType: null,
-        message: response.message,
-        subscriptionStatus: response.subscription.status,
-        clientSecret: null,
-      ));
-    } catch (error) {
-      emit(state.copyWith(
+    emit(
+      state.copyWith(
+        isLoading: true,
+        operationType: SubscriptionOperationType.cancel,
         isSuccess: false,
-        isLoading: false,
-        isFailure: true,
-        errorMessage: error.toString(),
-        operationType: null,
+        isFailure: false,
+        errorMessage: null,
         message: null,
         subscriptionStatus: null,
-        subscription: null,
         clientSecret: null,
-      ));
+        subscription: null,
+      ),
+    );
+
+    try {
+      final response = await subscriptionRepository.cancelSubscription(
+        subscriptionId: event.subscriptionId,
+      );
+
+      emit(
+        state.copyWith(
+          isLoading: false,
+          isSuccess: true,
+          isFailure: false,
+          errorMessage: null,
+          operationType: null,
+          message: response.message,
+          subscription: response.subscription,
+          subscriptionStatus: response.subscription.status,
+          clientSecret: null,
+        ),
+      );
+    } catch (error) {
+      emit(
+        state.copyWith(
+          isSuccess: false,
+          isLoading: false,
+          isFailure: true,
+          errorMessage: error.toString(),
+          operationType: null,
+          message: null,
+          subscriptionStatus: null,
+          subscription: null,
+          clientSecret: null,
+        ),
+      );
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trizy_app/components/buttons/custom_button.dart';
-import 'package:trizy_app/components/text_with_tick_icon.dart';
+import 'package:trizy_app/components/subscription/text_with_tick_icon.dart';
 import 'package:trizy_app/theme/colors.dart';
 
 class SubscriptionPromotionPage extends StatelessWidget {
@@ -123,7 +123,7 @@ class SubscriptionPromotionPage extends StatelessWidget {
                         textColor: white,
                         color: primaryLightColor,
                         onClick: () {
-                          context.goNamed("subscriptionView");
+                          context.pushNamed("subscriptionView");
                         },
                       ),
                     ),
