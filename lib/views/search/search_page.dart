@@ -10,7 +10,8 @@ import 'package:trizy_app/theme/text_styles.dart';
 import '../../models/category/category.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final bool isTrial;
+  const SearchPage({super.key, required this.isTrial});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -44,12 +45,23 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void onSearchCompleted(String value) {
-    context.pushNamed(
-      'productListPageWithQuery',
-      queryParameters: {
-        'query': value,
-      },
-    );
+    if(widget.isTrial){
+      context.pushNamed(
+        'trialProductListPageWithQuery',
+        queryParameters: {
+          'query': value,
+        },
+      );
+    }
+    else{
+      context.pushNamed(
+        'productListPageWithQuery',
+        queryParameters: {
+          'query': value,
+        },
+      );
+    }
+
   }
 
   @override
@@ -64,6 +76,7 @@ class _SearchPageState extends State<SearchPage> {
             onBackClicked: () {
               context.pop();
             },
+            text: widget.isTrial ? "Search available products..." : "Search anything...",
             onSearchCompleted: onSearchCompleted,
             focusNode: searchFocusNode,
           ),
@@ -105,13 +118,24 @@ class _SearchPageState extends State<SearchPage> {
                           child: CategoryCard(
                             category: category,
                             onCategoryClicked: () {
-                              context.pushNamed(
-                                'productListPageWithCategory',
-                                pathParameters: {
-                                  'categoryId': category.id,
-                                  'categoryName': category.name,
-                                },
-                              );
+                              if(widget.isTrial){
+                                context.pushNamed(
+                                  'trialProductListPageWithCategory',
+                                  pathParameters: {
+                                    'categoryId': category.id,
+                                    'categoryName': category.name,
+                                  },
+                                );
+                              }
+                              else{
+                                context.pushNamed(
+                                  'productListPageWithCategory',
+                                  pathParameters: {
+                                    'categoryId': category.id,
+                                    'categoryName': category.name,
+                                  },
+                                );
+                              }
                             },
                           ),
                         );

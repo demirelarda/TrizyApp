@@ -6,12 +6,14 @@ class TopBarWithSearchField extends StatelessWidget {
   final VoidCallback onBackClicked;
   final ValueChanged<String> onSearchCompleted;
   final FocusNode? focusNode;
+  final String text;
 
   const TopBarWithSearchField({
     super.key,
     required this.controller,
     required this.onBackClicked,
     required this.onSearchCompleted,
+    this.text = "Search anything...",
     this.focusNode,
   });
 
@@ -70,10 +72,10 @@ class TopBarWithSearchField extends StatelessWidget {
                         textInputAction: TextInputAction.search,
                         onSubmitted: onSearchCompleted,
                         cursorColor: primaryLightColor,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: "Search anything...",
-                          hintStyle: TextStyle(
+                          hintText: text,
+                          hintStyle: const TextStyle(
                             color: gray,
                             fontSize: 16,
                           ),

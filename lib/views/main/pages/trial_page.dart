@@ -47,7 +47,7 @@ class _TrialPageState extends State<TrialPage> {
                     placeholder: "Search available products...",
                     icon: Icons.search,
                     onTap: () {
-                      context.pushNamed('search');
+                      context.pushNamed('searchTrial');
                     },
                   ),
                 ),

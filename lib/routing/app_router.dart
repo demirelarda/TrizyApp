@@ -18,6 +18,7 @@ import '../views/auth/login_page.dart';
 import '../views/auth/signup_page.dart';
 import '../views/onboarding/onboarding_page.dart';
 import '../views/product/product_list_page.dart';
+import '../views/trial/trial_product_list_page.dart';
 
 class AppRouter {
   final GoRouter router;
@@ -54,7 +55,12 @@ class AppRouter {
       GoRoute(
         name: 'search',
         path: '/search',
-        builder: (context, state) => const SearchPage(),
+        builder: (context, state) => const SearchPage(isTrial: false),
+      ),
+      GoRoute(
+        name: 'searchTrial',
+        path: '/searchTrial',
+        builder: (context, state) => const SearchPage(isTrial: true),
       ),
       GoRoute(
         name: 'productListPageWithCategory',
@@ -167,6 +173,32 @@ class AppRouter {
         path: '/subscriptionSuccessful',
         builder: (context, state) {
           return const SubscriptionSuccessfulPage();
+        },
+      ),
+
+      GoRoute(
+        name: 'trialProductListPageWithCategory',
+        path: '/trialProductListPage/:categoryId/:categoryName',
+        builder: (context, state) {
+          final categoryId = state.pathParameters['categoryId'];
+          final categoryName = state.pathParameters['categoryName'];
+          return TrialProductListPage(
+            categoryId: categoryId,
+            categoryName: categoryName,
+            query: null,
+          );
+        },
+      ),
+      GoRoute(
+        name: 'trialProductListPageWithQuery',
+        path: '/trialProductListPage',
+        builder: (context, state) {
+          final query = state.uri.queryParameters['query'];
+          return TrialProductListPage(
+            categoryId: null,
+            categoryName: null,
+            query: query,
+          );
         },
       ),
 

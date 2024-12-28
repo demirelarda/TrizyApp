@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
+import 'available_trials_section.dart';
 
 class TrialTabView extends StatelessWidget {
   final int selectedTabId;
@@ -12,7 +13,7 @@ class TrialTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (selectedTabId == 1) {
-      return _buildAvailableTrialsSection(context);
+      return const AvailableTrialsSection();
     } else {
       return Center(
         child: Text(
@@ -23,10 +24,6 @@ class TrialTabView extends StatelessWidget {
     }
   }
 
-  Widget _buildAvailableTrialsSection(BuildContext context) {
-    return Container();
-  }
-
   String _getTabContentText() {
     switch (selectedTabId) {
       case 2:
@@ -35,5 +32,4 @@ class TrialTabView extends StatelessWidget {
         return 'Content not available.';
     }
   }
-
 }
