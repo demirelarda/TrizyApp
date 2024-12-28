@@ -77,4 +77,13 @@ class ApiEndpoints {
   static const String cancelSubscription = "api/subscriptions/cancel/{subscriptionId}";
 
 
+  // TRIAL
+  static const String getLatestTrialProducts = "api/trialProducts/get-latest";
+  static const String getTrialProductsByCategory = "api/trialProducts/category/{categoryId}";
+  static const String searchTrialProducts = "api/trialProducts/search";
+  static const String getSingleTrialProduct = "api/trialProducts/{trialProductId}";
+
+
+
+
 }

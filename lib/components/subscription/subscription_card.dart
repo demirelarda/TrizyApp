@@ -86,7 +86,7 @@ class SubscriptionCard extends StatelessWidget {
               const SizedBox(height: 16),
 
               const Text(
-                "Expires At:",
+                "Renews At:",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),

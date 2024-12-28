@@ -22,6 +22,8 @@ class _HorizontalScrollWidgetState extends State<HorizontalScrollWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
       color: widget.backgroundColor,
       height: 50,
@@ -30,6 +32,8 @@ class _HorizontalScrollWidgetState extends State<HorizontalScrollWidget> {
         itemCount: widget.items.length,
         itemBuilder: (context, index) {
           final item = widget.items[index];
+          final isTwoItems = widget.items.length == 2;
+
           return GestureDetector(
             onTap: () {
               setState(() {
@@ -37,21 +41,21 @@ class _HorizontalScrollWidgetState extends State<HorizontalScrollWidget> {
               });
               widget.onItemTap(item['id']);
             },
-            child: Padding(
+            child: Container(
+              width: isTwoItems ? screenWidth / 2 : null,
+              alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Center(
-                child: AnimatedDefaultTextStyle(
-                  duration: const Duration(milliseconds: 150),
-                  curve: Curves.easeInOut,
-                  style: TextStyle(
-                    color: selectedIndex == index
-                        ? white
-                        : white.withOpacity(0.6),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                  child: Text(item['name']),
+              child: AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 150),
+                curve: Curves.easeInOut,
+                style: TextStyle(
+                  color: selectedIndex == index
+                      ? white
+                      : white.withOpacity(0.6),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
+                child: Text(item['name'], textAlign: TextAlign.center),
               ),
             ),
           );
