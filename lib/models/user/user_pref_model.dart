@@ -4,6 +4,7 @@ class UserPreferencesModel {
   final String firstName;
   final String lastName;
   final bool isSubscriber;
+  final bool hasActiveTrial;
 
   UserPreferencesModel({
     required this.id,
@@ -11,6 +12,7 @@ class UserPreferencesModel {
     required this.firstName,
     required this.lastName,
     this.isSubscriber = false,
+    this.hasActiveTrial = false
   });
 
   Map<String, dynamic> toJson() {
@@ -20,6 +22,7 @@ class UserPreferencesModel {
       'firstName': firstName,
       'lastName': lastName,
       'isSubscriber': isSubscriber,
+      'hasActiveTrial':hasActiveTrial
     };
   }
 
@@ -30,6 +33,7 @@ class UserPreferencesModel {
       firstName: json['firstName'],
       lastName: json['lastName'],
       isSubscriber: json['isSubscriber'] ?? false,
+      hasActiveTrial: json['hasActiveTrial'] ?? false
     );
   }
 }

@@ -5,6 +5,7 @@ class User {
   final String lastName;
   final bool emailVerified;
   final bool isSubscriber;
+  final bool hasActiveTrial;
 
   User({
     required this.id,
@@ -13,6 +14,7 @@ class User {
     required this.lastName,
     this.emailVerified = false,
     this.isSubscriber = false,
+    this.hasActiveTrial = false
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class User {
       lastName: json['userLastName'],
       emailVerified: json['emailVerified'] ?? false,
       isSubscriber: json['isSubscriber'] ?? false,
+      hasActiveTrial: json['hasActiveTrial'] ?? false
     );
   }
 }
