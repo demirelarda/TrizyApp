@@ -9,6 +9,7 @@ class CustomButton extends StatefulWidget {
   final double height;
   final double? width;
   final bool isLoading;
+  final bool disabled;
 
   const CustomButton({
     super.key,
@@ -20,6 +21,7 @@ class CustomButton extends StatefulWidget {
     this.height = 50,
     this.width,
     this.isLoading = false,
+    this.disabled = false,
   })  : assert(gradientColors == null || color == null,
   'Only one color type should be specified!');
 
@@ -31,32 +33,43 @@ class CustomButtonState extends State<CustomButton> {
   bool _isPressed = false;
 
   void _onTapDown(TapDownDetails details) {
-    setState(() {
-      _isPressed = true;
-    });
+    if (!widget.disabled && !widget.isLoading) {
+      setState(() {
+        _isPressed = true;
+      });
+    }
   }
 
   void _onTapUp(TapUpDetails details) {
-    setState(() {
-      _isPressed = false;
-    });
-    widget.onClick();
+    if (!widget.disabled && !widget.isLoading) {
+      setState(() {
+        _isPressed = false;
+      });
+      widget.onClick();
+    }
   }
 
   void _onTapCancel() {
-    setState(() {
-      _isPressed = false;
-    });
+    if (!widget.disabled && !widget.isLoading) {
+      setState(() {
+        _isPressed = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final double opacity = _isPressed && !widget.isLoading ? 0.8 : 1.0;
+    final double opacity = _isPressed && !widget.isLoading && !widget.disabled ? 0.8 : 1.0;
+    final Color buttonColor = widget.disabled
+        ? Colors.grey
+        : widget.gradientColors == null
+        ? widget.color ?? Colors.blue
+        : Colors.transparent;
 
     return GestureDetector(
-      onTapDown: widget.isLoading ? null : _onTapDown,
-      onTapUp: widget.isLoading ? null : _onTapUp,
-      onTapCancel: widget.isLoading ? null : _onTapCancel,
+      onTapDown: widget.disabled || widget.isLoading ? null : _onTapDown,
+      onTapUp: widget.disabled || widget.isLoading ? null : _onTapUp,
+      onTapCancel: widget.disabled || widget.isLoading ? null : _onTapCancel,
       child: Opacity(
         opacity: opacity,
         child: Container(
@@ -64,14 +77,14 @@ class CustomButtonState extends State<CustomButton> {
           width: widget.width ?? double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            gradient: widget.gradientColors != null
-                ? LinearGradient(
+            gradient: widget.disabled || widget.gradientColors == null
+                ? null
+                : LinearGradient(
               colors: widget.gradientColors!,
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-            )
-                : null,
-            color: widget.gradientColors == null ? widget.color : null,
+            ),
+            color: buttonColor,
           ),
           alignment: Alignment.center,
           child: widget.isLoading
@@ -86,7 +99,9 @@ class CustomButtonState extends State<CustomButton> {
               : Text(
             widget.text,
             style: TextStyle(
-              color: widget.textColor,
+              color: widget.disabled
+                  ? Colors.black45
+                  : widget.textColor,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),

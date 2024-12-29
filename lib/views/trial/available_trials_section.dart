@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:trizy_app/bloc/trial/trial_products_bloc.dart';
 import 'package:trizy_app/bloc/trial/trial_products_event.dart';
 import 'package:trizy_app/bloc/trial/trial_products_state.dart';
+import 'package:trizy_app/utils/active_trial_check.dart';
 import 'package:trizy_app/utils/sub_check.dart';
 import '../../components/trial_product_card.dart';
 
@@ -119,9 +120,18 @@ class _AvailableTrialsSectionState extends State<AvailableTrialsSection> {
                         trialProduct: trialProduct,
                         onTrialNowClicked: () async {
                           if(await isSubscribed()){
-                            // go to trial page
-                            if(mounted){
-
+                            if(!await checkHasActiveTrial()){
+                              if(mounted){
+                                context.pushNamed(
+                                  'trialProductDetailsPage',
+                                  pathParameters: {'productId': trialProduct.id},
+                                );
+                              }
+                            }
+                            else{
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("You already have an active trial!")),
+                              );
                             }
                           }
                           else{

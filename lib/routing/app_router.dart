@@ -12,13 +12,17 @@ import 'package:trizy_app/views/subscription/my_subscription_page.dart';
 import 'package:trizy_app/views/subscription/subscription_promotion_page.dart';
 import 'package:trizy_app/views/subscription/subscription_successful_page.dart';
 import 'package:trizy_app/views/subscription/subscription_view.dart';
+import 'package:trizy_app/views/trial/trial_sucess_page.dart';
 import '../models/address/address.dart';
 import '../views/address/address_form_page.dart';
 import '../views/auth/login_page.dart';
 import '../views/auth/signup_page.dart';
 import '../views/onboarding/onboarding_page.dart';
 import '../views/product/product_list_page.dart';
+import '../views/trial/trial_details_page.dart';
+import '../views/trial/trial_product_details_page.dart';
 import '../views/trial/trial_product_list_page.dart';
+import '../views/trial/trial_terms_conditions_page.dart';
 
 class AppRouter {
   final GoRouter router;
@@ -201,7 +205,45 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        name: 'trialProductDetailsPage',
+        path: '/trialProductDetailsPage/:productId',
+        builder: (context, state) {
+          final productId = state.pathParameters['productId'];
+          return TrialProductDetailsPage(trialProductId: productId!);
+        },
+      ),
 
+      GoRoute(
+        name: 'trialDetails',
+        path: '/trialDetails/:trialProductId/:trialProductName/:trialProductImageUrl/:trialPeriod',
+        builder: (context, state) {
+          final trialProductId = state.pathParameters['trialProductId']!;
+          final trialProductName = state.pathParameters['trialProductName']!;
+          final trialProductImageUrl = state.pathParameters['trialProductImageUrl']!;
+          final trialPeriod = int.parse(state.pathParameters['trialPeriod']!);
+
+          return TrialDetailsPage(
+            trialProductId: trialProductId,
+            trialProductName: trialProductName,
+            trialProductImageUrl: trialProductImageUrl,
+            trialPeriod: trialPeriod,
+          );
+        },
+      ),
+
+
+      GoRoute(
+        name: 'trialTerms',
+        path: '/trialTerms',
+        builder: (context, state) => const TrialTermsConditionsPage(),
+      ),
+
+      GoRoute(
+        name: 'trialSuccess',
+        path: '/trialSuccess',
+        builder: (context, state) => const TrialSuccessPage(),
+      ),
 
 
     ],
