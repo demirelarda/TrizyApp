@@ -1,4 +1,5 @@
 import 'package:trizy_app/services/trial_product_api_service.dart';
+import 'package:trizy_app/utils/active_trial_check.dart';
 import '../models/trialproduct/single_trial_product_response.dart';
 import '../models/trialproduct/trial_products_response.dart';
 
@@ -11,6 +12,7 @@ class TrialProductsRepository {
   Future<TrialProductsResponse> getLatestTrialProducts({required int page}) async {
     try {
       final TrialProductsResponse response = await trialProductApiService.getLatestTrialProducts(page: page);
+      updateHasActiveTrial(response.hasActiveTrial);
       return response;
     } catch (e) {
       throw Exception('Failed to fetch trial products: $e');

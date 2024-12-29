@@ -5,12 +5,14 @@ class TrialProductsResponse {
   final List<TrialProduct> trialProducts;
   final Pagination pagination;
   final List<ProductCategory> subCategories;
+  final bool hasActiveTrial;
 
   TrialProductsResponse({
     required this.success,
     required this.trialProducts,
     required this.pagination,
     this.subCategories = const [],
+    this.hasActiveTrial = false,
   });
 
   factory TrialProductsResponse.fromJson(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class TrialProductsResponse {
           .map((item) => ProductCategory.fromJson(item))
           .toList()
           : [],
+      hasActiveTrial: json['hasActiveTrial'] ?? false,
     );
   }
 
@@ -34,6 +37,7 @@ class TrialProductsResponse {
       'trialProducts': trialProducts.map((e) => e.toJson()).toList(),
       'pagination': pagination.toJson(),
       'subCategories': subCategories.map((e) => e.toJson()).toList(),
+      'hasActiveTrial': hasActiveTrial,
     };
   }
 }

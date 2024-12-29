@@ -11,7 +11,8 @@ class TrialProductApiService {
     try {
       final response = await _networkingManager.get(
           endpoint: ApiEndpoints.getLatestTrialProducts,
-          queryParams: {"page": page.toString()}
+          queryParams: {"page": page.toString()},
+          addAuthToken: true
       );
       return TrialProductsResponse.fromJson(response);
     } catch (e) {

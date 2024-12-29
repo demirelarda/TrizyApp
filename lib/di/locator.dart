@@ -10,6 +10,7 @@ import 'package:trizy_app/repositories/payment_repository.dart';
 import 'package:trizy_app/repositories/products_repository.dart';
 import 'package:trizy_app/repositories/subscription_repository.dart';
 import 'package:trizy_app/repositories/trial_product_repository.dart';
+import 'package:trizy_app/repositories/trial_repository.dart';
 import 'package:trizy_app/services/address_api_service.dart';
 import 'package:trizy_app/services/cart_api_service.dart';
 import 'package:trizy_app/services/categories_api_service.dart';
@@ -18,6 +19,7 @@ import 'package:trizy_app/services/orders_api_service.dart';
 import 'package:trizy_app/services/payment_api_service.dart';
 import 'package:trizy_app/services/products_api_service.dart';
 import 'package:trizy_app/services/subscription_api_service.dart';
+import 'package:trizy_app/services/trial_api_service.dart';
 import 'package:trizy_app/services/trial_product_api_service.dart';
 import '../repositories/auth_repository.dart';
 import '../services/auth_api_service.dart';
@@ -54,5 +56,7 @@ void setupLocator() {
   getIt.registerLazySingleton<SubscriptionRepository>(() => SubscriptionRepository(getIt<SubscriptionApiService>()));
   getIt.registerLazySingleton<TrialProductApiService>(() => TrialProductApiService());
   getIt.registerLazySingleton<TrialProductsRepository>(() => TrialProductsRepository(getIt<TrialProductApiService>()));
+  getIt.registerLazySingleton<TrialApiService>(() => TrialApiService());
+  getIt.registerLazySingleton<TrialRepository>(() => TrialRepository(getIt<TrialApiService>()));
 
 }

@@ -77,11 +77,15 @@ class ApiEndpoints {
   static const String cancelSubscription = "api/subscriptions/cancel/{subscriptionId}";
 
 
-  // TRIAL
+  // TRIAL PRODUCTS
   static const String getLatestTrialProducts = "api/trialProducts/get-latest";
   static const String getTrialProductsByCategory = "api/trialProducts/category/{categoryId}";
   static const String searchTrialProducts = "api/trialProducts/search";
   static const String getSingleTrialProduct = "api/trialProducts/{trialProductId}";
+
+  //TRIAL
+  static const String createTrial = "api/trials/create-trial";
+  static const String getActiveTrialDetails = "api/trials/active-trial-details";
 
 
 
