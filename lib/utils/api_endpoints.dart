@@ -87,6 +87,12 @@ class ApiEndpoints {
   static const String createTrial = "api/trials/create-trial";
   static const String getActiveTrialDetails = "api/trials/active-trial-details";
 
+  //REVIEWS
+  static const String createReview = "api/reviews/create-review";
+  static const String getProductReviews = "api/reviews/get-product-reviews/{productId}";
+  static const String deleteReview = "api/reviews/delete-review/{reviewId}";
+  static const String getReviewableProducts = "api/reviews/get-reviewable-products/{orderId}";
+
 
 
 
