@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -7,26 +7,39 @@ import 'package:trizy_app/di/locator.dart';
 import 'package:trizy_app/routing/app_router.dart';
 import 'package:trizy_app/theme/colors.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load();
-  setupLocator();
+  try {
 
-  if (Platform.isAndroid) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
-      ),
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
     );
+
+    await dotenv.load();
+
+    setupLocator();
+
+    if (Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        ),
+      );
+    }
+
+    setupStripeKey();
+    await Stripe.instance.applySettings();
+
+    runApp(const MyApp());
+  } catch (e) {
+    print("Initialization error: $e");
   }
-  setupStripeKey();
-  await Stripe.instance.applySettings();
-  runApp(const MyApp());
 }
 
 void setupStripeKey() {

@@ -24,6 +24,7 @@ import 'package:trizy_app/services/subscription_api_service.dart';
 import 'package:trizy_app/services/trial_api_service.dart';
 import 'package:trizy_app/services/trial_product_api_service.dart';
 import '../repositories/auth_repository.dart';
+import '../services/analytics_service.dart';
 import '../services/auth_api_service.dart';
 import '../utils/api_endpoints.dart';
 import '../utils/networking_manager.dart';
@@ -37,7 +38,6 @@ void setupLocator() {
         ? ApiEndpoints.baseDevWebUrl
         : (Platform.isAndroid ? ApiEndpoints.baseDevAndroidUrl : ApiEndpoints.baseDeviOSUrl),
   ));
-
   getIt.registerLazySingleton<AuthApiService>(() => AuthApiService());
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepository(getIt<AuthApiService>()));
   getIt.registerLazySingleton<DealsApiService>(() => DealsApiService());
@@ -62,6 +62,8 @@ void setupLocator() {
   getIt.registerLazySingleton<TrialRepository>(() => TrialRepository(getIt<TrialApiService>()));
   getIt.registerLazySingleton<ReviewApiService>(() => ReviewApiService());
   getIt.registerLazySingleton<ReviewRepository>(() => ReviewRepository(getIt<ReviewApiService>()));
+  getIt.registerLazySingleton<AnalyticsService>(() => AnalyticsService());
+
 
 
 }

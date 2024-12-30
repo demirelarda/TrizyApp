@@ -31,13 +31,15 @@ class ProductsApiService {
         response = await _networkingManager.get(
             endpoint: ApiEndpoints.searchProducts,
             queryParams: {"query": query, "categoryId": categoryId, "page": page.toString()},
+          addAuthToken: true
         );
       }
       else{
         // search only with query
         response = await _networkingManager.get(
             endpoint: ApiEndpoints.searchProducts,
-            queryParams: {"query": query, "page": page.toString()}
+            queryParams: {"query": query, "page": page.toString()},
+          addAuthToken: true
         );
       }
       return ProductsResponse.fromJson(response);
@@ -52,6 +54,7 @@ class ProductsApiService {
       final response = await _networkingManager.get(
           endpoint: ApiEndpoints.getSingleProduct,
           urlParams: {"productId": productId},
+          addAuthToken: true
       );
       return SingleProductResponse.fromJson(response);
     } catch (e) {
