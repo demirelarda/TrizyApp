@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
+import '../../components/buttons/custom_button.dart';
 import '../../models/order/order.dart';
+import '../../theme/colors.dart';
 
 class OrderCard extends StatelessWidget {
   final OrderData order;
@@ -69,7 +72,7 @@ class OrderCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //image preview
+                // Image preview
                 SizedBox(
                   width: 70,
                   height: 70,
@@ -91,7 +94,7 @@ class OrderCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 16),
 
-                // product names
+                // Product names
                 Expanded(
                   child: Text(
                     productTitles,
@@ -112,6 +115,26 @@ class OrderCard extends StatelessWidget {
                 fontSize: 13,
               ),
             ),
+
+            // Leave a review button
+            if (order.status == 'delivered') ...[
+              const SizedBox(height: 16),
+              CustomButton(
+                text: "Leave a review",
+                textColor: Colors.white,
+                color: primaryLightColor,
+                onClick: () {
+                  context.pushNamed(
+                    'reviewableProducts',
+                    pathParameters: {
+                      'orderId': order.id,
+                    },
+                  );
+                },
+                height: 40,
+                width: double.infinity,
+              ),
+            ],
           ],
         ),
       ),

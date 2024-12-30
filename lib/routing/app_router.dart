@@ -6,6 +6,9 @@ import 'package:trizy_app/views/main/pages/cart_page.dart';
 import 'package:trizy_app/views/checkout/payment_successful_page.dart';
 import 'package:trizy_app/views/orders/my_orders_page.dart';
 import 'package:trizy_app/views/product/product_details_page.dart';
+import 'package:trizy_app/views/review/product_reviews_page.dart';
+import 'package:trizy_app/views/review/review_success_page.dart';
+import 'package:trizy_app/views/review/reviewable_products_page.dart';
 import 'package:trizy_app/views/search/search_page.dart';
 import 'package:trizy_app/views/splash/splash_page.dart';
 import 'package:trizy_app/views/subscription/my_subscription_page.dart';
@@ -19,6 +22,7 @@ import '../views/auth/login_page.dart';
 import '../views/auth/signup_page.dart';
 import '../views/onboarding/onboarding_page.dart';
 import '../views/product/product_list_page.dart';
+import '../views/review/create_review_page.dart';
 import '../views/trial/trial_details_page.dart';
 import '../views/trial/trial_product_details_page.dart';
 import '../views/trial/trial_product_list_page.dart';
@@ -243,6 +247,50 @@ class AppRouter {
         name: 'trialSuccess',
         path: '/trialSuccess',
         builder: (context, state) => const TrialSuccessPage(),
+      ),
+
+      GoRoute(
+        name: 'reviewableProducts',
+        path: '/reviewableProducts/:orderId',
+        builder: (context, state) {
+          final orderId = state.pathParameters['orderId']!;
+          return ReviewableProductsPage(orderId: orderId);
+        },
+      ),
+
+      GoRoute(
+        name: 'reviewSuccessPage',
+        path: '/reviewSuccessPage',
+        builder: (context, state) {
+          return const ReviewSuccessPage();
+        },
+      ),
+
+      GoRoute(
+        name: 'createReview',
+        path: '/createReview/:productId/:productTitle/:productImageUrl/:orderId',
+        builder: (context, state) {
+          final productId = state.pathParameters['productId']!;
+          final productTitle = state.pathParameters['productTitle']!;
+          final productImageUrl = state.pathParameters['productImageUrl']!;
+          final orderId = state.pathParameters['orderId']!;
+
+          return CreateReviewPage(
+            productId: productId,
+            productTitle: Uri.decodeComponent(productTitle),
+            productImageUrl: Uri.decodeComponent(productImageUrl),
+            orderId: orderId,
+          );
+        },
+      ),
+
+      GoRoute(
+        name: 'productReviewsPage',
+        path: '/productReviewsPage/:productId',
+        builder: (context, state) {
+          final productId = state.pathParameters['productId']!;
+          return ProductReviewsPage(productId: productId);
+        },
       ),
 
 

@@ -48,6 +48,12 @@ class _AccountPageState extends State<AccountPage> {
               },
             ),
             BasicListItem(
+              text: "Trial History",
+              onTap: () {
+
+              },
+            ),
+            BasicListItem(
               text: "My Subscription",
               onTap: () {
                 context.pushNamed('mySubscription');

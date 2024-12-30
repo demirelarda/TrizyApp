@@ -4,10 +4,12 @@ import 'package:trizy_app/theme/colors.dart';
 
 class ProductRatingStars extends StatelessWidget {
   final double rating;
+  final double itemSize;
 
   const ProductRatingStars({
     super.key,
     required this.rating,
+    this.itemSize = 24.0,
   });
 
   @override
@@ -20,7 +22,7 @@ class ProductRatingStars extends StatelessWidget {
       ),
       unratedColor: Colors.grey,
       itemCount: 5,
-      itemSize: 24.0,
+      itemSize: itemSize,
       direction: Axis.horizontal,
     );
   }

@@ -93,13 +93,13 @@ class ProductCard extends StatelessWidget {
                   const SizedBox(height: 8),
 
                   // Product Rating and Review Count
-                  const Row(
+                  Row(
                     children: [
-                      ProductRatingStars(rating: 3.5),
-                      SizedBox(width: 8),
+                      ProductRatingStars(rating: product.averageRating),
+                      const SizedBox(width: 8),
                       Text(
-                        "120",
-                        style: TextStyle(
+                        "${product.reviewCount}",
+                        style: const TextStyle(
                           fontSize: 14,
                           color: Colors.black54,
                         ),

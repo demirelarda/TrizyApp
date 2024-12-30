@@ -198,40 +198,50 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       // Rating Section
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: primaryLightColor, width: 1),
-                          ),
-                          padding: const EdgeInsets.all(12.0),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "3.5",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+                        child: GestureDetector(
+                          onTap: (){
+                            context.pushNamed(
+                                "productReviewsPage",
+                              pathParameters: {
+                                'productId': product.id,
+                              },
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: primaryLightColor, width: 1),
+                            ),
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "${product.averageRating}",
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(width: 8),
-                                  ProductRatingStars(rating: 3.5),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    "| 120 Reviews",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black54,
+                                    const SizedBox(width: 8),
+                                    ProductRatingStars(rating: product.averageRating),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      "| ${product.reviewCount} Reviews",
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black54,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Icon(Icons.arrow_forward_ios,
-                                  size: 16, color: Colors.grey),
-                            ],
+                                  ],
+                                ),
+                                const Icon(Icons.arrow_forward_ios,
+                                    size: 16, color: Colors.grey),
+                              ],
+                            ),
                           ),
                         ),
                       ),

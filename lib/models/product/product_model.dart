@@ -12,6 +12,9 @@ class Product {
   final double cargoWeight;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final double averageRating;
+  final int likeCount;
+  final int reviewCount;
 
   Product({
     required this.id,
@@ -25,6 +28,9 @@ class Product {
     required this.cargoWeight,
     required this.createdAt,
     required this.updatedAt,
+    this.averageRating = 0.0,
+    this.likeCount = 0,
+    this.reviewCount = 0,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -40,6 +46,11 @@ class Product {
       cargoWeight: (json['cargoWeight'] as num).toDouble(),
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
+      averageRating: json['averageRating'] != null
+          ? (json['averageRating'] as num).toDouble()
+          : 0.0,
+      likeCount: json['likeCount'] ?? 0,
+      reviewCount: json['reviewCount'] ?? 0,
     );
   }
 
@@ -56,6 +67,9 @@ class Product {
       'cargoWeight': cargoWeight,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
+      'averageRating': averageRating,
+      'likeCount': likeCount,
+      'reviewCount': reviewCount,
     };
   }
 }
