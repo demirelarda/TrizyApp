@@ -46,7 +46,7 @@ app.*.map.json
 firebase.json
 **/google-services.json
 **/ios/Runner/GoogleService-Info.plist
-lib/firebase-options.dart
+lib/firebase_options.dart
 
 # Environment variables
 .env
@@ -61,3 +61,4 @@ web/firebase-messaging-sw.js
 *.bak
 *.tmp
 *.temp
+/lib/firebase_options.dart
