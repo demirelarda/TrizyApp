@@ -93,6 +93,9 @@ class ApiEndpoints {
   static const String deleteReview = "api/reviews/delete-review/{reviewId}";
   static const String getReviewableProducts = "api/reviews/get-reviewable-products/{orderId}";
 
+  // AI SUGGESTIONS
+  static const String getAiSuggestions = "api/aiSuggestions/ai-product-suggestions";
+
 
 
 

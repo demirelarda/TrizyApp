@@ -15,6 +15,7 @@ class Product {
   final double averageRating;
   final int likeCount;
   final int reviewCount;
+  final String? reason;
 
   Product({
     required this.id,
@@ -31,6 +32,7 @@ class Product {
     this.averageRating = 0.0,
     this.likeCount = 0,
     this.reviewCount = 0,
+    this.reason,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -41,16 +43,23 @@ class Product {
       description: json['description'],
       price: (json['price'] as num).toDouble(),
       stockCount: json['stockCount'],
-      category: ProductCategory.fromJson(json['category']),
+      category: json['category'] is Map<String, dynamic>
+          ? ProductCategory.fromJson(json['category'])
+          : ProductCategory(id: json['category'], name: '', description: ''),
       tags: List<String>.from(json['tags']),
       cargoWeight: (json['cargoWeight'] as num).toDouble(),
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'])
+          : DateTime.now(),
       averageRating: json['averageRating'] != null
           ? (json['averageRating'] as num).toDouble()
           : 0.0,
       likeCount: json['likeCount'] ?? 0,
       reviewCount: json['reviewCount'] ?? 0,
+      reason: json['reason'],
     );
   }
 
@@ -70,6 +79,7 @@ class Product {
       'averageRating': averageRating,
       'likeCount': likeCount,
       'reviewCount': reviewCount,
+      if (reason != null) 'reason': reason,
     };
   }
 }

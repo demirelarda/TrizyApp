@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:trizy_app/repositories/address_repository.dart';
+import 'package:trizy_app/repositories/ai_suggestions_repository.dart';
 import 'package:trizy_app/repositories/cart_repository.dart';
 import 'package:trizy_app/repositories/categories_repository.dart';
 import 'package:trizy_app/repositories/deals_repository.dart';
@@ -13,6 +14,7 @@ import 'package:trizy_app/repositories/subscription_repository.dart';
 import 'package:trizy_app/repositories/trial_product_repository.dart';
 import 'package:trizy_app/repositories/trial_repository.dart';
 import 'package:trizy_app/services/address_api_service.dart';
+import 'package:trizy_app/services/ai_suggestion_api_service.dart';
 import 'package:trizy_app/services/cart_api_service.dart';
 import 'package:trizy_app/services/categories_api_service.dart';
 import 'package:trizy_app/services/deals_api_service.dart';
@@ -62,6 +64,8 @@ void setupLocator() {
   getIt.registerLazySingleton<TrialRepository>(() => TrialRepository(getIt<TrialApiService>()));
   getIt.registerLazySingleton<ReviewApiService>(() => ReviewApiService());
   getIt.registerLazySingleton<ReviewRepository>(() => ReviewRepository(getIt<ReviewApiService>()));
+  getIt.registerLazySingleton<AiSuggestionApiService>(() => AiSuggestionApiService());
+  getIt.registerLazySingleton<AiSuggestionsRepository>(() => AiSuggestionsRepository(getIt<AiSuggestionApiService>()));
   getIt.registerLazySingleton<AnalyticsService>(() => AnalyticsService());
 
 

@@ -4,13 +4,13 @@ import 'product_category.dart';
 class ProductsResponse {
   final bool success;
   final List<Product> products;
-  final Pagination pagination;
+  final Pagination? pagination;
   final List<ProductCategory> subCategories;
 
   ProductsResponse({
     required this.success,
     required this.products,
-    required this.pagination,
+    this.pagination,
     this.subCategories = const [],
   });
 
@@ -20,7 +20,9 @@ class ProductsResponse {
       products: (json['products'] as List)
           .map((product) => Product.fromJson(product))
           .toList(),
-      pagination: Pagination.fromJson(json['pagination']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
       subCategories: json['subCategories'] != null
           ? (json['subCategories'] as List)
           .map((category) => ProductCategory.fromJson(category))
@@ -33,7 +35,7 @@ class ProductsResponse {
     return {
       'success': success,
       'products': products.map((product) => product.toJson()).toList(),
-      'pagination': pagination.toJson(),
+      'pagination': pagination?.toJson(),
       'subCategories': subCategories.map((category) => category.toJson()).toList(),
     };
   }
