@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trizy_app/routing/app_router.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import '../models/product/product_model.dart';
 import '../theme/colors.dart';
 import 'buttons/heart_button.dart';
@@ -25,7 +25,7 @@ class ProductCard extends StatelessWidget {
     required this.onProductClicked,
     this.isLiked = false,
     this.isLoading = false,
-    this.productInCart = false
+    this.productInCart = false,
   });
 
   @override
@@ -78,6 +78,30 @@ class ProductCard extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
+                  const SizedBox(height: 8),
+
+                  // Reason Container
+                  if (product.reason != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 6.0,
+                        horizontal: 10.0,
+                      ),
+                      decoration: BoxDecoration(
+                          border: const GradientBoxBorder(
+                            gradient: LinearGradient(colors: [Colors.blue, primaryLightColor]),
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8)
+                      ),
+                      child: Text(
+                        product.reason!,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
                   const SizedBox(height: 8),
 
                   // Product Title

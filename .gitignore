@@ -42,4 +42,22 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Firebase related
+firebase.json
+**/google-services.json
+**/ios/Runner/GoogleService-Info.plist
+lib/firebase-options.dart
+
+# Environment variables
 .env
+
+# macOS related
+macos/Flutter/ephemeral/
+
+# Web-related
+web/firebase-messaging-sw.js
+
+# Other OS specific
+*.bak
+*.tmp
+*.temp

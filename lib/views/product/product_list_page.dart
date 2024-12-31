@@ -58,8 +58,8 @@ class _ProductListPageState extends State<ProductListPage> {
           _scrollController.position.pixels == _scrollController.position.maxScrollExtent;
 
       final canLoadMore = !_productsBloc.state.isLoading &&
-          _productsBloc.state.productsResponse?.pagination.currentPage !=
-              _productsBloc.state.productsResponse?.pagination.totalPages;
+          _productsBloc.state.productsResponse?.pagination!.currentPage !=
+              _productsBloc.state.productsResponse?.pagination!.totalPages;
 
       if (atBottom && canLoadMore) {
         _currentPage++;
@@ -198,8 +198,8 @@ class _ProductListPageState extends State<ProductListPage> {
                         controller: _scrollController,
                         itemCount: products.length +
                             (
-                                state.productsResponse!.pagination.currentPage <
-                                    state.productsResponse!.pagination.totalPages
+                                state.productsResponse!.pagination!.currentPage <
+                                    state.productsResponse!.pagination!.totalPages
                                     ? 1
                                     : 0
                             ),

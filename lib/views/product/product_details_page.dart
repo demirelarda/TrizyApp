@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:trizy_app/bloc/product/single_product_bloc.dart';
 import 'package:trizy_app/bloc/product/single_product_event.dart';
 import 'package:trizy_app/bloc/product/single_product_state.dart';
@@ -17,8 +18,9 @@ import 'package:trizy_app/theme/colors.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final String productId;
+  final String? reason;
 
-  const ProductDetailsPage({super.key, required this.productId});
+  const ProductDetailsPage({super.key, required this.productId, this.reason});
 
   @override
   State<ProductDetailsPage> createState() => _ProductDetailsPageState();
@@ -170,28 +172,51 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
                       const SizedBox(height: 16),
 
-                      // Tags horizontal scroll
-                      if (product.tags.isNotEmpty)
-                        SizedBox(
+
+                      // Tags or Reason Section
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: widget.reason == null
+                            ? SizedBox(
                           height: 40,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount:
-                            product.tags.length > 3 ? 3 : product.tags.length,
+                            itemCount: product.tags.length > 3 ? 3 : product.tags.length,
                             itemBuilder: (context, index) {
                               final tag = product.tags[index];
                               return Padding(
                                 padding: EdgeInsets.only(
-                                  left: index == 0 ? 16.0 : 8.0,
+                                  left: index == 0 ? 0.0 : 4.0,
                                   right: index == 2 || index == product.tags.length - 1
-                                      ? 16.0
-                                      : 0.0,
+                                      ? 0.0
+                                      : 4.0,
                                 ),
                                 child: ProductTagChipCard(text: tag),
                               );
                             },
                           ),
+                        )
+                            : Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 6.0,
+                            horizontal: 10.0,
+                          ),
+                          decoration: BoxDecoration(
+                              border: const GradientBoxBorder(
+                                gradient: LinearGradient(colors: [Colors.blue, Colors.red]),
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(8)
+                          ),
+                          child: Text(
+                            widget.reason!,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.black87,
+                            ),
+                          ),
                         ),
+                      ),
 
                       const SizedBox(height: 16),
 

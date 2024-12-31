@@ -95,6 +95,15 @@ class AppRouter {
           return ProductDetailsPage(productId: productId!);
         },
       ),
+      GoRoute(
+        name: 'productDetailsPageAI',
+        path: '/productDetailsPageAI/:productId/:reason',
+        builder: (context, state) {
+          final productId = state.pathParameters['productId'];
+          final reason = state.pathParameters['reason'];
+          return ProductDetailsPage(productId: productId!, reason: reason);
+        },
+      ),
       GoRoute( //TODO: MAKE CART PAGE COMPATIBLE WITHOUT BOTTOM BAR OR DIRECTLY GO TO MAIN PAGE AND SELECT CART PAGE FROM BOTTOM BAR.
         name: 'cart',
         path: '/cart',
