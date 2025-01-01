@@ -26,7 +26,7 @@ class AppBarWithBackButton extends StatelessWidget implements PreferredSizeWidge
         style: AppTextStyles.headlineMedium.copyWith(color: primaryDarkColor),
       )
           : null,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       elevation: 0,
     );
   }

@@ -46,7 +46,7 @@ class AppBarWithIcons extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ],
-      backgroundColor: Colors.transparent,
+      backgroundColor: white,
       elevation: 0,
     );
   }
