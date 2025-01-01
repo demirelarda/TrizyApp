@@ -4,14 +4,14 @@ import 'buttons/heart_button.dart';
 
 class AppBarWithIcons extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onBackClicked;
-  final VoidCallback onHeartClicked;
+  //final VoidCallback onHeartClicked;
   final VoidCallback onCartClicked;
   final bool isLiked;
 
   const AppBarWithIcons({
     super.key,
     required this.onBackClicked,
-    required this.onHeartClicked,
+    //required this.onHeartClicked,
     required this.onCartClicked,
     this.isLiked = false,
   });
@@ -25,6 +25,7 @@ class AppBarWithIcons extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         // Heart Icon
+        /*
         Padding(
           padding: const EdgeInsets.only(right: 12.0),
           child: HeartButton(
@@ -32,7 +33,7 @@ class AppBarWithIcons extends StatelessWidget implements PreferredSizeWidget {
             onLikeTap: onHeartClicked,
           ),
         ),
-
+         */
         // Cart Icon
         Padding(
           padding: const EdgeInsets.only(right: 16.0),

@@ -42,20 +42,7 @@ class _ProductListPageState extends State<ProductListPage> {
   void initState() {
     super.initState();
 
-    _productsBloc = ProductsBloc()
-      ..add(FetchLikedProductsFromLocal())
-      ..add(FetchCartItemsFromLocal());
-    if (widget.showFavourites) {
-      _productsBloc.add(LikedProductsRequested(page: _currentPage));
-    } else {
-      _productsBloc.add(ProductsRequested(
-        categoryId: widget.categoryId,
-        query: widget.query,
-        page: _currentPage,
-      ));
-    }
-
-    _addCartItemOnFeedBloc = AddCartItemOnFeedBloc();
+    _initializeBlocs();
 
     _scrollController.addListener(() {
       final atBottom =
@@ -76,6 +63,20 @@ class _ProductListPageState extends State<ProductListPage> {
     });
   }
 
+  void _initializeBlocs() {
+    _productsBloc = ProductsBloc()
+      ..add(FetchLikedProductsFromLocal())
+      ..add(FetchCartItemsFromLocal());
+
+    if (widget.showFavourites) {
+      _productsBloc.add(LikedProductsRequested(page: _currentPage));
+    } else {
+      _fetchProducts();
+    }
+
+    _addCartItemOnFeedBloc = AddCartItemOnFeedBloc();
+  }
+
   @override
   void dispose() {
     _productsBloc.close();
@@ -92,6 +93,18 @@ class _ProductListPageState extends State<ProductListPage> {
         page: _currentPage,
       ),
     );
+  }
+
+  Future<void> _handlePop(BuildContext context, String id) async {
+    final result = await context.pushNamed(
+      "productDetailsPage",
+      pathParameters: {"productId": id},
+      extra: _productsBloc,
+    );
+    if (result == "back") {
+      _productsBloc.add(FetchCartItemsFromLocal());
+      setState(() {});
+    }
   }
 
   @override
@@ -221,10 +234,7 @@ class _ProductListPageState extends State<ProductListPage> {
                             return ProductCard(
                               product: product,
                               onProductClicked: (id) {
-                                context.pushNamed(
-                                  'productDetailsPage',
-                                  pathParameters: {'productId': id},
-                                );
+                                _handlePop(context, id);
                               },
                               onAddToCart: () {
                                 if (!productInCart) {

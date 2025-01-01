@@ -7,6 +7,7 @@ class SingleProductState extends Equatable {
   final bool isFailure;
   final SingleProductResponse? productResponse;
   final String? errorMessage;
+  final bool isItemInCart;
 
   const SingleProductState({
     required this.isLoading,
@@ -14,6 +15,7 @@ class SingleProductState extends Equatable {
     required this.isFailure,
     this.productResponse,
     this.errorMessage,
+    required this.isItemInCart,
   });
 
   factory SingleProductState.initial() {
@@ -23,6 +25,7 @@ class SingleProductState extends Equatable {
       isFailure: false,
       productResponse: null,
       errorMessage: null,
+      isItemInCart: false,
     );
   }
 
@@ -32,6 +35,7 @@ class SingleProductState extends Equatable {
     bool? isFailure,
     SingleProductResponse? productResponse,
     String? errorMessage,
+    bool? isItemInCart,
   }) {
     return SingleProductState(
       isLoading: isLoading ?? this.isLoading,
@@ -39,9 +43,10 @@ class SingleProductState extends Equatable {
       isFailure: isFailure ?? this.isFailure,
       productResponse: productResponse ?? this.productResponse,
       errorMessage: errorMessage ?? this.errorMessage,
+      isItemInCart: isItemInCart ?? this.isItemInCart,
     );
   }
 
   @override
-  List<Object?> get props => [isLoading, isSuccess, isFailure, productResponse, errorMessage];
+  List<Object?> get props => [isLoading, isSuccess, isFailure, productResponse, errorMessage, isItemInCart];
 }
