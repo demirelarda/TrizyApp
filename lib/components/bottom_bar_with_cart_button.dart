@@ -5,14 +5,20 @@ class BottomBarWithCartButton extends StatelessWidget {
   final String price;
   final VoidCallback onAddToCart;
   final bool isAddToCartActive;
+  final bool isLoading;
+  final String buttonText;
+
+  // TODO: TAKE THE PRICE TO THE LEFT, PUT SOMETHING ABOUT CARGO BELOW IT LIKE FAST SHIPPING ETC. OR 2 DAYS Shipping etc.
 
   const BottomBarWithCartButton({
     super.key,
     required this.price,
     required this.onAddToCart,
     this.isAddToCartActive = true,
+    this.isLoading = false,
+    this.buttonText = "Add to Cart",
   });
-  // TODO: TAKE THE PRICE TO THE LEFT, PUT SOMETHING ABOUT CARGO BELOW IT LIKE FAST SHIPPING ETC. OR 2 DAYS Shipping etc.
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,7 +33,7 @@ class BottomBarWithCartButton extends StatelessWidget {
           top: 12.0,
           left: 16.0,
           right: 16.0,
-          bottom: 12.0, // Additional bottom padding for spacing
+          bottom: 12.0,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,7 +53,7 @@ class BottomBarWithCartButton extends StatelessWidget {
 
             // Add to Cart Button
             ElevatedButton(
-              onPressed: isAddToCartActive ? onAddToCart : null,
+              onPressed: isAddToCartActive && !isLoading ? onAddToCart : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor:
                 isAddToCartActive ? primaryLightColor : Colors.grey,
@@ -59,9 +65,18 @@ class BottomBarWithCartButton extends StatelessWidget {
                   vertical: 12,
                 ),
               ),
-              child: const Text(
-                "Add to Cart",
-                style: TextStyle(
+              child: isLoading
+                  ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  strokeWidth: 2.0,
+                ),
+              )
+                  : Text(
+                buttonText,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                 ),

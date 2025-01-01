@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 import '../../../models/cart/cart.dart';
 
 abstract class GetCartEvent extends Equatable {
@@ -13,5 +12,6 @@ class UserCartRequested extends GetCartEvent {}
 
 class LocalCartUpdated extends GetCartEvent {
   final Cart updatedCart;
-  const LocalCartUpdated(this.updatedCart);
+  final double cargoFeeThreshold;
+  const LocalCartUpdated(this.updatedCart, this.cargoFeeThreshold);
 }

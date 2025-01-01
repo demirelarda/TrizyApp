@@ -2,11 +2,13 @@ class Cart {
   final String ownerId;
   final List<CartItem> items;
   final DateTime updatedAt;
+  final double cargoFee;
 
   Cart({
     required this.ownerId,
     required this.items,
     required this.updatedAt,
+    required this.cargoFee,
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
@@ -16,6 +18,7 @@ class Cart {
           .map((item) => CartItem.fromJson(item))
           .toList(),
       updatedAt: DateTime.parse(json['updatedAt']),
+      cargoFee: (json['cargoFee'] as num).toDouble(),
     );
   }
 
@@ -24,6 +27,7 @@ class Cart {
       'ownerId': ownerId,
       'items': items.map((item) => item.toJson()).toList(),
       'updatedAt': updatedAt.toIso8601String(),
+      'cargoFee': cargoFee,
     };
   }
 }

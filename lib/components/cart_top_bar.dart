@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:trizy_app/theme/colors.dart';
 
 class CartTopBar extends StatelessWidget implements PreferredSizeWidget {
   final double subtotalAmount;
   final int itemCount;
   final VoidCallback onMenuClicked;
+  final bool showBackButton;
 
   const CartTopBar({
     super.key,
     required this.subtotalAmount,
     required this.itemCount,
     required this.onMenuClicked,
+    required this.showBackButton,
   });
 
   @override
@@ -63,6 +66,17 @@ class CartTopBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
+      leading: showBackButton
+          ? IconButton(
+        icon: const Icon(
+          Icons.arrow_back,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          context.pop("back");
+        },
+      )
+          : null,
       actions: [
         // Menu
         GestureDetector(

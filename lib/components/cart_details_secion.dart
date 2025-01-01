@@ -60,7 +60,8 @@ class CartDetailsSection extends StatelessWidget {
               Text(
                 deliveryFee == 0 ? "Free" : "\$${deliveryFee.toStringAsFixed(2)}",
                 style: TextStyle(
-                  color: deliveryFee == 0 ? Theme.of(context).primaryColorLight : Colors.black,
+                  fontWeight: deliveryFee == 0 ? FontWeight.bold : FontWeight.normal,
+                  color: deliveryFee == 0 ? Colors.green : Colors.black,
                   fontSize: 14,
                 ),
               ),

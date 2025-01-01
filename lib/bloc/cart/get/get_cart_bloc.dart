@@ -51,6 +51,7 @@ class GetCartBloc extends Bloc<GetCartEvent, GetCartState> {
       final newResponse = GetCartResponse(
         success: true,
         cart: event.updatedCart,
+        cargoFeeThreshold: event.cargoFeeThreshold
       );
 
       emit(

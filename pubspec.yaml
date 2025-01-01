@@ -91,7 +91,7 @@ flutter:
   assets:
     - .env
     - assets/animations/confirmTick.json
-    - assets/animations/emptyCart.json
+    - assets/animations/emptybox.json
     - assets/animations/ailoading.json
     - assets/images/trizyprologo.png
     - assets/images/trizyprobackgroundv2.png

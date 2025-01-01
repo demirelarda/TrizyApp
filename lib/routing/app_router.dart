@@ -16,6 +16,7 @@ import 'package:trizy_app/views/subscription/subscription_promotion_page.dart';
 import 'package:trizy_app/views/subscription/subscription_successful_page.dart';
 import 'package:trizy_app/views/subscription/subscription_view.dart';
 import 'package:trizy_app/views/trial/trial_sucess_page.dart';
+import '../bloc/products/products_bloc.dart';
 import '../models/address/address.dart';
 import '../views/address/address_form_page.dart';
 import '../views/auth/login_page.dart';
@@ -87,12 +88,14 @@ class AppRouter {
           return ProductListPage(categoryId: null, categoryName: null, query: query);
         },
       ),
-      GoRoute(
+      GoRoute( //TODO: USE DIFFERENT ROUTE FOR THE REVIEW TO PRODUCT DETAILS ROUTE, ALSO SEARCH FOR OTHER PLACES WHERE WE NAVIGATE TO THE PRODUCT DETAILS PAGE AND FIX IF NECESSARY.
         name: 'productDetailsPage',
         path: '/productDetailsPage/:productId',
         builder: (context, state) {
           final productId = state.pathParameters['productId'];
-          return ProductDetailsPage(productId: productId!);
+          return ProductDetailsPage(
+            productId: productId!,
+          );
         },
       ),
       GoRoute(
@@ -101,14 +104,17 @@ class AppRouter {
         builder: (context, state) {
           final productId = state.pathParameters['productId'];
           final reason = state.pathParameters['reason'];
-          return ProductDetailsPage(productId: productId!, reason: reason);
+          return ProductDetailsPage(
+            productId: productId!,
+            reason: reason,
+          );
         },
       ),
       GoRoute( //TODO: MAKE CART PAGE COMPATIBLE WITHOUT BOTTOM BAR OR DIRECTLY GO TO MAIN PAGE AND SELECT CART PAGE FROM BOTTOM BAR.
         name: 'cart',
         path: '/cart',
         builder: (context, state) {
-          return const CartPage();
+          return const CartPage(fromProductFeed: true);
         },
       ),
       GoRoute(

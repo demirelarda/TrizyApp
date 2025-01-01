@@ -20,7 +20,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _pages = [
     const HomePage(),
     const TrialPage(),
-    const CartPage(),
+    const CartPage(fromProductFeed: false),
     const AccountPage(),
   ];
 
