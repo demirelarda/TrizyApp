@@ -54,6 +54,12 @@ class _AccountPageState extends State<AccountPage> {
               },
             ),
             BasicListItem(
+              text: "Favourite Products",
+              onTap: () {
+                context.pushNamed("favouriteProducts");
+              },
+            ),
+            BasicListItem(
               text: "My Subscription",
               onTap: () {
                 context.pushNamed('mySubscription');

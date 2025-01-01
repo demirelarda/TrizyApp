@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:trizy_app/di/locator.dart';
+import 'package:trizy_app/repositories/cart_repository.dart';
+import 'package:trizy_app/repositories/products_repository.dart';
 import 'package:trizy_app/routing/app_router.dart';
 import 'package:trizy_app/theme/colors.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:trizy_app/utils/auth_check.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -36,9 +38,29 @@ void main() async {
     setupStripeKey();
     await Stripe.instance.applySettings();
 
+    await initializeApp();
+
     runApp(const MyApp());
   } catch (e) {
     print("Initialization error: $e");
+  }
+}
+
+Future<void> initializeApp() async {
+  final isUserAuthenticated = await isAuthenticated();
+
+  if (isUserAuthenticated) {
+    final cartRepository = getIt<CartRepository>();
+    final productsRepository = getIt<ProductsRepository>();
+
+    try {
+      await Future.wait([
+        cartRepository.getCartItemsAndSaveToLocal(),
+        productsRepository.getLikedProductIdsAndSaveToLocal(),
+      ]);
+    } catch (e) {
+      print("Error during app initialization: $e");
+    }
   }
 }
 

@@ -302,6 +302,13 @@ class AppRouter {
         },
       ),
 
+      GoRoute(
+        name: 'favouriteProducts',
+        path: '/favouriteProducts',
+        builder: (context, state) => const ProductListPage(showFavourites: true),
+      ),
+
+
 
     ],
   );

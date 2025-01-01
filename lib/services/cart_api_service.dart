@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:trizy_app/models/cart/request/add_item_to_cart_request.dart';
 import 'package:trizy_app/models/cart/response/add_item_to_cart_on_feed_response.dart';
 import 'package:trizy_app/models/cart/response/cart_operation_response.dart';
+import 'package:trizy_app/models/cart/response/get_cart_items_response.dart';
 import 'package:trizy_app/models/cart/response/get_cart_response.dart';
 import '../utils/api_endpoints.dart';
 import '../utils/networking_manager.dart';
@@ -87,5 +88,22 @@ class CartApiService{
       throw Exception('Failed to add item to cart: $e');
     }
   }
+
+
+  Future<GetCartItemsResponse> getCartItemIds() async {
+    try {
+      final response = await _networkingManager.get(
+          endpoint: ApiEndpoints.getCartItemIds,
+          addAuthToken: true,
+      );
+      return GetCartItemsResponse.fromJson(response);
+    }
+    catch (e) {
+      print("error : ${e}");
+      throw Exception('Failed to add get cart item ids: $e');
+    }
+  }
+
+
 
 }

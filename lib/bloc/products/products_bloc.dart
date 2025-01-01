@@ -6,19 +6,21 @@ import 'package:trizy_app/models/product/products_response.dart';
 import 'package:trizy_app/repositories/products_repository.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final ProductsRepository productsRepository = GetIt.instance<ProductsRepository>();
+  final  productsRepository = GetIt.instance<ProductsRepository>();
 
   ProductsBloc() : super(ProductsState.initial()) {
     on<ProductsRequested>(_onProductsRequested);
+    on<FetchLikedProductsFromLocal>(_onFetchLikedProducts);
+    on<AddLikeEvent>(_onAddLikeEvent);
+    on<RemoveLikeEvent>(_onRemoveLikeEvent);
+    on<LikedProductsRequested>(_onLikedProductsRequested);
+    on<FetchCartItemsFromLocal>(_onFetchCartItems);
   }
 
   Future<void> _onProductsRequested(ProductsRequested event, Emitter<ProductsState> emit) async {
-    // If this is the first page we can show a loading indicator and reset state accordingly
-    // for subsequent pages we just append the data
     if (event.page == 1) {
       emit(state.copyWith(isLoading: true, isFailure: false, isSuccess: false, errorMessage: null));
     } else {
-      // for subsequent pages show loading but don't reset products
       emit(state.copyWith(isLoading: true, isFailure: false, errorMessage: null));
     }
 
@@ -26,20 +28,17 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       late ProductsResponse response;
 
       if (event.categoryId != null && event.query != null) {
-        // search products with a category filter
         response = await productsRepository.searchProducts(
           query: event.query!,
           categoryId: event.categoryId,
           page: event.page,
         );
       } else if (event.categoryId != null) {
-        // get products by category
         response = await productsRepository.getProductsByCategory(
           categoryId: event.categoryId!,
           page: event.page,
         );
       } else if (event.query != null) {
-        // search products
         response = await productsRepository.searchProducts(
           query: event.query!,
           page: event.page,
@@ -47,7 +46,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       }
 
       if (event.page > 1 && state.productsResponse != null) {
-        // Append new products to the existing list
         final oldProducts = state.productsResponse!.products;
         final newProducts = response.products;
         final combinedProducts = [...oldProducts, ...newProducts];
@@ -67,7 +65,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
           errorMessage: null,
         ));
       } else {
-        // First page load or resetting the product list
         emit(state.copyWith(
           isLoading: false,
           isSuccess: true,
@@ -80,4 +77,94 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       emit(state.copyWith(isLoading: false, isFailure: true, errorMessage: error.toString()));
     }
   }
+
+  Future<void> _onFetchLikedProducts(FetchLikedProductsFromLocal event, Emitter<ProductsState> emit) async {
+    try {
+      final likedProducts = await productsRepository.fetchLikedProducts();
+      final likedProductIds = likedProducts.map((e) => e.productId).toSet();
+      emit(state.copyWith(likedProductIds: likedProductIds));
+    } catch (error) {
+      print("Failed to fetch liked products: $error");
+    }
+  }
+
+  Future<void> _onFetchCartItems(FetchCartItemsFromLocal event, Emitter<ProductsState> emit) async {
+    try {
+      final itemsInCart = await productsRepository.fetchItemsInCart();
+      final cartItemIds = itemsInCart.map((e) => e.productId).toSet();
+      emit(state.copyWith(itemsInCart: cartItemIds));
+    } catch (error) {
+      print("Failed to fetch cart items: $error");
+    }
+  }
+
+  Future<void> _onAddLikeEvent(AddLikeEvent event, Emitter<ProductsState> emit) async {
+    try {
+      await productsRepository.likeProduct(productId: event.productId);
+      final updatedLikedProductIds = Set<String>.from(state.likedProductIds)..add(event.productId);
+      emit(state.copyWith(likedProductIds: updatedLikedProductIds));
+    } catch (error) {
+      print("Failed to like product: $error");
+    }
+  }
+
+  Future<void> _onRemoveLikeEvent(RemoveLikeEvent event, Emitter<ProductsState> emit) async {
+    try {
+      await productsRepository.removeLike(productId: event.productId);
+      final updatedLikedProductIds = Set<String>.from(state.likedProductIds)..remove(event.productId);
+      emit(state.copyWith(likedProductIds: updatedLikedProductIds));
+    } catch (error) {
+      print("Failed to remove like: $error");
+    }
+  }
+
+
+  Future<void> _onLikedProductsRequested(LikedProductsRequested event, Emitter<ProductsState> emit) async {
+    if (event.page == 1) {
+      emit(state.copyWith(isLoading: true, isFailure: false, isSuccess: false, errorMessage: null));
+    } else {
+      emit(state.copyWith(isLoading: true, isFailure: false, errorMessage: null));
+    }
+
+    try {
+      late ProductsResponse response;
+
+      response = await productsRepository.getLikedProducts(
+        page: event.page,
+      );
+
+      if (event.page > 1 && state.productsResponse != null) {
+        final oldProducts = state.productsResponse!.products;
+        final newProducts = response.products;
+        final combinedProducts = [...oldProducts, ...newProducts];
+
+        final updatedResponse = ProductsResponse(
+          success: response.success,
+          products: combinedProducts,
+          pagination: response.pagination,
+          subCategories: response.subCategories,
+        );
+
+        emit(state.copyWith(
+          isLoading: false,
+          isSuccess: true,
+          productsResponse: updatedResponse,
+          isFailure: false,
+          errorMessage: null,
+        ));
+      } else {
+        emit(state.copyWith(
+          isLoading: false,
+          isSuccess: true,
+          productsResponse: response,
+          isFailure: false,
+          errorMessage: null,
+        ));
+      }
+    } catch (error) {
+      emit(state.copyWith(isLoading: false, isFailure: true, errorMessage: error.toString()));
+    }
+  }
+
+
 }

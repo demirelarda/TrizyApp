@@ -47,6 +47,10 @@ class ApiEndpoints {
   static const String getProductsByCategory = 'api/products/category/{categoryId}';
   static const String searchProducts = 'api/products/search/';
   static const String getSingleProduct = 'api/products/{productId}';
+  static const String getLikedProducts = 'api/products/liked-products';
+  static const String likeProduct = 'api/likes/like';
+  static const String removeLike = 'api/likes/unlike/{productId}';
+  static const String getLikedProductIds = 'api/likes/get-liked-products';
 
   // CART
   static const String getUserCart = 'api/carts/get-cart';
@@ -54,6 +58,7 @@ class ApiEndpoints {
   static const String deleteItemFromCart = 'api/carts/delete-item/{productId}';
   static const String decrementQuantity = 'api/carts/decrement-quantity';
   static const String addItemOnFeed = 'api/carts/add-item-on-feed';
+  static const String getCartItemIds = 'api/carts/get-cart-items';
 
 
   // ADDRESS

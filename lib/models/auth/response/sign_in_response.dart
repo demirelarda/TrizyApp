@@ -7,6 +7,8 @@ class SignInResponse {
   final String refreshToken;
   final String accessToken;
   final bool isSubscriber;
+  final List<String> likedProductIds;
+  final List<String> cartItemIds;
 
   SignInResponse({
     required this.userFirstName,
@@ -17,6 +19,8 @@ class SignInResponse {
     required this.refreshToken,
     required this.accessToken,
     required this.isSubscriber,
+    required this.likedProductIds,
+    required this.cartItemIds,
   });
 
   factory SignInResponse.fromJson(Map<String, dynamic> json) {
@@ -29,6 +33,23 @@ class SignInResponse {
       refreshToken: json['refreshToken'],
       accessToken: json['accessToken'],
       isSubscriber: json['isSubscriber'] ?? false,
+      likedProductIds: List<String>.from(json['likedProductIds'] ?? []),
+      cartItemIds: List<String>.from(json['cartItemIds'] ?? []),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userFirstName': userFirstName,
+      'userLastName': userLastName,
+      'email': email,
+      'emailVerified': emailVerified,
+      '_id': id,
+      'refreshToken': refreshToken,
+      'accessToken': accessToken,
+      'isSubscriber': isSubscriber,
+      'likedProductIds': likedProductIds,
+      'cartItemIds': cartItemIds,
+    };
   }
 }

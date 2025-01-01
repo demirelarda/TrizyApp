@@ -16,12 +16,14 @@ class ProductListPage extends StatefulWidget {
   final String? categoryId;
   final String? categoryName;
   final String? query;
+  final bool showFavourites;
 
   const ProductListPage({
     super.key,
     this.categoryId,
     this.categoryName,
     this.query,
+    this.showFavourites = false,
   });
 
   @override
@@ -29,27 +31,29 @@ class ProductListPage extends StatefulWidget {
 }
 
 class _ProductListPageState extends State<ProductListPage> {
-  // bloc for loading products
   late ProductsBloc _productsBloc;
-
-  // bloc for "Add to Cart" from the feed
   late AddCartItemOnFeedBloc _addCartItemOnFeedBloc;
 
   final ScrollController _scrollController = ScrollController();
   int _currentPage = 1;
-
-  // Track which product ID is currently showing a loading bar
   String? _loadingProductId;
-
-  // Track which products have been successfully added to cart
-  final Set<String> _productsInCart = {}; // TODO: WHEN FETCHING PRODUCTS GET THE PRODUCTS IN CART TO MARK THEM IN CART BEFOREHANDS
 
   @override
   void initState() {
     super.initState();
 
-    _productsBloc = ProductsBloc();
-    _fetchProducts();
+    _productsBloc = ProductsBloc()
+      ..add(FetchLikedProductsFromLocal())
+      ..add(FetchCartItemsFromLocal());
+    if (widget.showFavourites) {
+      _productsBloc.add(LikedProductsRequested(page: _currentPage));
+    } else {
+      _productsBloc.add(ProductsRequested(
+        categoryId: widget.categoryId,
+        query: widget.query,
+        page: _currentPage,
+      ));
+    }
 
     _addCartItemOnFeedBloc = AddCartItemOnFeedBloc();
 
@@ -58,12 +62,16 @@ class _ProductListPageState extends State<ProductListPage> {
           _scrollController.position.pixels == _scrollController.position.maxScrollExtent;
 
       final canLoadMore = !_productsBloc.state.isLoading &&
-          _productsBloc.state.productsResponse?.pagination!.currentPage !=
-              _productsBloc.state.productsResponse?.pagination!.totalPages;
+          _productsBloc.state.productsResponse?.pagination?.currentPage !=
+              _productsBloc.state.productsResponse?.pagination?.totalPages;
 
       if (atBottom && canLoadMore) {
         _currentPage++;
-        _fetchProducts();
+        if (widget.showFavourites) {
+          _productsBloc.add(LikedProductsRequested(page: _currentPage));
+        } else {
+          _fetchProducts();
+        }
       }
     });
   }
@@ -96,11 +104,11 @@ class _ProductListPageState extends State<ProductListPage> {
       child: Scaffold(
         backgroundColor: white,
         appBar: AppBarWithBackButton(
-          title: widget.categoryName ??
-              (widget.query != null ? '"${widget.query}"' : ''),
+          title: widget.showFavourites
+              ? 'Favourites'
+              : widget.categoryName ?? (widget.query != null ? '"${widget.query}"' : ''),
           onBackClicked: () => context.pop(),
         ),
-
         body: BlocListener<AddCartItemOnFeedBloc, AddCartItemOnFeedState>(
           listener: (context, addCartState) {
             if (addCartState.isLoading) {
@@ -124,8 +132,8 @@ class _ProductListPageState extends State<ProductListPage> {
             if (addCartState.isSuccess && addCartState.response != null) {
               final productId = addCartState.currentProductId;
               if (productId != null) {
+                _productsBloc.add(FetchCartItemsFromLocal());
                 setState(() {
-                  _productsInCart.add(productId);
                   _loadingProductId = null;
                 });
               }
@@ -137,7 +145,6 @@ class _ProductListPageState extends State<ProductListPage> {
               );
             }
           },
-
           child: BlocBuilder<ProductsBloc, ProductsState>(
             builder: (context, state) {
               if (state.isLoading && _currentPage == 1) {
@@ -154,17 +161,20 @@ class _ProductListPageState extends State<ProductListPage> {
               }
 
               if (state.isSuccess && state.productsResponse != null) {
-                final subCategories = state.productsResponse!.subCategories;
+                final subCategories = widget.showFavourites ? null : state.productsResponse!.subCategories;
                 final products = state.productsResponse!.products;
 
                 if (products.isEmpty && _currentPage == 1) {
-                  return const Center(child: Text("No products found."));
+                  return Center(
+                    child: Text(widget.showFavourites
+                        ? "No liked products found."
+                        : "No products found."),
+                  );
                 }
 
                 return Column(
                   children: [
-                    // Subcategories Section
-                    if (subCategories.isNotEmpty)
+                    if (subCategories != null && subCategories.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
                         child: SizedBox(
@@ -198,14 +208,15 @@ class _ProductListPageState extends State<ProductListPage> {
                         controller: _scrollController,
                         itemCount: products.length +
                             (
-                                state.productsResponse!.pagination!.currentPage <
-                                    state.productsResponse!.pagination!.totalPages
+                                state.productsResponse!.pagination?.currentPage !=
+                                    state.productsResponse!.pagination?.totalPages
                                     ? 1
-                                    : 0
-                            ),
+                                    : 0),
                         itemBuilder: (context, index) {
                           if (index < products.length) {
                             final product = products[index];
+                            final isLiked = state.likedProductIds.contains(product.id);
+                            final productInCart = state.itemsInCart.contains(product.id);
 
                             return ProductCard(
                               product: product,
@@ -216,26 +227,24 @@ class _ProductListPageState extends State<ProductListPage> {
                                 );
                               },
                               onAddToCart: () {
-                                // Only attempt if product not already in cart
-                                if (!_productsInCart.contains(product.id)) {
+                                if (!productInCart) {
                                   context
                                       .read<AddCartItemOnFeedBloc>()
                                       .add(AddFeedItemEvent(productId: product.id));
                                 }
                               },
                               onLikeTap: () {
-                                debugPrint("Liked product: ${product.title}");
+                                if (isLiked) {
+                                  _productsBloc.add(RemoveLikeEvent(productId: product.id));
+                                } else {
+                                  _productsBloc.add(AddLikeEvent(productId: product.id));
+                                }
                               },
-
-                              // Show loading bar if this product is the one being added
                               isLoading: (_loadingProductId == product.id),
-
-                              // If product was successfully added show "Go to cart"
-                              productInCart: _productsInCart.contains(product.id),
-                              isLiked: false,
+                              productInCart: productInCart,
+                              isLiked: isLiked,
                             );
                           } else {
-                            // circular loading at the bottom
                             return const Padding(
                               padding: EdgeInsets.all(16.0),
                               child: Center(child: CircularProgressIndicator()),
