@@ -25,15 +25,23 @@ import 'package:trizy_app/services/review_api_service.dart';
 import 'package:trizy_app/services/subscription_api_service.dart';
 import 'package:trizy_app/services/trial_api_service.dart';
 import 'package:trizy_app/services/trial_product_api_service.dart';
+import '../data/db/app_database.dart';
 import '../repositories/auth_repository.dart';
+import '../repositories/local/local_product_repository.dart';
 import '../services/analytics_service.dart';
 import '../services/auth_api_service.dart';
+import '../services/local/local_product_service.dart';
 import '../utils/api_endpoints.dart';
 import '../utils/networking_manager.dart';
 
 final getIt = GetIt.instance;
 
 void setupLocator() {
+
+  getIt.registerLazySingleton<AppDatabase>(() => AppDatabase());
+  getIt.registerLazySingleton<LocalProductRepository>(() => LocalProductRepository(getIt<AppDatabase>()));
+  getIt.registerLazySingleton<LocalProductService>(() => LocalProductService(getIt<LocalProductRepository>()));
+
 
   getIt.registerLazySingleton<NetworkingManager>(() => NetworkingManager(
     baseUrl: kIsWeb
