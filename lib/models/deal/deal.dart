@@ -36,6 +36,16 @@ class Deal {
       'aspectRatio': aspectRatio,
     };
   }
+
+  double get aspectRatioValue {
+    final parts = aspectRatio.split(':');
+    if (parts.length == 2) {
+      final width = double.tryParse(parts[0]) ?? 1;
+      final height = double.tryParse(parts[1]) ?? 1;
+      return width / height;
+    }
+    return 1.0;
+  }
 }
 
 List<Deal> parseDeals(dynamic jsonList) {
