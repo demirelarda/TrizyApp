@@ -3,6 +3,7 @@ import 'package:trizy_app/models/like/get_liked_products_response.dart';
 import 'package:trizy_app/models/product/like_response.dart';
 import 'package:trizy_app/models/product/products_response.dart';
 import 'package:trizy_app/models/product/single_product_response.dart';
+import 'package:trizy_app/models/trendingsearch/trending_search_response.dart';
 import '../utils/api_endpoints.dart';
 import '../utils/networking_manager.dart';
 
@@ -119,6 +120,19 @@ class ProductsApiService {
     } catch (e) {
       print("error : ${e}");
       throw Exception('Failed to fetch liked products: $e');
+    }
+  }
+
+
+  Future<TrendingSearchResponse> getTrendingSearches() async {
+    try {
+      final response = await _networkingManager.get(
+          endpoint: ApiEndpoints.getTrendingSearches
+      );
+      return TrendingSearchResponse.fromJson(response);
+    } catch (e) {
+      print("error : ${e}");
+      throw Exception('Failed to fetch trending searches: $e');
     }
   }
 

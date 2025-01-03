@@ -3,6 +3,7 @@ import 'package:trizy_app/models/local/local_cart_item.dart';
 import 'package:trizy_app/models/product/like_response.dart';
 import 'package:trizy_app/models/product/products_response.dart';
 import 'package:trizy_app/models/product/single_product_response.dart';
+import 'package:trizy_app/models/trendingsearch/trending_search_response.dart';
 import 'package:trizy_app/services/local/local_product_service.dart';
 import 'package:trizy_app/services/products_api_service.dart';
 import '../di/locator.dart';
@@ -111,6 +112,18 @@ class ProductsRepository {
       throw Exception('Failed to unlike product: $e');
     }
   }
+
+
+  Future<TrendingSearchResponse> getTrendingSearches() async {
+    try {
+      final TrendingSearchResponse response = await productsApiService.getTrendingSearches();
+      return response;
+    } catch (e) {
+      throw Exception('Failed to fetch trending searches: $e');
+    }
+  }
+
+
 
   Future<List<LocalLikedProduct>> fetchLikedProducts() async {
     return await localProductService.fetchLikedProducts();

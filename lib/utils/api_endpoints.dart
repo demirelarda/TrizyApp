@@ -101,6 +101,9 @@ class ApiEndpoints {
   // AI SUGGESTIONS
   static const String getAiSuggestions = "api/aiSuggestions/ai-product-suggestions";
 
+  // TRENDING SEARCHES
+  static const String getTrendingSearches = "api/trendingSearches/get-trending-searches";
+
 
 
 
