@@ -6,7 +6,7 @@ import 'package:trizy_app/bloc/trial/trial_products_event.dart';
 import 'package:trizy_app/bloc/trial/trial_products_state.dart';
 import 'package:trizy_app/utils/active_trial_check.dart';
 import 'package:trizy_app/utils/sub_check.dart';
-import '../../components/trial_product_card.dart';
+import '../../components/trial/trial_product_card.dart';
 
 class AvailableTrialsSection extends StatefulWidget {
   const AvailableTrialsSection({super.key});

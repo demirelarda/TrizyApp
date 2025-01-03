@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../models/trialproduct/trial_products_response.dart';
-import '../theme/colors.dart';
-import 'buttons/product_card_button.dart';
-import 'product_rating_stars.dart';
+import '../../models/trialproduct/trial_products_response.dart';
+import '../../theme/colors.dart';
+import '../buttons/product_card_button.dart';
 
 class TrialProductCard extends StatelessWidget {
   final TrialProduct trialProduct;
@@ -81,22 +80,6 @@ class TrialProductCard extends StatelessWidget {
                       Text(
                         "${trialProduct.trialPeriod} days",
                         style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-
-                  // Product Rating and Review Count
-                  const Row(
-                    children: [
-                      ProductRatingStars(rating: 3.5),
-                      SizedBox(width: 8),
-                      Text(
-                        "120",
-                        style: TextStyle(
                           fontSize: 14,
                           color: Colors.black54,
                         ),

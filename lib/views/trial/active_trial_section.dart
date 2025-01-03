@@ -5,6 +5,7 @@ import 'package:trizy_app/bloc/trial/details/active_trial_details_event.dart';
 import 'package:trizy_app/bloc/trial/details/active_trial_details_state.dart';
 import 'package:trizy_app/components/trial/active_trial_details_card.dart';
 import 'package:trizy_app/theme/colors.dart';
+import 'package:trizy_app/theme/text_styles.dart';
 
 class ActiveTrialSection extends StatefulWidget {
   const ActiveTrialSection({super.key});
@@ -46,10 +47,17 @@ class _ActiveTrialSectionState extends State<ActiveTrialSection> {
           }
 
           if (state.isFailure) {
+            late String errorMessage;
+            if(state.errorMessage!.contains("404")){
+              errorMessage = "You have no active trial.";
+            }
+            else{
+              errorMessage = "An error occurred, please check your network connection";
+            }
             return Center(
               child: Text(
-                "Error: ${state.errorMessage}",
-                style: const TextStyle(color: Colors.red),
+                errorMessage,
+                style: AppTextStyles.bodyText
               ),
             );
           }

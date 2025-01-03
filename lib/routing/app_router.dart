@@ -16,7 +16,6 @@ import 'package:trizy_app/views/subscription/subscription_promotion_page.dart';
 import 'package:trizy_app/views/subscription/subscription_successful_page.dart';
 import 'package:trizy_app/views/subscription/subscription_view.dart';
 import 'package:trizy_app/views/trial/trial_sucess_page.dart';
-import '../bloc/products/products_bloc.dart';
 import '../models/address/address.dart';
 import '../views/address/address_form_page.dart';
 import '../views/auth/login_page.dart';
@@ -110,7 +109,7 @@ class AppRouter {
           );
         },
       ),
-      GoRoute( //TODO: MAKE CART PAGE COMPATIBLE WITHOUT BOTTOM BAR OR DIRECTLY GO TO MAIN PAGE AND SELECT CART PAGE FROM BOTTOM BAR.
+      GoRoute(
         name: 'cart',
         path: '/cart',
         builder: (context, state) {

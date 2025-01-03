@@ -5,7 +5,7 @@ import 'package:trizy_app/bloc/trial/trial_products_bloc.dart';
 import 'package:trizy_app/bloc/trial/trial_products_event.dart';
 import 'package:trizy_app/bloc/trial/trial_products_state.dart';
 import 'package:trizy_app/components/sub_category_card.dart';
-import 'package:trizy_app/components/trial_product_card.dart';
+import 'package:trizy_app/components/trial/trial_product_card.dart';
 import 'package:trizy_app/theme/colors.dart';
 import 'package:trizy_app/utils/sub_check.dart';
 
