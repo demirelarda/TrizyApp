@@ -82,32 +82,60 @@ class _DealsSectionState extends State<DealsSection> {
                         HomePageChipCard(
                           icon: Icons.shopping_bag,
                           label: "My Orders",
-                          onTap: () {
-                            context.pushNamed("myOrdersFromHome");
+                          onTap: () async {
+                            if(mounted){
+                              if(await isAuthenticated()){
+                                context.pushNamed("myOrdersFromHome");
+                              }
+                              else{
+                                context.goNamed("signup");
+                              }
+                            }
                           },
                         ),
                         const SizedBox(width: 8.0),
                         HomePageChipCard(
                           icon: Icons.receipt_long,
                           label: "My Last Order",
-                          onTap: () {
-                            context.pushNamed("myLastOrder");
+                          onTap: () async {
+                            if(mounted){
+                              if(await isAuthenticated()){
+                                context.pushNamed("myLastOrder");
+                            }
+                            else{
+                              context.goNamed("signup");
+                            }
+                          }
                           },
                         ),
                         const SizedBox(width: 8.0),
                         HomePageChipCard(
                           icon: Icons.favorite,
                           label: "Favourite Products",
-                          onTap: () {
-                            context.pushNamed("favouriteProducts");
+                          onTap: () async {
+                            if(mounted){
+                              if(await isAuthenticated()){
+                                context.pushNamed("favouriteProducts");
+                            }
+                            else{
+                              context.goNamed("signup");
+                            }
+                          }
                           },
                         ),
                         const SizedBox(width: 8.0),
                         HomePageChipCard(
                           icon: Icons.person,
                           label: "My Profile",
-                          onTap: () {
+                          onTap: () async {
+                            if(mounted){
+                              if(await isAuthenticated()){
                             context.pushNamed("myProfilePage");
+                            }
+                            else{
+                            context.goNamed("signup");
+                            }
+                          }
                           },
                         ),
                       ],
@@ -116,7 +144,6 @@ class _DealsSectionState extends State<DealsSection> {
 
                   const SizedBox(height: 12),
 
-                  // Home Page Action Widget
                   HomePageActionWidget(
                     title: _title,
                     description: _description,
