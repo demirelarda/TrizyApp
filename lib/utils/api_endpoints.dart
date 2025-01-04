@@ -75,6 +75,9 @@ class ApiEndpoints {
 
   // ORDERS
   static const String getUserOrders = "api/orders/get-user-orders";
+  static const String getOrderDetails = "api/orders/get-order-details/{orderId}";
+  static const String getLatestOrderDetails = "api/orders/get-latest-order-details";
+
 
   // SUBSCRIPTIONS
   static const String createSubscription = "api/subscriptions/create";
@@ -103,6 +106,10 @@ class ApiEndpoints {
 
   // TRENDING SEARCHES
   static const String getTrendingSearches = "api/trendingSearches/get-trending-searches";
+
+  // USER PROFILE
+
+  static const String getUserProfileDetails = "api/userProfiles/get-user-profile";
 
 
 

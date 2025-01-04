@@ -97,7 +97,15 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                     }
                   }
 
-                  return OrderCard(order: orders[index]);
+                  return OrderCard(
+                    order: orders[index],
+                    onClick: (orderId){
+                      context.pushNamed(
+                          "orderDetailsFromMyOrder",
+                          pathParameters: {"orderId":orderId}
+                      );
+                    },
+                  );
                 },
               );
             }

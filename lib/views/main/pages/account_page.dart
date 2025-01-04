@@ -71,7 +71,7 @@ class _AccountPageState extends State<AccountPage> {
                   BasicListItem(
                     text: "Profile",
                     onTap: () {
-                      context.pushNamed('profile');
+                      context.pushNamed('myProfilePage');
                     },
                   ),
                   BasicListItem(
@@ -92,10 +92,6 @@ class _AccountPageState extends State<AccountPage> {
                     },
                   ),
                   BasicListItem(
-                    text: "Trial History",
-                    onTap: () {},
-                  ),
-                  BasicListItem(
                     text: "Favourite Products",
                     onTap: () {
                       context.pushNamed("favouriteProducts");
@@ -105,12 +101,6 @@ class _AccountPageState extends State<AccountPage> {
                     text: "My Subscription",
                     onTap: () {
                       context.pushNamed('mySubscription');
-                    },
-                  ),
-                  BasicListItem(
-                    text: "Discount Codes",
-                    onTap: () {
-                      context.pushNamed('discountCodes');
                     },
                   ),
                   BasicListItem(

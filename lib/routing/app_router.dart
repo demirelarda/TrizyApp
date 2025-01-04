@@ -5,7 +5,9 @@ import 'package:trizy_app/views/main/main_page.dart';
 import 'package:trizy_app/views/main/pages/cart_page.dart';
 import 'package:trizy_app/views/checkout/payment_successful_page.dart';
 import 'package:trizy_app/views/orders/my_orders_page.dart';
+import 'package:trizy_app/views/orders/order_details_page.dart';
 import 'package:trizy_app/views/product/product_details_page.dart';
+import 'package:trizy_app/views/profile/my_profile_page.dart';
 import 'package:trizy_app/views/review/product_reviews_page.dart';
 import 'package:trizy_app/views/review/review_success_page.dart';
 import 'package:trizy_app/views/review/reviewable_products_page.dart';
@@ -87,7 +89,7 @@ class AppRouter {
           return ProductListPage(categoryId: null, categoryName: null, query: query);
         },
       ),
-      GoRoute( //TODO: USE DIFFERENT ROUTE FOR THE REVIEW TO PRODUCT DETAILS ROUTE, ALSO SEARCH FOR OTHER PLACES WHERE WE NAVIGATE TO THE PRODUCT DETAILS PAGE AND FIX IF NECESSARY.
+      GoRoute(
         name: 'productDetailsPage',
         path: '/productDetailsPage/:productId',
         builder: (context, state) {
@@ -162,6 +164,32 @@ class AppRouter {
           return MyOrdersPage(fromAccount: fromAccountBool);
         },
       ),
+
+      GoRoute(
+        name: 'myOrdersFromHome',
+        path: '/myOrdersFromHome',
+        builder: (context, state) {
+          return const MyOrdersPage(fromAccount: false);
+        },
+      ),
+
+      GoRoute(
+        name: 'orderDetailsFromMyOrder',
+        path: '/orderDetailsFromMyOrder/:orderId',
+        builder: (context, state) {
+          final orderId = state.pathParameters['orderId']!;
+          return OrderDetailsPage(orderId: orderId);
+        },
+      ),
+
+      GoRoute(
+        name: 'myLastOrder',
+        path: '/myLastOrder',
+        builder: (context, state) {
+          return const OrderDetailsPage(orderId: null);
+        },
+      ),
+
 
 
       GoRoute(
@@ -311,6 +339,12 @@ class AppRouter {
         name: 'favouriteProducts',
         path: '/favouriteProducts',
         builder: (context, state) => const ProductListPage(showFavourites: true),
+      ),
+
+      GoRoute(
+        name: 'myProfilePage',
+        path: '/myProfilePage',
+        builder: (context, state) => const MyProfilePage()
       ),
 
 

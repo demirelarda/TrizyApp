@@ -1,5 +1,6 @@
 import 'package:trizy_app/models/order/check_order_status_response.dart';
 import 'package:trizy_app/models/order/get_user_orders_response.dart';
+import 'package:trizy_app/models/order/order_details_response.dart';
 import 'package:trizy_app/services/orders_api_service.dart';
 
 import '../di/locator.dart';
@@ -30,6 +31,26 @@ class OrdersRepository {
       return response;
     } catch (e) {
       throw Exception('Failed to get user ordersw: $e');
+    }
+  }
+
+
+  Future<OrderDetailsResponse> getOrderDetails({required String orderId}) async {
+    try {
+      final OrderDetailsResponse response = await ordersApiService.getOrderDetails(orderId: orderId);
+      return response;
+    } catch (e) {
+      throw Exception('Failed to get order details: $e');
+    }
+  }
+
+
+  Future<OrderDetailsResponse> getLatestOrderDetails() async {
+    try {
+      final OrderDetailsResponse response = await ordersApiService.getLatestOrderDetails();
+      return response;
+    } catch (e) {
+      throw Exception('Failed to get order details: $e');
     }
   }
 
