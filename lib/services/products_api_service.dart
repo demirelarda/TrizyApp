@@ -4,49 +4,60 @@ import 'package:trizy_app/models/product/like_response.dart';
 import 'package:trizy_app/models/product/products_response.dart';
 import 'package:trizy_app/models/product/single_product_response.dart';
 import 'package:trizy_app/models/trendingsearch/trending_search_response.dart';
+import '../models/product/product_query_params.dart';
 import '../utils/api_endpoints.dart';
 import '../utils/networking_manager.dart';
 
 class ProductsApiService {
   final NetworkingManager _networkingManager = GetIt.instance<NetworkingManager>();
 
-  Future<ProductsResponse> getProductsByCategory({required String categoryId, required int page}) async {
+  Future<ProductsResponse> getProductsByCategory({
+    required String categoryId,
+    required int page,
+    ProductQueryParams? queryParameters,
+  }) async {
     try {
+      final params = {
+        "page": page.toString(),
+        ...?queryParameters?.toJson().map((key, value) => MapEntry(key, value.toString())),
+      };
+
       final response = await _networkingManager.get(
-          endpoint: ApiEndpoints.getProductsByCategory,
-          urlParams: {"categoryId": categoryId},
-          queryParams: {"page": page.toString()}
+        endpoint: ApiEndpoints.getProductsByCategory,
+        urlParams: {"categoryId": categoryId},
+        queryParams: params,
       );
+
       return ProductsResponse.fromJson(response);
     } catch (e) {
-      print("error : ${e}");
+      print("Error : $e");
       throw Exception('Failed to fetch products: $e');
     }
   }
 
-
-  Future<ProductsResponse> searchProducts({required String query, String? categoryId, required int page}) async {
+  Future<ProductsResponse> searchProducts({
+    required String query,
+    String? categoryId,
+    required int page,
+    ProductQueryParams? queryParameters,
+  }) async {
     try {
-      late Map<String, dynamic> response;
-      if(categoryId != null){
-        // search with category filter
-        response = await _networkingManager.get(
-            endpoint: ApiEndpoints.searchProducts,
-            queryParams: {"query": query, "categoryId": categoryId, "page": page.toString()},
-          addAuthToken: true
-        );
-      }
-      else{
-        // search only with query
-        response = await _networkingManager.get(
-            endpoint: ApiEndpoints.searchProducts,
-            queryParams: {"query": query, "page": page.toString()},
-          addAuthToken: true
-        );
-      }
+      final params = {
+        "query": query,
+        "page": page.toString(),
+        if (categoryId != null) "categoryId": categoryId,
+        ...?queryParameters?.toJson().map((key, value) => MapEntry(key, value.toString())),
+      };
+
+      final response = await _networkingManager.get(
+        endpoint: ApiEndpoints.searchProducts,
+        queryParams: params,
+        addAuthToken: true,
+      );
+
       return ProductsResponse.fromJson(response);
     } catch (e) {
-      print("error : ${e}");
+      print("Error : $e");
       throw Exception('Failed to fetch products: $e');
     }
   }

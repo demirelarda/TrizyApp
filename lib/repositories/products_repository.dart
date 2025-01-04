@@ -8,6 +8,7 @@ import 'package:trizy_app/services/local/local_product_service.dart';
 import 'package:trizy_app/services/products_api_service.dart';
 import '../di/locator.dart';
 import '../models/local/local_liked_product.dart';
+import '../models/product/product_query_params.dart';
 import '../services/analytics_service.dart';
 
 class ProductsRepository {
@@ -16,22 +17,41 @@ class ProductsRepository {
   final LocalProductService localProductService = getIt<LocalProductService>();
   ProductsRepository(this.productsApiService);
 
-  Future<ProductsResponse> getProductsByCategory({required String categoryId, required int page}) async {
+
+  Future<ProductsResponse> getProductsByCategory({
+    required String categoryId,
+    required int page,
+    ProductQueryParams? queryParams,
+  }) async {
     try {
-      final ProductsResponse response = await productsApiService.getProductsByCategory(categoryId: categoryId, page: page);
+      final ProductsResponse response = await productsApiService.getProductsByCategory(
+        categoryId: categoryId,
+        page: page,
+        queryParameters: queryParams,
+      );
       return response;
     } catch (e) {
-      throw Exception('Failed to fetch deals: $e');
+      throw Exception('Failed to fetch products by category: $e');
     }
   }
 
-  Future<ProductsResponse> searchProducts({required String query, String? categoryId, required int page}) async {
+  Future<ProductsResponse> searchProducts({
+    required String query,
+    String? categoryId,
+    required int page,
+    ProductQueryParams? queryParams,
+  }) async {
     try {
       analyticsService.logSearch(query);
-      final ProductsResponse response = await productsApiService.searchProducts(query: query, page: page, categoryId: categoryId);
+      final ProductsResponse response = await productsApiService.searchProducts(
+        query: query,
+        page: page,
+        categoryId: categoryId,
+        queryParameters: queryParams,
+      );
       return response;
     } catch (e) {
-      throw Exception('Failed to fetch deals: $e');
+      throw Exception('Failed to fetch products: $e');
     }
   }
 

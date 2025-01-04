@@ -5,6 +5,8 @@ import 'package:trizy_app/bloc/products/products_state.dart';
 import 'package:trizy_app/models/product/products_response.dart';
 import 'package:trizy_app/repositories/products_repository.dart';
 
+import '../../models/product/product_query_params.dart';
+
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final  productsRepository = GetIt.instance<ProductsRepository>();
 
@@ -27,22 +29,36 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     try {
       late ProductsResponse response;
 
-      if (event.categoryId != null && event.query != null) {
+      final ProductQueryParams queryParams = ProductQueryParams(
+        query: event.query,
+        categoryId: event.categoryId,
+        minPrice: event.queryParams?.minPrice,
+        maxPrice: event.queryParams?.maxPrice,
+        exactRatings: event.queryParams?.exactRatings,
+        minRatingCount: event.queryParams?.minRatingCount,
+        maxRatingCount: event.queryParams?.maxRatingCount,
+        minLikeCount: event.queryParams?.minLikeCount,
+        maxLikeCount: event.queryParams?.maxLikeCount,
+        sortBy: event.queryParams?.sortBy,
+      );
+
+      if (event.query != null) {
+        // Search with query and optional category
         response = await productsRepository.searchProducts(
           query: event.query!,
           categoryId: event.categoryId,
           page: event.page,
+          queryParams: queryParams,
         );
       } else if (event.categoryId != null) {
+        // Fetch products by category
         response = await productsRepository.getProductsByCategory(
           categoryId: event.categoryId!,
           page: event.page,
+          queryParams: queryParams,
         );
-      } else if (event.query != null) {
-        response = await productsRepository.searchProducts(
-          query: event.query!,
-          page: event.page,
-        );
+      } else {
+        throw Exception("Either query or categoryId must be provided.");
       }
 
       if (event.page > 1 && state.productsResponse != null) {

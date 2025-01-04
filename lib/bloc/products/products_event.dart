@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../models/product/product_query_params.dart';
+
 abstract class ProductsEvent extends Equatable {
   const ProductsEvent();
 
@@ -11,15 +13,17 @@ class ProductsRequested extends ProductsEvent {
   final String? query;
   final String? categoryId;
   final int page;
+  final ProductQueryParams? queryParams;
 
   const ProductsRequested({
-    required this.categoryId,
-    required this.query,
+    this.query,
+    this.categoryId,
     required this.page,
+    this.queryParams,
   });
 
   @override
-  List<Object?> get props => [query, categoryId, page];
+  List<Object?> get props => [query, categoryId, page, queryParams];
 }
 
 class FetchLikedProductsFromLocal extends ProductsEvent {}
