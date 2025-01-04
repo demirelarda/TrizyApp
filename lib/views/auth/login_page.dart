@@ -106,7 +106,9 @@ class _LoginPageState extends State<LoginPage> {
                             context.goNamed('mainPage');
                           } else if (state.isFailure) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Login Failed!"),),
+                              const SnackBar(
+                                content: Text("Login Failed!"),
+                              ),
                             );
                           }
                         },
@@ -134,26 +136,43 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: screenHeight * 0.05),
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      context.goNamed('signup');
-                    },
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Don't have an account? ",
-                            style: AppTextStyles.bodyText.copyWith(color: gray),
+                child: Column(
+                  children: [
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          context.goNamed('signup');
+                        },
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Don't have an account? ",
+                                style:
+                                AppTextStyles.bodyText.copyWith(color: gray),
+                              ),
+                              TextSpan(
+                                text: "Register Now",
+                                style: AppTextStyles.bodyText
+                                    .copyWith(color: primaryLightColor),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: "Register Now",
-                            style: AppTextStyles.bodyText.copyWith(color: primaryLightColor),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 20.0),
+                    InkWell(
+                      onTap: () {
+                        context.goNamed("mainPage");
+                      },
+                      child: Text(
+                        "Continue as a guest",
+                        style: AppTextStyles.bodyText
+                            .copyWith(color: Colors.grey),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

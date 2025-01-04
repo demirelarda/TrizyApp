@@ -85,11 +85,11 @@ class CheckoutItemsList extends StatelessWidget {
                 ),
               ),
               Text(
-                "\$${cargoFee.toStringAsFixed(2)}",
-                style: const TextStyle(
+                cargoFee == 0 ? "Free" : "\$${cargoFee.toStringAsFixed(2)}",
+                style: TextStyle(
+                  fontWeight: cargoFee == 0 ? FontWeight.bold : FontWeight.normal,
+                  color: cargoFee == 0 ? Colors.green : Colors.black,
                   fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
                 ),
               ),
             ],

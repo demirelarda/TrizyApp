@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../theme/colors.dart';
 
 class HeartButton extends StatefulWidget {
@@ -39,7 +38,7 @@ class _HeartButtonState extends State<HeartButton> {
       child: Icon(
         _isLiked ? Icons.favorite : Icons.favorite_border,
         color: _isLiked ? primaryLightColor : Colors.grey,
-        size: 24,
+        size: 36,
       ),
     );
   }

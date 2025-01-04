@@ -26,7 +26,7 @@ class OrderSummarySection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        CheckoutItemsList(cart: cart, cargoFee: 35.0),
+        CheckoutItemsList(cart: cart, cargoFee: cart.cargoFee),
       ],
     );
   }

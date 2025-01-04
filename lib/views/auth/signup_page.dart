@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trizy_app/theme/colors.dart';
+
 import '../../bloc/auth/sign_up/signup_bloc.dart';
 import '../../bloc/auth/sign_up/signup_event.dart';
 import '../../bloc/auth/sign_up/signup_state.dart';
 import '../../components/buttons/custom_button.dart';
 import '../../components/textfields/custom_text_field.dart';
+import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 
 class SignupPage extends StatefulWidget {
@@ -167,26 +167,41 @@ class _SignupPageState extends State<SignupPage> {
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: screenHeight * 0.05),
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      context.goNamed('login');
-                    },
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Already have an account? ",
-                            style: AppTextStyles.bodyText.copyWith(color: gray),
+                child: Column(
+                  children: [
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          context.goNamed('login');
+                        },
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Already have an account? ",
+                                style: AppTextStyles.bodyText.copyWith(color: gray),
+                              ),
+                              TextSpan(
+                                text: "Login",
+                                style: AppTextStyles.bodyText.copyWith(color: primaryLightColor),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: "Login",
-                            style: AppTextStyles.bodyText.copyWith(color: primaryLightColor),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 20.0),
+                    InkWell(
+                      onTap: () {
+                        context.goNamed("mainPage");
+                      },
+                      child: Text(
+                        "Continue as a guest",
+                        style: AppTextStyles.bodyText
+                            .copyWith(color: Colors.grey),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -195,5 +210,4 @@ class _SignupPageState extends State<SignupPage> {
       ),
     );
   }
-
 }

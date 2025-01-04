@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'custom_tap_wrapper.dart';
 
 class HomePageActionWidget extends StatelessWidget {
   final String title;
@@ -14,8 +15,9 @@ class HomePageActionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return CustomTapWrapper(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(16.0),
       child: Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
@@ -35,7 +37,6 @@ class HomePageActionWidget extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Circle Profile Holder
             Container(
               width: 48.0,
               height: 48.0,

@@ -1,14 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../bloc/deals/deals_bloc.dart';
 import '../../../../bloc/deals/deals_event.dart';
 import '../../../../bloc/deals/deals_state.dart';
 import '../../../../components/deal_holder_card.dart';
 import '../../../../components/home_page_action_widget.dart';
 import '../../../../components/home_page_chip_card.dart';
+import '../../../../utils/auth_check.dart';
+import '../../../../utils/sub_check.dart';
 
-class DealsSection extends StatelessWidget {
+class DealsSection extends StatefulWidget {
   const DealsSection({super.key});
+
+  @override
+  State<DealsSection> createState() => _DealsSectionState();
+}
+
+class _DealsSectionState extends State<DealsSection> {
+  String _title = "";
+  String _description = "";
+  VoidCallback? _onTap;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeHomePageAction();
+  }
+
+  Future<void> _initializeHomePageAction() async {
+    final isUserAuthenticated = await isAuthenticated();
+    if (!isUserAuthenticated) {
+      // User is not authenticated
+      setState(() {
+        _title = "Hello there!";
+        _description = "Let's signup to see Trizy's advantages!";
+        _onTap = () => context.goNamed("signup");
+      });
+    } else {
+      // User is authenticated
+      final isUserSubscribed = await isSubscribed();
+      final user = await getUser();
+      final firstName = user?.firstName ?? "there";
+
+      if (!isUserSubscribed) {
+        // User is not subscribed
+        setState(() {
+          _title = "Hello, $firstName";
+          _description = "Subscribe to Trizy Pro to get full advantages!";
+          _onTap = () => context.pushNamed("subscriptionPromotionPage");
+        });
+      } else {
+        // User is subscribed
+        setState(() {
+          _title = "Hello, $firstName";
+          _description = "How does Trizy Plus privilege feel?";
+          _onTap = () => context.pushNamed("mySubscription");
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +83,7 @@ class DealsSection extends StatelessWidget {
                           icon: Icons.shopping_bag,
                           label: "My Orders",
                           onTap: () {
-                            print('Tapped on My Orders');
+                            context.pushNamed("myOrdersFromHome");
                           },
                         ),
                         const SizedBox(width: 8.0),
@@ -40,7 +91,7 @@ class DealsSection extends StatelessWidget {
                           icon: Icons.receipt_long,
                           label: "My Last Order",
                           onTap: () {
-                            print('Tapped on My Last Order');
+                            context.pushNamed("myLastOrder");
                           },
                         ),
                         const SizedBox(width: 8.0),
@@ -48,15 +99,15 @@ class DealsSection extends StatelessWidget {
                           icon: Icons.favorite,
                           label: "Favourite Products",
                           onTap: () {
-                            print('Tapped on Favourite Products');
+                            context.pushNamed("favouriteProducts");
                           },
                         ),
                         const SizedBox(width: 8.0),
                         HomePageChipCard(
                           icon: Icons.person,
-                          label: "Account",
+                          label: "My Profile",
                           onTap: () {
-                            print('Tapped on Account');
+                            context.pushNamed("myProfilePage");
                           },
                         ),
                       ],
@@ -65,16 +116,14 @@ class DealsSection extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
+                  // Home Page Action Widget
                   HomePageActionWidget(
-                    title: "Hello there!",
-                    description: "Let's login to see trizy's advantages!",
-                    onTap: () {
-                      print('Action widget tapped');
-                    },
+                    title: _title,
+                    description: _description,
+                    onTap: _onTap ?? () {},
                   ),
 
                   const SizedBox(height: 12),
-
 
                   // Deals Section
                   if (state.isLoading)
@@ -96,7 +145,7 @@ class DealsSection extends StatelessWidget {
                               imageUrl: deal.imageUrl,
                               aspectRatio: deal.aspectRatioValue,
                               onTap: () {
-                                print('Tapped on deal: ${deal.title}');
+                                handleDealAction(context: context, action: deal.action, title: deal.title);
                               },
                             ),
                           ),
@@ -111,6 +160,39 @@ class DealsSection extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+void handleDealAction({required BuildContext context, required String action, required String title}) {
+  if (action.startsWith("category:")) {
+    final categoryId = action.split(":")[1];
+    context.pushNamed(
+      "productListPageWithCategory",
+      pathParameters: {
+        "categoryId": categoryId,
+        "categoryName": title,
+      },
+    );
+  } else if (action.startsWith("query:")) {
+    final query = action.split(":")[1];
+    context.pushNamed(
+      "productListPageWithQuery",
+      queryParameters: {
+        "query": query,
+      },
+    );
+  } else if (action.startsWith("productDetails:")) {
+    final productId = action.split(":")[1];
+    context.pushNamed(
+      "productDetailsPage",
+      pathParameters: {
+        "productId": productId,
+      },
+    );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Invalid action!")),
     );
   }
 }

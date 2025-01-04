@@ -32,147 +32,158 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => onProductClicked(product.id),
-      child: Container(
-        decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: Colors.grey, width: 0.5),
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8.0), // Reduced padding
+        child: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Colors.grey, width: 0.5),
+            ),
           ),
-        ),
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Product Image
-            Container(
-              color: Colors.white, // outside image background
-              child: CachedNetworkImage(
-                imageUrl: product.imageURLs.isNotEmpty ? product.imageURLs.first : "",
-                placeholder: (context, url) => const SizedBox(
-                  height: 120,
-                  width: 120,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                errorWidget: (context, url, error) => const SizedBox(
-                  height: 120,
-                  width: 120,
-                  child: Icon(Icons.error),
-                ),
-                height: 120,
-                width: 120,
-                fit: BoxFit.contain,
-              ),
-            ),
-            const SizedBox(width: 16),
-
-            // Product Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Price
-                  Text(
-                    "\$${product.price.toStringAsFixed(2)}",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Product Image (Height fills available card height)
+              Container(
+                color: Colors.white, // outside image background
+                height: 160, // Ensure height is fixed
+                width: 140, // Fixed width
+                child: CachedNetworkImage(
+                  imageUrl: product.imageURLs.isNotEmpty
+                      ? product.imageURLs.first
+                      : "",
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
                   ),
-                  const SizedBox(height: 8),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              const SizedBox(width: 16),
 
-                  // Reason Container
-                  if (product.reason != null)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 6.0,
-                        horizontal: 10.0,
-                      ),
-                      decoration: BoxDecoration(
-                          border: const GradientBoxBorder(
-                            gradient: LinearGradient(colors: [Colors.blue, primaryLightColor]),
-                            width: 2,
+              // Product Details
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Adjusts alignment
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Price
+                        Text(
+                          "\$${product.price.toStringAsFixed(2)}",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
-                          borderRadius: BorderRadius.circular(8)
-                      ),
-                      child: Text(
-                        product.reason!,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.black87,
                         ),
-                      ),
-                    ),
-                  const SizedBox(height: 8),
+                        const SizedBox(height: 8),
 
-                  // Product Title
-                  Text(
-                    product.title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
+                        // Reason Container
+                        if (product.reason != null)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 6.0,
+                              horizontal: 10.0,
+                            ),
+                            decoration: BoxDecoration(
+                              border: const GradientBoxBorder(
+                                gradient: LinearGradient(
+                                  colors: [Colors.blue, primaryLightColor],
+                                ),
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              product.reason!,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                        const SizedBox(height: 8),
 
-                  // Product Rating and Review Count
-                  Row(
-                    children: [
-                      ProductRatingStars(rating: product.averageRating),
-                      const SizedBox(width: 8),
-                      Text(
-                        "${product.reviewCount}",
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.black54,
+                        // Product Title
+                        Text(
+                          product.title,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
+                        const SizedBox(height: 8),
 
-                  // Stock Status
-                  Text(
-                    product.stockCount > 0 ? "In stock" : "Out of stock",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: product.stockCount > 0 ? Colors.green : Colors.red,
+                        // Rating, Review Count, Stock Status (all in one row)
+                        Row(
+                          children: [
+                            ProductRatingStars(rating: product.averageRating),
+                            const SizedBox(width: 8),
+                            Text(
+                              "${product.reviewCount}",
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.black54,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              product.stockCount > 0
+                                  ? "In stock"
+                                  : "Out of stock",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: product.stockCount > 0
+                                    ? Colors.green
+                                    : Colors.red,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 12),
+                    const SizedBox(height: 12),
 
-                  // Add to Cart Button and Heart
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ProductCardButton(
-                        text: productInCart ? "Go to cart" : "Add to cart",
-                        backgroundColor: product.stockCount > 0
-                            ? primaryLightColor
-                            : Colors.grey,
-                        textColor: Colors.white,
-                        isActive: product.stockCount > 0,
-                        isLoading: isLoading,
-                        onPressed: product.stockCount > 0
-                            ? productInCart
-                            ? () {
-                          // If product is already in the cart navigate to cart page
-                          context.pushNamed("cart");
-                        }
-                            : onAddToCart
-                            : null,
-                      ),
-                      HeartButton(
-                        isLiked: isLiked,
-                        onLikeTap: onLikeTap,
-                      ),
-                    ],
-                  ),
-                ],
+                    // Bigger "Add to Cart" button below rating, with heart icon on the right
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ProductCardButton(
+                            text: productInCart ? "Go to cart" : "Add to cart",
+                            backgroundColor: product.stockCount > 0
+                                ? primaryLightColor
+                                : Colors.grey,
+                            textColor: Colors.white,
+                            isActive: product.stockCount > 0,
+                            isLoading: isLoading,
+                            onPressed: product.stockCount > 0
+                                ? productInCart
+                                ? () {
+                              // If product is already in the cart navigate to cart page
+                              context.pushNamed("cart");
+                            }
+                                : onAddToCart
+                                : null,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        HeartButton(
+                          isLiked: isLiked,
+                          onLikeTap: onLikeTap,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

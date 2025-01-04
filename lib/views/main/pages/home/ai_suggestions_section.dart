@@ -128,7 +128,7 @@ class _AiSuggestionsSectionState extends State<AiSuggestionsSection> {
               return BlocBuilder<ProductsBloc, ProductsState>(
                 builder: (context, productsState) {
                   return ListView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     itemCount: products.length,
                     itemBuilder: (context, index) {
                       final product = products[index];
