@@ -30,7 +30,7 @@ import 'package:trizy_app/services/user_profile_api_service.dart';
 import '../data/db/app_database.dart';
 import '../repositories/auth_repository.dart';
 import '../repositories/local/local_product_repository.dart';
-import '../services/analytics_service.dart';
+//import '../services/analytics_service.dart';
 import '../services/auth_api_service.dart';
 import '../services/local/local_product_service.dart';
 import '../utils/api_endpoints.dart';
@@ -76,7 +76,7 @@ void setupLocator() {
   getIt.registerLazySingleton<ReviewRepository>(() => ReviewRepository(getIt<ReviewApiService>()));
   getIt.registerLazySingleton<AiSuggestionApiService>(() => AiSuggestionApiService());
   getIt.registerLazySingleton<AiSuggestionsRepository>(() => AiSuggestionsRepository(getIt<AiSuggestionApiService>()));
-  getIt.registerLazySingleton<AnalyticsService>(() => AnalyticsService());
+  //getIt.registerLazySingleton<AnalyticsService>(() => AnalyticsService());
   getIt.registerLazySingleton<UserProfileApiService>(() => UserProfileApiService());
   getIt.registerLazySingleton<UserProfileRepository>(() => UserProfileRepository(getIt<UserProfileApiService>()));
 

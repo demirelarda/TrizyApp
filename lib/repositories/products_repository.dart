@@ -9,11 +9,11 @@ import 'package:trizy_app/services/products_api_service.dart';
 import '../di/locator.dart';
 import '../models/local/local_liked_product.dart';
 import '../models/product/product_query_params.dart';
-import '../services/analytics_service.dart';
+//import '../services/analytics_service.dart';
 
 class ProductsRepository {
   final ProductsApiService productsApiService;
-  final analyticsService = getIt<AnalyticsService>();
+  //final analyticsService = getIt<AnalyticsService>();
   final LocalProductService localProductService = getIt<LocalProductService>();
   ProductsRepository(this.productsApiService);
 
@@ -42,7 +42,7 @@ class ProductsRepository {
     ProductQueryParams? queryParams,
   }) async {
     try {
-      analyticsService.logSearch(query);
+      //analyticsService.logSearch(query);
       final ProductsResponse response = await productsApiService.searchProducts(
         query: query,
         page: page,
@@ -57,7 +57,7 @@ class ProductsRepository {
 
   Future<SingleProductResponse> getSingleProduct({required String productId}) async {
     try {
-      analyticsService.logProductView(productId);
+      //analyticsService.logProductView(productId);
       final SingleProductResponse response = await productsApiService.getSingleProduct(productId: productId);
       return response;
     } catch (e) {
