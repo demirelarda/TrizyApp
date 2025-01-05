@@ -62,9 +62,18 @@ dependencies:
   path_provider: ^2.0.11
   path: ^1.8.3
 
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icons/app_icon_foreground.png"
+  min_sdk_android: 21
+
 dev_dependencies:
   drift_dev: ^2.23.0
   build_runner: ^2.4.1
+  flutter_launcher_icons: ^0.14.2
   flutter_test:
     sdk: flutter
 
