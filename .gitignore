@@ -62,3 +62,4 @@ web/firebase-messaging-sw.js
 *.tmp
 *.temp
 /lib/firebase_options.dart
+/lib/data/db/app_database.g.dart

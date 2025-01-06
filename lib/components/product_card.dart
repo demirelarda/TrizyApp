@@ -33,7 +33,7 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => onProductClicked(product.id),
       child: Padding(
-        padding: const EdgeInsets.only(right: 8.0), // Reduced padding
+        padding: const EdgeInsets.only(right: 8.0),
         child: Container(
           decoration: const BoxDecoration(
             border: Border(
@@ -44,11 +44,11 @@ class ProductCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Product Image (Height fills available card height)
+              // Product Image
               Container(
-                color: Colors.white, // outside image background
-                height: 160, // Ensure height is fixed
-                width: 140, // Fixed width
+                color: Colors.white,
+                height: 160,
+                width: 140,
                 child: CachedNetworkImage(
                   imageUrl: product.imageURLs.isNotEmpty
                       ? product.imageURLs.first
@@ -66,20 +66,58 @@ class ProductCard extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Adjusts alignment
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Price
-                        Text(
-                          "\$${product.price.toStringAsFixed(2)}",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                        // Sale Price and Original Price
+                        if (product.salePrice != null)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "\$${product.salePrice!.toStringAsFixed(2)}",
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: primaryLightColor,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    "\$${product.price.toStringAsFixed(2)}",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                      decoration: TextDecoration.lineThrough,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              const Text(
+                                "Sale",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          )
+                        else
+                        // Regular Price
+                          Text(
+                            "\$${product.price.toStringAsFixed(2)}",
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
                         const SizedBox(height: 8),
 
                         // Reason Container
@@ -120,7 +158,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
 
-                        // Rating, Review Count, Stock Status (all in one row)
+                        // Ratings, Review Count, Stock Status
                         Row(
                           children: [
                             ProductRatingStars(rating: product.averageRating),
@@ -150,7 +188,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
 
-                    // Bigger "Add to Cart" button below rating, with heart icon on the right
+                    // Add to Cart and Like Buttons
                     Row(
                       children: [
                         Expanded(

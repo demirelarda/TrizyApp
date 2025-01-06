@@ -3,7 +3,7 @@ class OrderData {
   final String userId;
   final DeliveryAddress deliveryAddress;
   final String paymentIntentId;
-  final int amount;
+  final double amount;
   final String currency;
   final String status;
   final List<OrderItem> items;
@@ -25,10 +25,9 @@ class OrderData {
     return OrderData(
       id: json['_id'],
       userId: json['userId'],
-      deliveryAddress:
-      DeliveryAddress.fromJson(json['deliveryAddress']),
+      deliveryAddress: DeliveryAddress.fromJson(json['deliveryAddress']),
       paymentIntentId: json['paymentIntentId'],
-      amount: json['amount'],
+      amount: (json['amount'] as num).toDouble(),
       currency: json['currency'],
       status: json['status'],
       items: (json['items'] as List)
@@ -95,7 +94,7 @@ class OrderItem {
   final List<String> imageURLs;
   final String title;
   final int quantity;
-  final int price;
+  final double price;
 
   OrderItem({
     required this.id,
@@ -113,7 +112,7 @@ class OrderItem {
       imageURLs: List<String>.from(json['productId']['imageURLs']),
       title: json['productId']['title'],
       quantity: json['quantity'],
-      price: json['price'],
+      price: (json['price'] as num).toDouble(),
     );
   }
 

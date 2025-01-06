@@ -46,7 +46,7 @@ class _PaymentSuccessfulPageState extends State<PaymentSuccessfulPage> {
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: white,
-          elevation: 1,
+          elevation: 0,
           centerTitle: true,
         ),
         body: BlocBuilder<CheckOrderStatusBloc, CheckOrderStatusState>(

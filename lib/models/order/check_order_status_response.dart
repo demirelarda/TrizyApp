@@ -31,7 +31,7 @@ class UserOrder {
   final String userId;
   final String deliveryAddress;
   final String paymentIntentId;
-  final int amount;
+  final double amount;
   final String currency;
   final String status;
   final List<UserOrderItem> items;
@@ -55,7 +55,7 @@ class UserOrder {
       userId: json['userId'],
       deliveryAddress: json['deliveryAddress'],
       paymentIntentId: json['paymentIntentId'],
-      amount: json['amount'],
+      amount: (json['amount'] as num).toDouble(),
       currency: json['currency'],
       status: json['status'],
       items: (json['items'] as List)
@@ -83,7 +83,7 @@ class UserOrder {
 class UserOrderItem {
   final String productId;
   final int quantity;
-  final int price;
+  final double price;
   final String id;
 
   UserOrderItem({
@@ -97,7 +97,7 @@ class UserOrderItem {
     return UserOrderItem(
       productId: json['productId'],
       quantity: json['quantity'],
-      price: json['price'],
+      price: (json['price'] as num).toDouble(),
       id: json['_id'],
     );
   }

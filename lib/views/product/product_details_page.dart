@@ -114,7 +114,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         final buttonText = isInCart ? "Go to Cart" : "Add to Cart";
 
                         return BottomBarWithCartButton(
-                          price: product.price.toStringAsFixed(2),
+                          price: product.price,
                           onAddToCart: () {
                             if (isInCart) {
                               context.pushNamed('cart');
@@ -132,6 +132,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           isAddToCartActive: product.stockCount > 0,
                           isLoading: isLoading,
                           buttonText: buttonText,
+                          cargoWeight: product.cargoWeight,
+                          salePrice: product.salePrice
                         );
                       },
                     );
