@@ -6,6 +6,7 @@ import 'package:trizy_app/views/main/pages/cart_page.dart';
 import 'package:trizy_app/views/checkout/payment_successful_page.dart';
 import 'package:trizy_app/views/orders/my_orders_page.dart';
 import 'package:trizy_app/views/orders/order_details_page.dart';
+import 'package:trizy_app/views/product/product_description_page.dart';
 import 'package:trizy_app/views/product/product_details_page.dart';
 import 'package:trizy_app/views/profile/my_profile_page.dart';
 import 'package:trizy_app/views/review/product_reviews_page.dart';
@@ -96,6 +97,18 @@ class AppRouter {
           final productId = state.pathParameters['productId'];
           return ProductDetailsPage(
             productId: productId!,
+          );
+        },
+      ),
+      GoRoute(
+        name: 'productDescriptionPage',
+        path: '/productDescriptionPage/:title/:description',
+        builder: (context, state) {
+          final title = state.pathParameters['title'];
+          final description = state.pathParameters['description'];
+          return ProductDescriptionPage(
+            title: title!,
+            description: description!,
           );
         },
       ),

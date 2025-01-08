@@ -302,7 +302,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           child: ProductDescriptionText(
                             text: product.description,
                             onSeeMoreClicked: () {
-                              print("See more clicked");
+                              context.pushNamed(
+                                  "productDescriptionPage",
+                                pathParameters: {
+                                    "description":product.description,
+                                    "title":product.title
+                                }
+                              );
                             },
                           ),
                         ),

@@ -8,6 +8,7 @@ import 'package:trizy_app/bloc/orders/get/details/get_order_details_state.dart';
 import 'package:trizy_app/components/app_bar_with_back_button.dart';
 import 'package:trizy_app/components/order/order_details_product_card.dart';
 import 'package:trizy_app/theme/colors.dart';
+import 'package:trizy_app/theme/text_styles.dart';
 
 class OrderDetailsPage extends StatefulWidget {
   final String? orderId;
@@ -74,8 +75,10 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
             if (state.isFailure) {
               return Center(
                 child: Text(
-                  state.errorMessage ?? "Failed to load order details.",
-                  style: const TextStyle(color: Colors.red, fontSize: 16),
+                  state.errorMessage != null && state.errorMessage!.contains("404")
+                      ? "You have no orders yet."
+                      : state.errorMessage ?? "An unexpected error occurred.",
+                  style: AppTextStyles.bodyText,
                 ),
               );
             }
