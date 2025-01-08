@@ -12,6 +12,7 @@ import 'package:trizy_app/bloc/payment/payment_event.dart';
 import 'package:trizy_app/bloc/payment/payment_state.dart';
 import 'package:trizy_app/components/app_bar_with_back_button.dart';
 import 'package:trizy_app/theme/colors.dart';
+import '../../bloc/address/address_state.dart';
 import '../../components/checkout/checkout_address_section.dart';
 import '../../components/checkout/checkout_delivery_date_section.dart';
 import '../../components/checkout/checkout_order_summary_section.dart';
@@ -167,20 +168,33 @@ class _CheckoutPageState extends State<CheckoutPage> {
               }
             },
             builder: (context, state) {
-              return Container(
-                color: Colors.white,
-                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 30),
-                child: CustomButton(
-                  text: state.isLoading ? "Processing..." : "Pay Now",
-                  textColor: white,
-                  color: primaryLightColor,
-                  isLoading: state.isLoading,
-                  onClick: () {
-                    context.read<PaymentBloc>().add(PaymentIntentRequested());
-                  },
-                ),
+              return BlocBuilder<AddressBloc, AddressState>(
+                builder: (context, addressState) {
+                  final hasDefaultAddress = addressState.address != null;
+                  return Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.only(left: 16, right: 16, bottom: 30),
+                    child: CustomButton(
+                      text: state.isLoading ? "Processing..." : "Pay Now",
+                      textColor: white,
+                      color: primaryLightColor,
+                      isLoading: state.isLoading,
+                      onClick: () {
+                        if (hasDefaultAddress) {
+                          context.read<PaymentBloc>().add(PaymentIntentRequested());
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("You need to set a default address to continue!"),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  );
+                },
               );
-            },
+            }
           ),
         ),
       ),
