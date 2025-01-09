@@ -9,7 +9,7 @@ import 'package:trizy_app/bloc/trial/single/single_trial_product_event.dart';
 import 'package:trizy_app/bloc/trial/single/single_trial_product_state.dart';
 import 'package:trizy_app/components/app_bar_with_back_button.dart';
 import 'package:trizy_app/components/product_description_text.dart';
-import 'package:trizy_app/components/product_rating_stars.dart';
+//import 'package:trizy_app/components/product_rating_stars.dart';
 import 'package:trizy_app/theme/colors.dart';
 import '../../components/buttons/custom_button.dart';
 import '../../models/trialproduct/trial_products_response.dart';
@@ -193,6 +193,7 @@ class _TrialProductDetailsPageState extends State<TrialProductDetailsPage> {
                       const SizedBox(height: 16),
 
                       // Rating Section
+                      /*
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Container(
@@ -233,6 +234,7 @@ class _TrialProductDetailsPageState extends State<TrialProductDetailsPage> {
                           ),
                         ),
                       ),
+                       */
 
                       const SizedBox(height: 16),
 
@@ -242,7 +244,13 @@ class _TrialProductDetailsPageState extends State<TrialProductDetailsPage> {
                         child: ProductDescriptionText(
                           text: trialProduct.description,
                           onSeeMoreClicked: () {
-                            print("See more clicked");
+                            context.pushNamed(
+                                "productDescriptionPage",
+                                pathParameters: {
+                                  "title":trialProduct.title,
+                                  "description":trialProduct.description
+                                }
+                            );
                           },
                         ),
                       ),

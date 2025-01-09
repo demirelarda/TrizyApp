@@ -33,15 +33,18 @@ class TrialDetailsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CachedNetworkImage(
-            imageUrl: productImageUrl,
-            placeholder: (context, url) => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
+          Container(
             width: double.infinity,
             height: 200,
-            fit: BoxFit.cover,
+            color: Colors.white,
+            child: CachedNetworkImage(
+              imageUrl: productImageUrl,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+              fit: BoxFit.contain,
+            ),
           ),
           const SizedBox(height: 16),
 

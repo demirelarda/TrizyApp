@@ -67,7 +67,19 @@ class ActiveTrialDetailsCard extends StatelessWidget {
             errorWidget: (context, url, error) => const Icon(Icons.error),
             width: double.infinity,
             height: 200,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
+            alignment: Alignment.center,
+            imageBuilder: (context, imageProvider) => Container(
+              width: double.infinity,
+              height: 200,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 16),
 

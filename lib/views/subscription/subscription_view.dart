@@ -29,6 +29,8 @@ class _SubscriptionViewState extends State<SubscriptionView> {
   String? userEmail;
   String? userName;
 
+  bool _isButtonLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -47,7 +49,6 @@ class _SubscriptionViewState extends State<SubscriptionView> {
       });
     }
   }
-
 
   Future<void> _pollSubscriptionStatus(BuildContext context) async {
     const maxAttempts = 5;
@@ -90,7 +91,6 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                     );
 
                     _pollSubscriptionStatus(context);
-
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Payment confirmation failed: $e')),
@@ -170,60 +170,74 @@ class _SubscriptionViewState extends State<SubscriptionView> {
                     ),
                     const SizedBox(height: 16),
 
-                    CustomButton(
-                      text: 'Subscribe for \$30/Month',
-                      textColor: Colors.white,
-                      color: primaryLightColor,
-                      isLoading: state.isLoading &&
-                          state.operationType == SubscriptionOperationType.create,
-                      onClick: () async {
-                        if (!isCardFieldComplete) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Please complete card details.')),
-                          );
-                          return;
-                        }
+                    if (state.subscriptionStatus == null)
+                      CustomButton(
+                        text: 'Subscribe for \$30/Month',
+                        textColor: Colors.white,
+                        color: primaryLightColor,
+                        isLoading: _isButtonLoading,
+                        onClick: () async {
+                          setState(() {
+                            _isButtonLoading = true;
+                          });
 
-                        try {
-                          final billingDetails = BillingDetails(
-                            email: userEmail ?? 'testuser@gmail.com',
-                            name: userName ?? 'Test User',
-                          );
-                          final paymentMethod = await Stripe.instance.createPaymentMethod(
-                            params: PaymentMethodParams.card(
-                              paymentMethodData: PaymentMethodData(
-                                billingDetails: billingDetails,
+                          if (!isCardFieldComplete) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Please complete card details.')),
+                            );
+                            setState(() {
+                              _isButtonLoading = false;
+                            });
+                            return;
+                          }
+
+                          try {
+                            final billingDetails = BillingDetails(
+                              email: userEmail ?? 'testuser@gmail.com',
+                              name: userName ?? 'Test User',
+                            );
+                            final paymentMethod = await Stripe.instance.createPaymentMethod(
+                              params: PaymentMethodParams.card(
+                                paymentMethodData: PaymentMethodData(
+                                  billingDetails: billingDetails,
+                                ),
                               ),
-                            ),
-                          );
-                          paymentMethodId = paymentMethod.id;
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error creating PaymentMethod: $e')),
-                          );
-                          return;
-                        }
+                            );
+                            paymentMethodId = paymentMethod.id;
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Error creating PaymentMethod: $e')),
+                            );
+                            setState(() {
+                              _isButtonLoading = false;
+                            });
+                            return;
+                          }
 
-                        if (paymentMethodId != null) {
-                          final req = CreateSubscriptionRequest(paymentMethodId: paymentMethodId!);
-                          context
-                              .read<SubscriptionBloc>()
-                              .add(CreateSubscriptionEvent(request: req));
-                        }
-                      },
-                    ),
+                          if (paymentMethodId != null) {
+                            final req = CreateSubscriptionRequest(paymentMethodId: paymentMethodId!);
+                            context
+                                .read<SubscriptionBloc>()
+                                .add(CreateSubscriptionEvent(request: req));
+                          } else {
+                            setState(() {
+                              _isButtonLoading = false;
+                            });
+                          }
+                        },
+                      )
+                    else
+                      const Text(
+                        'Completing Subscription...',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+
                     const SizedBox(height: 16),
 
                     if (state.isLoading &&
                         state.operationType != SubscriptionOperationType.create)
                       const CircularProgressIndicator(),
                     const SizedBox(height: 8),
-
-                    if (state.subscriptionStatus != null)
-                      const Text(
-                        'Completing Subscription...',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
                   ],
                 ),
               );

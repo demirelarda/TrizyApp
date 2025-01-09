@@ -31,7 +31,7 @@ class _ActiveTrialSectionState extends State<ActiveTrialSection> {
   }
 
   void _fetchActiveTrialDetails() {
-    _activeTrialDetailsBloc.add(ActiveTrialDetailsRequested());
+    _activeTrialDetailsBloc.add(const ActiveTrialDetailsRequested());
   }
 
   @override
@@ -40,41 +40,36 @@ class _ActiveTrialSectionState extends State<ActiveTrialSection> {
       value: _activeTrialDetailsBloc,
       child: BlocBuilder<ActiveTrialDetailsBloc, ActiveTrialDetailsState>(
         builder: (context, state) {
-          if (state.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (state.isFailure) {
-            late String errorMessage;
-            if(state.errorMessage!.contains("404")){
-              errorMessage = "You have no active trial.";
-            }
-            else{
-              errorMessage = "An error occurred, please check your network connection";
-            }
-            return Center(
-              child: Text(
-                errorMessage,
-                style: AppTextStyles.bodyText
-              ),
-            );
-          }
-
-          if (state.isSuccess && state.getActiveTrialResponse != null) {
-            final trialDetail = state.getActiveTrialResponse!.trial;
-
-            return Padding(
+          return SingleChildScrollView(
+            child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: ActiveTrialDetailsCard(trialDetail: trialDetail),
-            );
-          }
-
-          return const Center(
-            child: Text(
-              "No active trial found.",
-              style: TextStyle(color: gray),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (state.isLoading)
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  else if (state.isFailure)
+                    Center(
+                      child: Text(
+                        state.errorMessage!.contains("404")
+                            ? "You have no active trial."
+                            : "An error occurred, please check your network connection",
+                        style: AppTextStyles.bodyText,
+                      ),
+                    )
+                  else if (state.isSuccess && state.getActiveTrialResponse != null)
+                      ActiveTrialDetailsCard(trialDetail: state.getActiveTrialResponse!.trial)
+                    else
+                      const Center(
+                        child: Text(
+                          "No active trial found.",
+                          style: TextStyle(color: gray),
+                        ),
+                      ),
+                ],
+              ),
             ),
           );
         },
