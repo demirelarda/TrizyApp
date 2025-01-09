@@ -7,6 +7,7 @@ class Product {
   final String description;
   final double price;
   final double? salePrice;
+  final double? oldPrice;
   final int stockCount;
   final ProductCategory category;
   final List<String> tags;
@@ -25,6 +26,7 @@ class Product {
     required this.description,
     required this.price,
     this.salePrice,
+    this.oldPrice,
     required this.stockCount,
     required this.category,
     required this.tags,
@@ -45,6 +47,7 @@ class Product {
       description: json['description'],
       price: (json['price'] as num).toDouble(),
       salePrice: json['salePrice'] != null ? (json['salePrice'] as num).toDouble() : null,
+      oldPrice: json['oldPrice'] != null ? (json['oldPrice'] as num).toDouble() : null,
       stockCount: json['stockCount'],
       category: json['category'] is Map<String, dynamic>
           ? ProductCategory.fromJson(json['category'])
@@ -74,6 +77,7 @@ class Product {
       'description': description,
       'price': price,
       if (salePrice != null) 'salePrice': salePrice,
+      if (oldPrice != null) 'oldPrice': oldPrice,
       'stockCount': stockCount,
       'category': category.toJson(),
       'tags': tags,

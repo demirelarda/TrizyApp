@@ -72,7 +72,7 @@ class ProductCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Sale Price and Original Price
-                        if (product.salePrice != null)
+                        if (product.salePrice != null && product.oldPrice != null)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -88,7 +88,7 @@ class ProductCard extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    "\$${product.price.toStringAsFixed(2)}",
+                                    "\$${product.oldPrice!.toStringAsFixed(2)}",
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey,
