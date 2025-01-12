@@ -48,6 +48,7 @@ class ApiEndpoints {
   static const String searchProducts = 'api/products/search/';
   static const String getSingleProduct = 'api/products/{productId}';
   static const String getLikedProducts = 'api/products/liked-products';
+  static const String getBestOfProducts = 'api/products/get-best-of-products';
   static const String likeProduct = 'api/likes/like';
   static const String removeLike = 'api/likes/unlike/{productId}';
   static const String getLikedProductIds = 'api/likes/get-liked-products';

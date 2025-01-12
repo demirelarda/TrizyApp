@@ -91,6 +91,22 @@ class ProductsApiService {
     }
   }
 
+
+  Future<ProductsResponse> getBestOfProducts({required String period}) async {
+    try {
+      final response = await _networkingManager.get(
+          endpoint: ApiEndpoints.getBestOfProducts,
+          queryParams: {"period": period},
+          addAuthToken: true
+      );
+      return ProductsResponse.fromJson(response);
+    } catch (e) {
+      print("error : ${e}");
+      throw Exception('Failed to fetch best of products: $e');
+    }
+  }
+
+
   Future<LikeResponse> likeProduct({required String productId}) async {
     try {
       final response = await _networkingManager.post(

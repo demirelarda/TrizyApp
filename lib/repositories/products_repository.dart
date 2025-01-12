@@ -85,6 +85,16 @@ class ProductsRepository {
   }
 
 
+  Future<ProductsResponse> getBestOfProducts({required String period}) async {
+    try {
+      final ProductsResponse response = await productsApiService.getBestOfProducts(period: period);
+      return response;
+    } catch (e) {
+      throw Exception('Failed to fetch best of products: $e');
+    }
+  }
+
+
 
   Future<LikeResponse> likeProduct({required String productId}) async {
     try {

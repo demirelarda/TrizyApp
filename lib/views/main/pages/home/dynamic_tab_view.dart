@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:trizy_app/utils/auth_check.dart';
 import 'package:trizy_app/views/main/pages/home/ai_suggestions_section.dart';
 import '../../../../theme/colors.dart';
+import 'best_of_section.dart';
 import 'deals_section.dart';
 
 class DynamicTabView extends StatelessWidget {
@@ -33,6 +34,10 @@ class DynamicTabView extends StatelessWidget {
           }
         },
       );
+    } else if (selectedTabId == 3) {
+      return const BestOfProductsView(period: "week");
+    } else if (selectedTabId == 4) {
+      return const BestOfProductsView(period: "month");
     } else {
       return Center(
         child: Text(
@@ -45,10 +50,6 @@ class DynamicTabView extends StatelessWidget {
 
   String _getTabContentText() {
     switch (selectedTabId) {
-      case 3:
-        return 'Best of Month coming soon!';
-      case 4:
-        return 'Best of Year coming soon!';
       default:
         return 'Content not available.';
     }

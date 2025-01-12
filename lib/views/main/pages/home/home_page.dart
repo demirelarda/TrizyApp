@@ -18,8 +18,8 @@ class _HomePageState extends State<HomePage> {
   final List<Map<String, dynamic>> categories = [
     {'id': 1, 'name': 'Top Deals'},
     {'id': 2, 'name': 'AI Suggestions'},
-    //{'id': 3, 'name': 'Best of Month'}, //TODO: ADD BEST OF MONTH
-    //{'id': 4, 'name': 'Best of Year'}, //TODO: ADD BEST OF YEAR
+    {'id': 3, 'name': 'Best of Week'},
+    {'id': 4, 'name': 'Best of Month'},
   ];
 
   @override
