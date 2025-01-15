@@ -117,7 +117,9 @@ class _AiSuggestionsSectionState extends State<AiSuggestionsSection> {
             } else if (state.isFailure) {
               return Center(
                 child: Text(
-                  'Failed to load AI suggestions: ${state.errorMessage}',
+                  state.errorMessage != null && state.errorMessage!.contains("429")
+                      ? "Too many people are using the AI Suggestions Right Now. Please Try Again Later!"
+                      : "AI Suggestion Feature is disabled. You can compile the app and use your own Gemini API key in the backend's .env",
                   style: const TextStyle(color: Colors.red),
                   textAlign: TextAlign.center,
                 ),
