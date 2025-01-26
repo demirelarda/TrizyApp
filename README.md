@@ -495,7 +495,7 @@ You can run the app on any Android device & emulator or iOS simulator.
 <!-- Contributing -->
 ## :wave: Contributing
 
-<a href="https://github.com/Louis3797/awesome-readme-template/graphs/contributors">
+<a href="https://github.com/demirelarda/TrizyApp/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=demirelarda/TrizyApp" />
 </a>
 
