@@ -5,21 +5,11 @@ First off, thank you for considering contributing to Trizy! 🎉 Your help is **
 
 ## Table of Contents
 
-- [Code of Conduct](#code-of-conduct)
 - [How Can I Contribute?](#how-can-i-contribute)
     - [Reporting Bugs](#reporting-bugs)
     - [Suggesting Enhancements](#suggesting-enhancements)
     - [Your First Code Contribution](#your-first-code-contribution)
     - [Pull Requests](#pull-requests)
-- [Style Guides](#style-guides)
-    - [Coding Style](#coding-style)
-    - [Commit Messages](#commit-messages)
-- [Setting Up the Development Environment](#setting-up-the-development-environment)
-- [Additional Notes](#additional-notes)
-
-## Code of Conduct
-
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 ## How Can I Contribute?
 
