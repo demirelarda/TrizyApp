@@ -32,7 +32,8 @@
 <h4>
     <a href="https://github.com/demirelarda/TrizyApp/releases/download/v0.1.0/trizy010.apk">Download APK</a>
   <span></span>
-    <a href=""></a>
+    <span> · </span>
+    <a href="https://youtu.be/7IuCJMbwbFE">Watch Demo Video</a>
   <span> · </span>
     <a href="https://github.com/demirelarda/TrizyApp/issues/">Report Bug</a>
   <span> · </span>
