@@ -2,7 +2,7 @@
 
 <div align="center">
 
-  <img src="https://github.com/user-attachments/assets/dc8fd180-b3c2-4d4c-8631-3aa8348855d6" alt="logo" width="auto" height="auto" />
+  <img src="https://github.com/user-attachments/assets/6d08670b-1bfe-49af-b439-ac95bfbad6f7" alt="logo" width="auto" height="auto" />
   <h1>trizy</h1>
 
   <p>
