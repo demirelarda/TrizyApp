@@ -47,6 +47,7 @@
 # :notebook_with_decorative_cover: Table of Contents
 
 - [About the Project](#star2-about-the-project)
+- [Demo](#clapper-demo)
 - [Screenshots](#camera-screenshots)
 - [Tech Stack](#space_invader-tech-stack)
 - [Features](#dart-features)
@@ -68,7 +69,16 @@ Trizy is a modern e-commerce platform that brings personalized shopping experien
 
 
 
+## :clapper: Demo
 
+### Download the App
+- 📱 [Download APK](https://github.com/demirelarda/TrizyApp/releases/download/v0.1.0/trizy010.apk)
+
+- 🛒 **Purchases:** You can use Stripe test cards to simulate purchases.
+  - Example: Use card number `4242 4242 4242 4242` with any future expiration date and any CVC.
+  - For more test card details, check Stripe's [test card documentation](https://docs.stripe.com/testing#cards).
+  - After making a purchase, your order status will be marked as “pending.” If you are using your own server setup, you can use the admin panel (to be shared soon) to update your order status.
+  - If you are not using your own server setup, your order status will automatically update to “delivered” within a maximum of 4 days. (depending on the order delivery date)
 
 ### :camera: Screenshots
 
